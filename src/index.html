@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fat Game</title>
+
+<!-- imports des librairies et de la classe main du jeu -->
+<script src="../libs/jquery11.js"></script>
+<script src="../libs/gamequery0.7.js"></script>
+<script src="js/main.js"></script>
+
+<!-- Initialisation du jeu et de la main loop, tout se passe dans la fonction main -->
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		$("#playground").playground(
+		{
+			keyTracker : true, 
+			mouseTracker : true
+		});
+
+		$.playground().startGame();
+		
+		var bg = new $.gQ.Animation({
+			imageURL : "../assets/backgound.jpg",
+			height : 320,
+			width : 480
+		});
+		
+		$.playground().addSprite("background",{
+			animation : bg, 
+			height : 320, 
+			width : 480
+		});
+		
+		$.playground().registerCallback(function()
+			{
+				main();
+			});
+	});
+</script>
+</head>
+<body>
+<!-- on initialise le div qui contiendra le jeu -->
+<div id="playground"></div>
+</body>
+</html>
