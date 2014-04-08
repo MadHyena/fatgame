@@ -1,4 +1,3 @@
-
 /* la main loop va checker à chaque tour dans quel état de jeu on est et va nous rediriger
 * vers les bons écrans
 * 
@@ -16,6 +15,35 @@ var gameState = "title";
 
 function main()
 {
+	//===================================================
+	//DRAG N DROP
+	
+	//Je savais pas où le mettre on verra hein...
+
+	var clickedDiv;
+
+	//Ici gQ_sprite mais on fera surement nos propres class
+	$(".gQ_sprite").mousedown(function() {
+	    clickedDiv = $(this);
+	});
+
+	$("#playground").mouseup(function() {
+	    clickedDiv = false;
+	});
+
+	$.playground().mousemove(function() {
+
+	    if(clickedDiv){
+
+	        clickedDiv.css({
+		    top:  $.gQ.mouseTracker.y + 'px',
+		    left: $.gQ.mouseTracker.x + 'px'
+		});
+	    }
+	});
+
+	//===================================================
+	
 	switch(gameState)
 	{
 	case "title" :
