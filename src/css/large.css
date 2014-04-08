@@ -1,0 +1,28 @@
+@font-face {
+    font-family: "8bit";
+    src: url("/font/PressStart2P.ttf") format("truetype");
+}
+
+.customfont { 
+    font-family: "8bit", Verdana, Tahoma;
+}
+
+.titlescreen {
+    background: #002905;
+    color: #fff;
+    text-align: center;
+    
+}
+.titlescreen div.title{
+    font-size: 4em;
+    margin-top: 15%;
+}
+
+.titlescreen p {
+    margin-top: 15%;
+    height: 3em;
+}
+
+#popnewgame {
+    
+}

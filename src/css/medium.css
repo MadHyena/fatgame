@@ -1,0 +1,24 @@
+@font-face {
+    font-family: "8bit";
+    src: url("/font/PressStart2P.ttf") format("truetype");
+}
+
+.customfont { 
+    font-family: "8bit", Verdana, Tahoma;
+}
+
+.titlescreen {
+    background: #000229;
+    color: #fff;
+    text-align: center;
+    
+}
+.titlescreen div.title{
+    font-size: 4em;
+    margin-top: 17%;
+}
+
+.titlescreen p {
+    margin-top: 27%;
+    height: 3em;
+}
