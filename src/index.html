@@ -12,6 +12,16 @@
 <script type="text/javascript">
 	$(document).ready(function()
 	{
+        
+        //inclusion des css suivant la taille de l'ecran
+        $(window).resize(function(){
+            if ($(window).width() > 1280) $("head").append("<link rel='stylesheet' type='text/css' href='css/large.css'>");
+            if ($(window).width() <= 1280 && $(window).width() > 800) $("head").append("<link rel='stylesheet' type='text/css' href='css/medium.css'>");
+            if ($(window).width() <= 800) $("head").append("<link rel='stylesheet' type='text/css' href='css/small.css'>");
+            console.log("css loaded");
+        });
+        
+        
 		$("#playground").playground(
 		{
 			keyTracker : true, 
