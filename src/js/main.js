@@ -17,36 +17,6 @@ var m_title = false,m_menu=false, m_game = false,m_pause= false, m_gameOver=fals
 
 function main()
 {
-	//===================================================
-	//DRAG N DROP
-	
-	//Je savais pas où le mettre on verra hein...
-
-	var clickedDiv;
-
-	//Ici gQ_sprite mais on fera surement nos propres class
-	$(".gQ_sprite").mousedown(function() {
-	    clickedDiv = $(this);
-	});
-
-	$("#playground").mouseup(function() {
-	    clickedDiv = false;
-	});
-
-	$.playground().mousemove(function() {
-
-	    if(clickedDiv){
-
-	    	//Pour avoir le curseur au centre du sprite pendant le drag n drop
-	    	var halfWidth = parseInt($(clickedDiv).css("width").replace(/[^-\d\.]/g, '')) / 2;
-	    	var halfHeight = parseInt($(clickedDiv).css("height").replace(/[^-\d\.]/g, '')) / 2;
-
-	    	$(clickedDiv).xy($.gQ.mouseTracker.x - halfWidth, $.gQ.mouseTracker.y - halfHeight);
-	    	console.log($(clickedDiv).css("width"));
-	    }
-	});
-
-	//===================================================
 
 	switch(gameState)
 	{
