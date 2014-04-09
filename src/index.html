@@ -4,48 +4,45 @@
 <title>Fat Game</title>
 
 <!-- imports des librairies et de la classe main du jeu -->
-<script src="../libs/jquery11.js"></script>
-<script src="../libs/gamequery0.7.js"></script>
-<script src="js/main.js"></script>
+<script src="../libs/jquery11.js" type="text/javascript"></script>
+<script src="../libs/gamequery0.7.js" type="text/javascript"></script>
+<script src="js/main.js" type="text/javascript"></script>
 
 <!-- Initialisation du jeu et de la main loop, tout se passe dans la fonction main -->
 <script type="text/javascript">
 	$(document).ready(function()
 	{
+        //premiere inclusion
+        if ($(window).width() > 1280) {$("head").append("<link rel='stylesheet' type='text/css' href='css/large.css'>"); console.log("large.css first load");}
+        else if ($(window).width() <= 1280 && $(window).width() > 800) {$("head").append("<link rel='stylesheet' type='text/css' href='css/medium.css'>");console.log("medium.css first load");}
+        else if ($(window).width() <= 800) {$("head").append("<link rel='stylesheet' type='text/css' href='css/small.css'>");console.log("small.css first load");}
         
-        //inclusion des css suivant la taille de l'ecran
+        //inclusion dynamique des css suivant la taille de l'ecran
         $(window).resize(function(){
             if ($(window).width() > 1280) $("head").append("<link rel='stylesheet' type='text/css' href='css/large.css'>");
             if ($(window).width() <= 1280 && $(window).width() > 800) $("head").append("<link rel='stylesheet' type='text/css' href='css/medium.css'>");
             if ($(window).width() <= 800) $("head").append("<link rel='stylesheet' type='text/css' href='css/small.css'>");
-            console.log("css loaded");
+            console.log("resize css loaded");
         });
         
         
 		$("#playground").playground(
 		{
 			keyTracker : true, 
-			mouseTracker : true
+			mouseTracker : true,
+            height: $(window).height()-20,
+            width: $(window).width()-20
+            
 		});
-
-		$.playground().startGame();
-		
-		var bg = new $.gQ.Animation({
-			imageURL : "../assets/backgound.jpg",
-			height : 320,
-			width : 480
-		});
-		
-		$.playground().addSprite("background",{
-			animation : bg, 
-			height : 320, 
-			width : 480
-		});
-		
-		$.playground().registerCallback(function()
+        
+        $.playground().registerCallback(function()
 			{
 				main();
-			});
+			},1000);
+        
+		$.playground().startGame();
+		
+		
 	});
 </script>
 </head>

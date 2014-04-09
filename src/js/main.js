@@ -12,6 +12,8 @@
 */
 var gameState = "title";
 
+// Booleens pour affichage des menus
+var m_title = false,m_menu=false, m_game = false,m_pause= false, m_gameOver=false;
 
 function main()
 {
@@ -45,24 +47,39 @@ function main()
 	});
 
 	//===================================================
-	
+
 	switch(gameState)
 	{
 	case "title" :
-		
-		// mettre un keycode de la touche qu'on veut pour aller au menu depuis le titleScreen
-		// ou même trouver comment faire pour passer au menu en appuyant sur nawak
-		if($.gQ.keyTracker[])
-			{
-				changeScreen("menu");
-			}
-		
+        
+        if(!m_title){
+            console.log("writing title section");
+            $("body").addClass("titlescreen");
+            $("#playground").prepend('<div class="title customfont" id="titlename">Fat Game</div><p class="customfont" id="quittitle">click here to start!</p>');
+            m_title=true;
+            m_menu=false;
+            m_game=false;
+            m_gameOver=false;
+            m_pause=false;
+        }
+        
+        $("#quittitle").click(function (){
+            $("body").removeClass("titlescreen");
+            $("#titlename").remove();
+            $("#quittitle").remove();
+            changeScreen("menu");
+            console.log("click exit title screen");
+        });
+            
 		break;
 	
 		
-	case "menu" :
-		
-		break:
+	case "menu" :   
+        $("#launchIt").click(function (){
+            console.log("click exit menu");
+            $("#popNewGame").remove();
+        });   
+		break;
 			
 	case "game" :
 		
@@ -83,12 +100,55 @@ function main()
 
 //on passe en argument le screen qu'on veut
 //différent pour la pause qui va conserver les objets déjà en jeu et tout
-function changeScreen(var screen)
+function changeScreen(screen)
 {
-	//Ici du code qui va changer le background, nettoyer les objets courants, etc.
-	
-	//Puis changement d'état de jeu
 	gameState = screen;
+    
+    	switch(gameState)
+	{
+	case "title" :
+        if(!m_title){
+            console.log("writing title section");
+            $("body").addClass("titlescreen");
+            $("#playground").prepend('<div class="title customfont" id="titlename">Fat Game</div><p class="customfont" id="quittitle">click here to start!</p>');
+            m_title=true;
+            m_menu=false;
+            m_game=false;
+            m_gameOver=false;
+            m_pause=false;
+        }
+		break;
+	
+		
+	case "menu" :
+        if(!m_menu){
+            console.log("writing menu section");
+            $("#playground").prepend('<div id="popNewGame" ><div id="launchIt"><h2>New game</h2></div>options</div>');
+            m_title=false;
+            m_menu=true;
+            m_game=false;
+            m_gameOver=false;
+            m_pause=false;
+        } 
+            
+		break;
+			
+	case "game" :
+		
+		break;
+		
+	case "pause" :
+		
+		break;
+		
+	case "gameover" :
+		
+		break;
+		
+	default : break;
+	
+	}
+    
 }
 
 //bon elle sert un peu à rien mais y'à unpause donc autant avoir pause
