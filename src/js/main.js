@@ -35,10 +35,12 @@ function main()
 
 	    if(clickedDiv){
 
-	        clickedDiv.css({
-		    top:  $.gQ.mouseTracker.y + 'px',
-		    left: $.gQ.mouseTracker.x + 'px'
-		});
+	    	//Pour avoir le curseur au centre du sprite pendant le drag n drop
+	    	var halfWidth = parseInt($(clickedDiv).css("width").replace(/[^-\d\.]/g, '')) / 2;
+	    	var halfHeight = parseInt($(clickedDiv).css("height").replace(/[^-\d\.]/g, '')) / 2;
+
+	    	$(clickedDiv).xy($.gQ.mouseTracker.x - halfWidth, $.gQ.mouseTracker.y - halfHeight);
+	    	console.log($(clickedDiv).css("width"));
 	    }
 	});
 
