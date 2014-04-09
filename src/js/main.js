@@ -123,7 +123,11 @@ function changeScreen(screen)
 	case "menu" :
         if(!m_menu){
             console.log("writing menu section");
-            $("#playground").prepend('<div id="popNewGame" ><div id="launchIt"><h2>New game</h2></div>options</div>');
+            $("#playground").prepend('<div id="popNewGame" class="customfont menu">'+
+                                     '<div id="launchIt"><h2>New game</h2>'+
+                                     '</div><div class="startOption">cluster range<input type="range" align="left"></input></div>'+
+                                           '<div class="startOption">fancy word<input type="range" align="left"></input></div></div>'
+                                    );
             m_title=false;
             m_menu=true;
             m_game=false;
