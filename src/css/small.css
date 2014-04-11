@@ -24,7 +24,6 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .titlescreen {
-    background: #020aa3;
     color: #fff;
     text-align: center;
     vertical-align: middle;
@@ -32,29 +31,43 @@ input[type="range"]::-webkit-slider-thumb {
 }
 .titlescreen div.title{
     font-size: 4em;
-    margin-top: 25%;
 }
 
 .titlescreen p {
-    margin-top: 40%;
     height: 3em;
 }
 
 body{
-    background: #AAAAAA;
+    background: #020aa3;
+}
+
+.menu {
+    width: 50%;
+    color: #bbb;
+    border: 10px solid #d1d1d1;
+    align-content: center;
+    text-align: center;
+    display: block;
 }
 
 #popnewgame {
-    margin-top: 15%;
     text-align: center;
+    display: table;
 }
 
+#launchIt{  
+    height: 50px;
+    display: table-cell;
+}
 
-.menu {
+#launchIt p{
+    vertical-align: middle;
     text-align: center;
+    font-size: 2em;
 }
 
 .startOption {
-    font-size: 1em;
+    display: block;
+    font-size: 1.5em;
 }
 
