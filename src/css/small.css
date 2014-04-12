@@ -24,7 +24,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .titlescreen {
-    color: #fff;
+    color: #bbb;
     text-align: center;
     vertical-align: middle;
     
@@ -52,12 +52,10 @@ body{
 
 #popnewgame {
     text-align: center;
-    display: table;
 }
 
 #launchIt{  
     height: 50px;
-    display: table-cell;
 }
 
 #launchIt p{
@@ -69,5 +67,6 @@ body{
 .startOption {
     display: block;
     font-size: 1.5em;
+    margin-bottom: 20px;
 }
 

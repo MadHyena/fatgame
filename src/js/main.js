@@ -25,7 +25,7 @@ function main()
         if(!m_title){
             console.log("writing title section");
             $("body").addClass("titlescreen");
-            $("#playground").prepend('<div class="title customfont" id="titlename">Fat Game</div><p class="customfont" id="quittitle">click here to start!</p>');
+            $("#playground").prepend('<div class="title customfont " id="titlename">Fat Game</div><p class="customfont animated infinite pulse" id="quittitle">click here to start!</p>');
             m_title=true;
             m_menu=false;
             m_game=false;
@@ -44,7 +44,13 @@ function main()
 		break;
 	
 		
-	case "menu" :   
+	case "menu" :
+        
+        if ($("input[name=fType]").val()!=20){$("#fTypeDisplay").text($("input[name=fType]").val());}
+        else {$("#fTypeDisplay").text("32");}
+            
+        $("#bmSizeDisplay").text($("input[name=bmSize]").val()+" bits");
+        
         $("#launchIt").click(function (){
             console.log("click exit menu");
             $("#popNewGame").remove();
@@ -80,7 +86,8 @@ function changeScreen(screen)
         if(!m_title){
             console.log("writing title section");
             $("body").addClass("titlescreen");
-            $("#playground").prepend('<div class="title customfont" id="titlename">Fat Game</div><p class="customfont" id="quittitle">click here to start!</p>');
+            $("#playground").prepend('<div class="title customfont" id="titlename">Fat Game</div><p class="customfont animated infinite pulse" id="quittitle">click here to start!</p>');
+            $("#titlename").y($(window).height*0.15);
             m_title=true;
             m_menu=false;
             m_game=false;
@@ -94,10 +101,14 @@ function changeScreen(screen)
         if(!m_menu){
             console.log("writing menu section");
             $("#playground").prepend('<div id="popNewGame" class="customfont menu">'+
-                                     '<div id="launchIt"><p>New game</p></div>'+
-                                     '<div class="startOption">Block size<input type="range" align="left"></input></div>'+
-                                     '<div class="startOption">Partition size<input type="range" align="left"></input></div></div>'
+                                     '<div class="startOption">FAT type<input type="range" min="12" max="20" step="4" name="fType" align="left"></input>'+
+                                        '<div id="fTypeDisplay"></div></div>'+
+                                     '<div class="startOption">block max size<input type="range" name="bmSize" align="left"></input><div id="bmSizeDisplay"></div></div>'+
+                                     '<div id="launchIt" class="animated infinite flash2"><p>launch game</p></div></div>'
                                     );
+            $("#popNewGame div:last-child").css("margin-bottom","30px");
+            $("#popNewGame div:first-child").css("margin-top","50px").css("margin-bottom","20px");
+            $("#popNewGame").xy(200,200);
             m_title=false;
             m_menu=true;
             m_game=false;
