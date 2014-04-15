@@ -60,7 +60,7 @@ function main()
 		
 	case "menu" :
 		
-		break:
+		break;
 			
 	case "game" :
 		
