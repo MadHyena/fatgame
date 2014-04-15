@@ -1,34 +1,72 @@
 @font-face {
     font-family: "8bit";
-    src: url("/font/PressStart2P.ttf") format("truetype");
+    src: url("../font/PressStart2P.ttf") format("truetype");
 }
+
+input[type=range] {
+    -webkit-appearance: none;
+    background-color: silver;
+    width: 200px;
+    height:20px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+     -webkit-appearance: none;
+    background-color: #666;
+    opacity: 0.5;
+    width: 10px;
+    height: 20px;
+}
+
 
 .customfont { 
     font-family: "8bit", Verdana, Tahoma;
 }
 
 .titlescreen {
-    background: #020aa3;
-    color: #fff;
+    color: #bbb;
     text-align: center;
     vertical-align: middle;
     
 }
 .titlescreen div.title{
     font-size: 4em;
-    margin-top: 25%;
 }
 
 .titlescreen p {
-    margin-top: 40%;
     height: 3em;
 }
 
 body{
-    background: #AAAAAA;
+    background: #020aa3;
+}
+
+.menu {
+    width: 50%;
+    color: #bbb;
+    border: 10px solid #d1d1d1;
+    align-content: center;
+    text-align: center;
+    display: block;
 }
 
 #popnewgame {
-    margin-top: 15%;
     text-align: center;
 }
+
+#launchIt{  
+    height: 50px;
+}
+
+#launchIt p{
+    vertical-align: middle;
+    text-align: center;
+    font-size: 2em;
+}
+
+.startOption {
+    display: block;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+

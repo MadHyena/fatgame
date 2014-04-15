@@ -1,6 +1,6 @@
 @font-face {
     font-family: "8bit";
-    src: url("/font/PressStart2P.ttf") format("truetype");
+    src: url("../font/PressStart2P.ttf") format("truetype");
 }
 
 .customfont { 
