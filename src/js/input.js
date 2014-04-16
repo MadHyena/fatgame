@@ -62,3 +62,49 @@ function DragBar(id){
 	    }
 	});
 }
+
+/*
+	DragMinimap
+	cursor : id du div a déplacer le long de la minimap
+	bar : div à déplacer selon la minimap (barre memoire)
+*/
+function DragMinimap(cursor, bar){
+
+	var delta = 0;
+	var clickedCursor = false;
+	var limit1 = 0;
+	var limit2 = 800;
+
+	$(cursor).mousedown(function() {
+
+	    if(delta == 0){
+	    	clickedCursor = $(this);
+		    delta = $.gQ.mouseTracker.x - $(clickedCursor).x();
+
+		   	if(delta < 0){
+	    		delta *= -1;
+	    	}
+	    }
+	});
+
+	$("#playground").mouseup(function() {
+	    clickedCursor = false;
+	    delta = 0;
+	});
+
+	$.playground().mousemove(function() {
+
+	    if(clickedCursor){
+	    	$(clickedCursor).x($.gQ.mouseTracker.x - delta, false);
+
+	    	if($(clickedCursor).x() > limit1 && $(clickedCursor).x() + $(clickedCursor).w() < limit2)
+	    		$(bar).x((0 - $(clickedCursor).x()) / (1/3), false);
+
+	    	if($(clickedCursor).x() < limit1)
+				$(clickedCursor).x(limit1, false);
+
+			if($(clickedCursor).x() + $(clickedCursor).w() > limit2)
+				$(clickedCursor).x(limit2 - $(clickedCursor).w(), false);
+	    }
+	});
+}
