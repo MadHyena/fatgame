@@ -11,7 +11,8 @@
 * si vous avez d'autres idées go rajouter
 */
 var gameState = "start";
-
+var PLAYGROUND_HEIGHT;
+var PLAYGROUND_WIDTH;
 
 function main()
 {
@@ -20,7 +21,9 @@ function main()
 	{
             
     case "start" :
-        changeScreen("title");  
+        PLAYGROUND_HEIGHT = $("#playground").height();
+        PLAYGROUND_WIDTH = $("#playground").width();  
+        changeScreen("title");
         break;
 
                
@@ -91,7 +94,10 @@ function changeScreen(screen)
         } */
         
         console.log("writing title section");
-        $.playground().addGroup("menuTitle",{width: 400 , height: 300 });
+        $.playground().addGroup("menuTitle",{width: 500 , height: 300 });
+        $("#menuTitle").y((PLAYGROUND_HEIGHT/3)-$("#menuTitle").height()/2);
+        $("#menuTitle").x((PLAYGROUND_WIDTH/2)-$("#menuTitle").width()/2);
+        
         $("#menuTitle").append('<div class="title customfont" id="titlename">Fat Game</div>'+
                                '<p class="customfont animated infinite pulse" id="quittitle">click here to start!</p>'
                              );
@@ -101,7 +107,7 @@ function changeScreen(screen)
 	case "menu" :
         
         console.log("writing menu section");
-        $.playground().addGroup("menuGame",{width: 400 , height: 350 });
+        $.playground().addGroup("menuGame",{width: PLAYGROUND_WIDTH/1.5 , height: PLAYGROUND_HEIGHT/2 });
         $("#menuGame").prepend('<div id="popNewGame" class="customfont menu">'+
                                  '<div class="startOption">FAT type<input type="range" min="12" max="20" step="4" name="fType" align="left"></input>'+
                                     '<div id="fTypeDisplay"></div></div>'+
@@ -110,8 +116,9 @@ function changeScreen(screen)
                                 );
         $("#popNewGame div:last-child").css("margin-bottom","30px");
         $("#popNewGame div:first-child").css("margin-top","50px").css("margin-bottom","20px");
-            //$("#popNewGame").xy(200,200);
-        
+        $("#menuGame").x((PLAYGROUND_WIDTH/2)-($("#menuGame").width()/4));
+        $("#menuGame").y((PLAYGROUND_HEIGHT/2)-($("#menuGame").height()/1.5));
+            
             
 		break;
 			
