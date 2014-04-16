@@ -23,7 +23,7 @@ Generator.prototype.generateFilesList = function()
 		}
 }
 
-Generator.prototype.addBlock = function()
+Generator.prototype.createBlock = function()
 {
 	
 }

@@ -826,7 +826,6 @@
                     // Old usage detected, this is not supported anymore
                     throw "Old playground usage, use $.playground() to retreive the playground and $('mydiv').playground(options) to set the div!";
                 }
-
                 options = $.extend({
                     height:        320,
                     width:        480,
@@ -836,8 +835,6 @@
                     mouseTracker: false,
                     disableCollision: false
                 }, options);
-
-
                 // We save the playground node and set some variable for this node:
                 $.gameQuery.playground = this;
                 $.gameQuery.refreshRate = options.refreshRate;
@@ -859,9 +856,7 @@
                 // Add the keyTracker to the gameQuery object:
                 $.gameQuery.keyTracker = {};
                 // We only enable the real tracking if the users wants it
-
                 if(options.keyTracker){
-
                     $(document).keydown(function(event){
                         $.gameQuery.keyTracker[event.keyCode] = true;
                     });

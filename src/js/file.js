@@ -1,4 +1,4 @@
-var fileColors = ["#OO5DBA",	// 1- bleu
+var fileColors = ["#15B",	// 1- bleu
                   "#FF001A",	// 2- rouge
                   "#18A100",	// 3- vert
 				  "#FF8000",	// 4- orange
@@ -6,7 +6,7 @@ var fileColors = ["#OO5DBA",	// 1- bleu
 				  "#19EEFF",	// 6- cyan
                   "#800087",	// 7- violay
                   "#CC40DB",	// 8- rose
-                  "#AAFFOO",	// 9- vert anis
+                  "#AF0",		// 9- vert anis
                   "#738BFF"];	//10- bleu clair
 
 var maxBlocksInFile = 10;

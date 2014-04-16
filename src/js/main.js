@@ -11,6 +11,7 @@
 * si vous avez d'autres idées go rajouter
 */
 var gameState = "title";
+var created = false;
 
 // Booleens pour affichage des menus
 var m_title = false,m_menu=false, m_game = false,m_pause= false, m_gameOver=false;
@@ -54,10 +55,21 @@ function main()
         $("#launchIt").click(function (){
             console.log("click exit menu");
             $("#popNewGame").remove();
+            changeScreen("game");
         });   
 		break;
 			
 	case "game" :
+		if(created != true)
+		{		
+			console.log(created);
+			for(i = 0; i < 9; i++)
+				{
+					addRectangle(i,{text : "Blah", height : 100, width : 100, color : fileColors[i], posx : i*150});
+				}
+			
+			created = true;
+		}
 		
 		break;
 		
@@ -80,7 +92,7 @@ function changeScreen(screen)
 {
 	gameState = screen;
     
-    	switch(gameState)
+    switch(gameState)
 	{
 	case "title" :
         if(!m_title){

@@ -1,4 +1,4 @@
-function MemorySlot(var _slotNumber)
+function MemorySlot(slotNumber)
 {
 	
 }

@@ -3,11 +3,24 @@
 <head>
 <title>Fat Game</title>
 
-<!-- imports des librairies et de la classe main du jeu -->
+<link rel='stylesheet' type='text/css' href='css/animate.css'>
+
+
+<!-- import des librairies et des classes du jeu -->
 <script src="../libs/jquery11.js" type="text/javascript"></script>
 <script src="../libs/gamequery0.7.js" type="text/javascript"></script>
+
+<script src="js/block.js" type="text/javascript"></script>
+<script src="js/file.js" type="text/javascript"></script>
+<script src="js/generator.js" type="text/javascript"></script>
+<script src="js/graph.js" type="text/javascript"></script>
+<script src="js/input.js" type="text/javascript"></script>
+<script src="js/memory.js" type="text/javascript"></script>
+<script src="js/memorySlot.js" type="text/javascript"></script>
+
 <script src="js/main.js" type="text/javascript"></script>
-<link rel='stylesheet' type='text/css' href='css/animate.css'>
+
+
 <!-- Initialisation du jeu et de la main loop, tout se passe dans la fonction main -->
 <script type="text/javascript">
 	$(document).ready(function()
@@ -24,7 +37,7 @@
             if ($(window).width() <= 800) $("head").append("<link rel='stylesheet' type='text/css' href='css/small.css'>");
             console.log("resize css loaded");
         });
-        
+
         
 		$("#playground").playground(
 		{
@@ -34,11 +47,11 @@
             width: $(window).width()-20
             
 		});
-        
+		
         $.playground().registerCallback(function()
 			{
 				main();
-			},1000);
+			},30);
         
 		$.playground().startGame();
 		
