@@ -45,7 +45,6 @@ body{
 }
 
 .menu {
-    width: 50%;
     color: #bbb;
     border: 10px solid #d1d1d1;
     align-content: center;
@@ -53,8 +52,15 @@ body{
     display: block;
 }
 
-#popnewgame {
+.pauseButton {
+    color: #bbb;
+    border: 3px solid #d1d1d1;
+    align-content: center;
     text-align: center;
+}
+
+#popnewgame {
+    
 }
 
 #launchIt{  
