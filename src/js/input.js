@@ -1,4 +1,10 @@
 /*
+ * A voir: stopper les handlers pendant la pause pour eviter
+ * de pouvoir bouger les éléments alors que c'est la pause
+ */
+
+
+/*
 	DragNDrop, DragBar : A appeler dans la main loop avec l'id ou la class du div à deplacer
 */
 function DragNDrop(id){
@@ -49,7 +55,7 @@ function DragBar(id){
 	    }
 	});
 
-	$("#playground").mouseup(function() {
+	$("#miniMap").mouseup(function() {
 		console.log("mouseup");
 	    clickedMemoryBar = false;
 	    delta = 0;

@@ -15,12 +15,7 @@ var PLAYGROUND_HEIGHT;
 var PLAYGROUND_WIDTH;
 var LANDSCAPE = false;
 var secondes = 0, millisecondes = 0;
-/*
-*   unique_onclick permet de bloquer la definition des onclick lors du switch dans la main
-*   et eviter l'envoi de plusieurs changeScreen() si l'utilisateur n'appuie pas instantanement
-*   sur le bouton pour changer de menu.
-*/
-var unique_onclick = 0;
+
 
 function main()
 {
@@ -131,6 +126,50 @@ function changeScreen(screen)
             $("#launchIt").click(function (){
                 console.log("click exit menu");
                 $("#menuGame").remove();
+                
+                /*
+                 * La création de la minibar et de l'affichage du timer se fait ici
+                 * pour eviter qu'ils ne soient détruits/recréés à chaque passage en pause
+                 */
+                $.playground().addGroup("timer",{width:PLAYGROUND_WIDTH/3,height: PLAYGROUND_HEIGHT/10,posx: PLAYGROUND_WIDTH/2-PLAYGROUND_WIDTH/10, posy:50});
+                $("#timer").addClass("customfont");
+                $("#timer").css("font-size","2em");
+
+                //================================================================
+                //Integration temporaire en dur d'une minimap
+                $.playground().addGroup('miniMap', { width : PLAYGROUND_WIDTH, height : 300 });
+                var memoryBar = new $.gameQuery.Animation({
+                    imageURL : "temp/Profile_Header.png"
+                });
+                var miniMemoryBar = new $.gameQuery.Animation({
+                    imageURL : "temp/Profile_Header_Mini.png"
+                });
+                var cursor = new $.gameQuery.Animation({
+                    imageURL : "temp/cursor.png"
+                });
+                $('#miniMap').addSprite('memoryBar', { // on ajoute un sprite
+                    animation : memoryBar, // premier objet instancié
+                    height : 50,
+                    width : 2400,
+                    posy : 150
+                });
+                $('#miniMap').addSprite('miniMemoryBar', { // on ajoute un sprite
+                    animation : miniMemoryBar, // premier objet instancié
+                    height : 16,
+                    width : 732,
+                    posy : 250
+                });
+                $('#miniMap').addSprite('cursor', { // on ajoute un sprite
+                    animation : cursor, // premier objet instancié
+                    height : 21,
+                    width : 222,
+                    posy : 247,
+                    posx : 0
+                });
+                //==============================
+                $("#miniMap").y(PLAYGROUND_HEIGHT-300);
+
+                
                 changeScreen("game");
             });       
 
@@ -142,67 +181,22 @@ function changeScreen(screen)
 
             break;
 
-        case "game" :
-
+        case "game" :         
+            
             $.playground().addGroup("menuInGame",{width: 40, height: 50 });
-            $.playground().addGroup("timer",{width:PLAYGROUND_WIDTH/3,height: PLAYGROUND_HEIGHT/10,posx: PLAYGROUND_WIDTH/2-PLAYGROUND_WIDTH/10, posy:50});
-            $("#timer").addClass("customfont");
-            $("#timer").css("font-size","2em");
             $("#menuInGame").prepend('<div class="customfont pauseButton"><div id="pauseIt"><font size="3em">||</font></div></div>');
-
             $("#pauseIt").css("margin-top","5px");
             $("#pauseIt").css("margin-bottom","5px");
 
-             $("#pauseIt").click(function (){
+            $("#pauseIt").click(function (){
                 console.log("click pause button");
+                $("#menuInGame").remove();
                 changeScreen("pause");
             }); 
-            
-                //================================================================
-                //Integration temporaire en dur d'une minimap
-                $.playground().addGroup('miniMap', { width : PLAYGROUND_WIDTH, height : 300 });
-
-                var memoryBar = new $.gameQuery.Animation({
-                    imageURL : "temp/Profile_Header.png"
-                });
-
-                var miniMemoryBar = new $.gameQuery.Animation({
-                    imageURL : "temp/Profile_Header_Mini.png"
-                });
-
-                var cursor = new $.gameQuery.Animation({
-                    imageURL : "temp/cursor.png"
-                });
-
-                $('#miniMap').addSprite('memoryBar', { // on ajoute un sprite
-                    animation : memoryBar, // premier objet instancié
-                    height : 50,
-                    width : 2400,
-                    posy : 150
-                });
-
-                $('#miniMap').addSprite('miniMemoryBar', { // on ajoute un sprite
-                    animation : miniMemoryBar, // premier objet instancié
-                    height : 16,
-                    width : 732,
-                    posy : 250
-                });
-
-                $('#miniMap').addSprite('cursor', { // on ajoute un sprite
-                    animation : cursor, // premier objet instancié
-                    height : 21,
-                    width : 222,
-                    posy : 247,
-                    posx : 0
-                });
-
-                //==============================
-            $("#miniMap").y(PLAYGROUND_HEIGHT-300);
             
             break;
 
         case "pause" :
-            $("#menuInGame").remove();
             if(LANDSCAPE){  
                 $.playground().addGroup("menuPause",{width: PLAYGROUND_WIDTH*0.55, height: PLAYGROUND_HEIGHT*0.4 });
                 $("#menuPause").y((PLAYGROUND_HEIGHT/2)-($("#menuPause").height()/1.1));
