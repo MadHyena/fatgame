@@ -144,24 +144,23 @@ function changeScreen(screen)
 
         case "game" :
 
-                $.playground().addGroup("menuInGame",{width: 40, height: 50 });
-                $.playground().addGroup("timer",{width:PLAYGROUND_WIDTH/3,height: PLAYGROUND_HEIGHT/10,posx: PLAYGROUND_WIDTH/2-PLAYGROUND_WIDTH/10, posy:50});
-                $("#timer").addClass("customfont");
-                $("#timer").css("font-size","2em");
-                $("#menuInGame").prepend('<div class="customfont pauseButton"><div id="pauseIt"><font size="3em">||</font></div></div>');
-                 $("#pauseIt").click(function (){
-                    console.log("click pause button");
-                    changeScreen("pause");
-                }); 
+            $.playground().addGroup("menuInGame",{width: 40, height: 50 });
+            $.playground().addGroup("timer",{width:PLAYGROUND_WIDTH/3,height: PLAYGROUND_HEIGHT/10,posx: PLAYGROUND_WIDTH/2-PLAYGROUND_WIDTH/10, posy:50});
+            $("#timer").addClass("customfont");
+            $("#timer").css("font-size","2em");
+            $("#menuInGame").prepend('<div class="customfont pauseButton"><div id="pauseIt"><font size="3em">||</font></div></div>');
 
-                $("#pauseIt").css("margin-top","5px");
-                $("#pauseIt").css("margin-bottom","5px");
+            $("#pauseIt").css("margin-top","5px");
+            $("#pauseIt").css("margin-bottom","5px");
 
+             $("#pauseIt").click(function (){
+                console.log("click pause button");
+                changeScreen("pause");
+            }); 
+            
                 //================================================================
                 //Integration temporaire en dur d'une minimap
-
-
-                $.playground().addGroup('miniMap', { width : PLAYGROUND_WIDTH, height : PLAYGROUND_HEIGHT });
+                $.playground().addGroup('miniMap', { width : PLAYGROUND_WIDTH, height : 300 });
 
                 var memoryBar = new $.gameQuery.Animation({
                     imageURL : "temp/Profile_Header.png"
@@ -198,7 +197,8 @@ function changeScreen(screen)
                 });
 
                 //==============================
-
+            $("#miniMap").y(PLAYGROUND_HEIGHT-300);
+            
             break;
 
         case "pause" :

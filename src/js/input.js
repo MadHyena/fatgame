@@ -9,7 +9,7 @@ function DragNDrop(id){
 	    clickedDiv = $(this);
 	});
 
-	$("#playground").mouseup(function() {
+	$("#minimap").mouseup(function() {
 		console.log("mouseup");
 	    clickedDiv = false;
 	});
