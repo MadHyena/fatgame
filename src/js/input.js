@@ -73,7 +73,7 @@ function DragMinimap(cursor, bar){
 	var delta = 0;
 	var clickedCursor = false;
 	var limit1 = 0;
-	var limit2 = 800;
+	var limit2 = 732;
 
 	$(cursor).mousedown(function() {
 
@@ -98,7 +98,7 @@ function DragMinimap(cursor, bar){
 	    	$(clickedCursor).x($.gQ.mouseTracker.x - delta, false);
 
 	    	if($(clickedCursor).x() > limit1 && $(clickedCursor).x() + $(clickedCursor).w() < limit2)
-	    		$(bar).x((0 - $(clickedCursor).x()) / (1/3), false);
+	    		$(bar).x((0 - $(clickedCursor).x()) / (1/3.2), false);
 
 	    	if($(clickedCursor).x() < limit1)
 				$(clickedCursor).x(limit1, false);

@@ -57,6 +57,10 @@ function main()
                 millisecondes -= 1000;
             }
             $("#timer").text(secondes+'.'+millisecondes/10);
+
+            DragBar("#memoryBar");
+            DragMinimap("#cursor", "#memoryBar");
+
             break;
 
         case "pause":
@@ -154,6 +158,49 @@ function changeScreen(screen)
 
                 $("#pauseIt").css("margin-top","5px");
                 $("#pauseIt").css("margin-bottom","5px");
+
+                //================================================================
+                //Integration temporaire en dur d'une minimap
+
+
+                $.playground().addGroup('miniMap', { width : PLAYGROUND_WIDTH, height : PLAYGROUND_HEIGHT });
+
+                var memoryBar = new $.gameQuery.Animation({
+                    imageURL : "temp/Profile_Header.png"
+                });
+
+                var miniMemoryBar = new $.gameQuery.Animation({
+                    imageURL : "temp/Profile_Header_Mini.png"
+                });
+
+                var cursor = new $.gameQuery.Animation({
+                    imageURL : "temp/cursor.png"
+                });
+
+                $('#miniMap').addSprite('memoryBar', { // on ajoute un sprite
+                    animation : memoryBar, // premier objet instancié
+                    height : 50,
+                    width : 2400,
+                    posy : 150
+                });
+
+                $('#miniMap').addSprite('miniMemoryBar', { // on ajoute un sprite
+                    animation : miniMemoryBar, // premier objet instancié
+                    height : 16,
+                    width : 732,
+                    posy : 250
+                });
+
+                $('#miniMap').addSprite('cursor', { // on ajoute un sprite
+                    animation : cursor, // premier objet instancié
+                    height : 21,
+                    width : 222,
+                    posy : 247,
+                    posx : 0
+                });
+
+                //==============================
+
             break;
 
         case "pause" :
