@@ -120,7 +120,7 @@ function changeScreen(screen)
                 $("#menuGame").y((PLAYGROUND_HEIGHT/2)-($("#menuGame").height()/2));
             }
             $("#menuGame").prepend('<div id="popNewGame" class="customfont menu">'+
-                                     '<div class="startOption"><div style="margin-bottom:-5px">FAT type</div>'+
+                                     '<div class="startOption"><div style="margin-bottom:-5px">partition size</div>'+
                                         '<input type="range" min="12" max="20" step="4" name="fType" align="left"></input>'+
                                         '<div id="fTypeDisplay"></div></div>'+
                                      '<div class="startOption"><div style="margin-bottom:-5px">block max size</div>'+
@@ -148,8 +148,6 @@ function changeScreen(screen)
                 $.playground().addGroup("timer",{width:PLAYGROUND_WIDTH/3,height: PLAYGROUND_HEIGHT/10,posx: PLAYGROUND_WIDTH/2-PLAYGROUND_WIDTH/10, posy:50});
                 $("#timer").addClass("customfont");
                 $("#timer").css("font-size","2em");
-                secondes = 0;
-                millisecondes = 0;
                 $("#menuInGame").prepend('<div class="customfont pauseButton"><div id="pauseIt"><font size="3em">||</font></div></div>');
                  $("#pauseIt").click(function (){
                     console.log("click pause button");
@@ -204,7 +202,8 @@ function changeScreen(screen)
             break;
 
         case "pause" :
-             if(LANDSCAPE){  
+            $("#menuInGame").remove();
+            if(LANDSCAPE){  
                 $.playground().addGroup("menuPause",{width: PLAYGROUND_WIDTH*0.55, height: PLAYGROUND_HEIGHT*0.4 });
                 $("#menuPause").y((PLAYGROUND_HEIGHT/2)-($("#menuPause").height()/1.1));
             }
@@ -214,7 +213,14 @@ function changeScreen(screen)
             }
             $("#menuPause").x((PLAYGROUND_WIDTH/2)-($("#menuPause").width()/2));
             $("#menuPause").addClass("customfont menu");
-            $("#menuPause").append('<p>Pause</p><div id="resumeIt"><font size="6em">resume</font></div>');
+            $("#menuPause").append('<p>Pause</p><div id="resumeIt" class="animated infinite flash2"><font size="6em">resume</font></div>');
+            $("#resumeIt").css("margin-top","100px");
+            $("#resumeIt").click(function (){
+                console.log("click exit menu");
+                $("#menuPause").remove();
+                changeScreen("game");
+            });   
+            
             break;
 
         case "gameover" :
