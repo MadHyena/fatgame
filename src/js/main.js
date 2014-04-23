@@ -14,6 +14,7 @@ var gameState = "start";
 var PLAYGROUND_HEIGHT;
 var PLAYGROUND_WIDTH;
 var BLOCK_MAX_SIZE;
+var NB_BLOCKS;
 var LANDSCAPE = false;
 var secondes = 0, millisecondes = 0;
 
@@ -39,9 +40,7 @@ function main()
 
         case "menu":
 
-            if ($("input[name=fType]").val() != 20){$("#fTypeDisplay").text($("input[name=fType]").val());}
-            else {$("#fTypeDisplay").text("32");}
-
+            $("#fTypeDisplay").text($("input[name=fType]").val()/1000+" Mo");
             $("#bmSizeDisplay").text($("input[name=bmSize]").val()+" bits");
 
             break;
@@ -117,7 +116,7 @@ function changeScreen(screen)
             }
             $("#menuGame").prepend('<div id="popNewGame" class="customfont menu">'+
                                      '<div class="startOption"><div style="margin-bottom:-5px">partition size</div>'+
-                                        '<input type="range" min="12" max="20" step="4" name="fType" align="left"></input>'+
+                                        '<input type="range" min="15360" max="30720" step="2560" name="fType" align="left"></input>'+
                                         '<div id="fTypeDisplay"></div></div>'+
                                      '<div class="startOption"><div style="margin-bottom:-5px">block max size</div>'+
                                         '<input type="range" name="bmSize" min="64" max="2048" step="64" align="left"></input><div id="bmSizeDisplay"></div></div>'+
@@ -127,7 +126,8 @@ function changeScreen(screen)
             $("#launchIt").click(function (){
                 console.log("click exit menu");
                 BLOCK_MAX_SIZE=$("input[name=bmSize]").val();
-                console.log(BLOCK_MAX_SIZE);
+                NB_BLOCKS = $("input[name=fType]").val()/512;
+                console.log("NB_BLOCKS :"+NB_BLOCKS+"\nBLOCK_MAX_SIZE :"+BLOCK_MAX_SIZE);
                 $("#menuGame").remove();
                 
                 /*
