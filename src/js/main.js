@@ -13,6 +13,7 @@
 var gameState = "start";
 var PLAYGROUND_HEIGHT;
 var PLAYGROUND_WIDTH;
+var BLOCK_MAX_SIZE;
 var LANDSCAPE = false;
 var secondes = 0, millisecondes = 0;
 
@@ -125,6 +126,8 @@ function changeScreen(screen)
 
             $("#launchIt").click(function (){
                 console.log("click exit menu");
+                BLOCK_MAX_SIZE=$("input[name=bmSize]").val();
+                console.log(BLOCK_MAX_SIZE);
                 $("#menuGame").remove();
                 
                 /*
@@ -197,6 +200,7 @@ function changeScreen(screen)
             break;
 
         case "pause" :
+            $.playground().addGroup("block",{width:PLAYGROUND_WIDTH, height:PLAYGROUND_HEIGHT})
             if(LANDSCAPE){  
                 $.playground().addGroup("menuPause",{width: PLAYGROUND_WIDTH*0.55, height: PLAYGROUND_HEIGHT*0.4 });
                 $("#menuPause").y((PLAYGROUND_HEIGHT/2)-($("#menuPause").height()/1.1));
@@ -211,6 +215,7 @@ function changeScreen(screen)
             $("#resumeIt").css("margin-top","100px");
             $("#resumeIt").click(function (){
                 console.log("click exit menu");
+                $("#block").remove();
                 $("#menuPause").remove();
                 changeScreen("game");
             });   
