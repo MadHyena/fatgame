@@ -41,7 +41,7 @@ function main()
         case "menu":
 
             $("#fTypeDisplay").text($("input[name=fType]").val()/1000+" Mo");
-            $("#bmSizeDisplay").text($("input[name=bmSize]").val()+" bits");
+            $("#bmSizeDisplay").text($("input[name=bmSize]").val()+" Ko");
 
             break;
 
@@ -118,16 +118,16 @@ function changeScreen(screen)
                                      '<div class="startOption"><div style="margin-bottom:-5px">partition size</div>'+
                                         '<input type="range" min="15360" max="30720" step="2560" name="fType" align="left"></input>'+
                                         '<div id="fTypeDisplay"></div></div>'+
-                                     '<div class="startOption"><div style="margin-bottom:-5px">block max size</div>'+
-                                        '<input type="range" name="bmSize" min="64" max="2048" step="64" align="left"></input><div id="bmSizeDisplay"></div></div>'+
-                                     '<div id="launchIt" class="animated infinite flash2" style="margin-bottom:0px"><p>launch game</p></div></div>'
+                                     '<div class="startOption"><div style="margin-bottom:-5px">File max size</div>'+
+                                        '<input type="range" name="bmSize" min="1024" max="2048" step="1024" align="left"></input><div id="bmSizeDisplay"></div></div>'+
+                                     '<div id="launchIt" class="animated infinite flash2" style="margin-bottom:0px"><p>Launch game</p></div></div>'
                                     );
 
             $("#launchIt").click(function (){
                 console.log("click exit menu");
-                BLOCK_MAX_SIZE=$("input[name=bmSize]").val();
+                BLOCK_MAX_SIZE=$("input[name=bmSize]").val()/16;
                 NB_BLOCKS = $("input[name=fType]").val()/512;
-                console.log("NB_BLOCKS :"+NB_BLOCKS+"\nBLOCK_MAX_SIZE :"+BLOCK_MAX_SIZE);
+    console.log("NB_BLOCKS :"+NB_BLOCKS+"\nBLOCK_MAX_SIZE :"+BLOCK_MAX_SIZE);
                 $("#menuGame").remove();
                 
                 /*
