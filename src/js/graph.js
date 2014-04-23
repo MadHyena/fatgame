@@ -46,6 +46,4 @@ function addRectangle (id,options) {
 
 	$.gameQuery.scenegraph.append(newSpriteElem);
 	
-	return newSpriteElem;
-
 }

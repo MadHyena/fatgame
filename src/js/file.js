@@ -9,14 +9,16 @@ var fileColors = ["#15B",	// 1- bleu
                   "#AF0",		// 9- vert anis
                   "#738BFF"];	//10- bleu clair
 
-var maxBlocksInFile = 10;
+var MAXBLOCKSINFILE = 10;
+
+var MAXFILES = 10;
 
 function File(fileNumber)
 {
 	this.fileID = fileNumber;
 	this.color = fileColors[fileID];
 
-	this.blockList[maxBlocksInFile];
+	this.blockList = new Array();
 
 }
 
