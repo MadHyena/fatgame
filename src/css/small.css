@@ -11,7 +11,7 @@ input[type=range] {
 }
 
 input[type="range"]::-webkit-slider-thumb {
-     -webkit-appearance: none;
+    -webkit-appearance: none;
     background-color: #666;
     opacity: 0.5;
     width: 10px;
@@ -21,20 +21,24 @@ input[type="range"]::-webkit-slider-thumb {
 
 .customfont { 
     font-family: "8bit", Verdana, Tahoma;
+    color: #bbb;
 }
 
-.titlescreen {
+#menuTitle {
     color: #bbb;
     text-align: center;
     vertical-align: middle;
-    
+
 }
-.titlescreen div.title{
+#menuTitle div.title{
     font-size: 4em;
 }
-
-.titlescreen p {
+#menuTitle p {
     height: 3em;
+}
+
+#quittitle {
+    margin-top: 100px;
 }
 
 body{
@@ -42,16 +46,23 @@ body{
 }
 
 .menu {
-    width: 50%;
     color: #bbb;
+    background: #444;
     border: 10px solid #d1d1d1;
     align-content: center;
     text-align: center;
     display: block;
 }
 
-#popnewgame {
+.pauseButton {
+    color: #bbb;
+    border: 3px solid #d1d1d1;
+    align-content: center;
     text-align: center;
+}
+
+#popnewgame {
+
 }
 
 #launchIt{  

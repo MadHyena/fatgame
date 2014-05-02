@@ -14,14 +14,18 @@ var gameState = "start";
 var PLAYGROUND_HEIGHT;
 var PLAYGROUND_WIDTH;
 var BLOCK_MAX_SIZE;
+
 var CLUSTER_SIZE = 16;
 var NB_BLOCKS;
 var LANDSCAPE = false;
 var secondes = 0, millisecondes = 0;
 var LEVEL = 1;
 
-var generator = new Generator();
+var NB_BLOCKS;
+var LANDSCAPE = false;
+var secondes = 0, millisecondes = 0;
 
+var generator = new Generator();
 
 function main()
 {
@@ -133,6 +137,9 @@ function changeScreen(screen)
                 BLOCK_MAX_SIZE=$("input[name=bmSize]").val();
                 NB_BLOCKS = $("input[name=fType]").val()/512;
                 console.log("NB_BLOCKS :"+NB_BLOCKS+"\nBLOCK_MAX_SIZE :"+BLOCK_MAX_SIZE);
+                BLOCK_MAX_SIZE=$("input[name=bmSize]").val()/16;
+                NB_BLOCKS = $("input[name=fType]").val()/512;
+    console.log("NB_BLOCKS :"+NB_BLOCKS+"\nBLOCK_MAX_SIZE :"+BLOCK_MAX_SIZE);
                 $("#menuGame").remove();
                 
                 /*

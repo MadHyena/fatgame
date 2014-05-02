@@ -3,22 +3,80 @@
     src: url("../font/PressStart2P.ttf") format("truetype");
 }
 
+input[type=range] {
+    -webkit-appearance: none;
+    background-color: silver;
+    width: 200px;
+    height:20px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+     -webkit-appearance: none;
+    background-color: #666;
+    opacity: 0.5;
+    width: 10px;
+    height: 20px;
+}
+
+
 .customfont { 
     font-family: "8bit", Verdana, Tahoma;
 }
 
-.titlescreen {
-    background: #000229;
-    color: #fff;
+#menuTitle {
+    color: #bbb;
     text-align: center;
+    vertical-align: middle;
     
 }
-.titlescreen div.title{
-    font-size: 4em;
-    margin-top: 17%;
+#menuTitle div.title{
+    font-size: 6em;
+}
+#menuTitle p {
+    height: 4em;
 }
 
-.titlescreen p {
-    margin-top: 27%;
-    height: 3em;
+#quittitle {
+    margin-top: 100px;
 }
+
+body{
+    background: #020aa3;
+}
+
+.menu {
+    color: #bbb;
+    font-size: 0.7em;
+    border: 10px solid #d1d1d1;
+    align-content: center;
+    text-align: center;
+    display: block;
+}
+
+.pauseButton {
+    color: #bbb;
+    border: 3px solid #d1d1d1;
+    align-content: center;
+    text-align: center;
+}
+
+#popnewgame {
+    
+}
+
+#launchIt{  
+    height: 50px;
+}
+
+#launchIt p{
+    vertical-align: middle;
+    text-align: center;
+    font-size: 3em;
+}
+
+.startOption {
+    display: block;
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
