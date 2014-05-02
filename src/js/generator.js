@@ -1,66 +1,58 @@
-function Generator(level, maxBlockSize, partSize, clusterSize)
+var currentFallingBlocks = [0,0,0,0];
+
+//bon il faudrait le régler sur autre chose que ça mais je sais pas pourquoi il prend pas PLAYGROUND_WIDTH/4
+var OFFSET_FALLING_BLOCKS = 200;
+
+
+function Generator()
 {
+	this.numberOfBlocks = (NB_BLOCKS/2)*(LEVEL+LEVEL-1);
 	
-	this.level = level;
-	this.maxBlockSize = maxBlockSize;
-	this.partSize = partSize;
-	
-	this.memorySlotsNumber = partSize/clusterSize;
-	
-	this.numberOfBlocks = (memorySlotsNumber/2)*(level+level-1);
-	
-	this.files = new Array();
+	this.files = new Array(4+LEVEL);
 	
 	this.currentBlockId = 0;
 	
-	
-	
+	this.generateFilesList();	
 }
 
 Generator.prototype.generateFilesList = function()
 {
 	//la taille maximale de la liste de fichiers est fixée dans file.js
 	//on initialie notre liste en leur donnant chacun un id et donc une couleur associée
-	for(i = 0; i < 4+level && i < MAXFILES; i++)
+	for(i = 0; i < 4+LEVEL && i < MAXFILES; i++)
 		{
-			files[i] = new File(i);
+			this.files[i] = new File(i);
 		}
+}
+
+Generator.prototype.getAvailableColumn = function()
+{
+	var min = 0;
+	for(i = 1; i < 4; i++)
+	{
+		if(currentFallingBlocks[i] < currentFallingBlocks[min])
+		{
+			min = i;
+		}
+	}
+	
+	return min;
 }
 
 Generator.prototype.createBlock = function()
 {
-	var size = 0;
+	console.log("meh");
+	//on détermine la taille du bloc au pif
+	var size = CLUSTER_SIZE	* (Math.floor(Math.random*8)+1);
+	
 	this.currentBlockId++;	
 	
-	var file = files[Math.floor(Math.random()*files.length-1)];	//on prend un élément au pif de la liste de fichiers
+	var file = this.files[Math.floor(Math.random()*this.files.length-1)];	//on prend un élément au pif de la liste de fichiers
 	
-	
-	//on détermine la taille du bloc au hasard
-	for(i = 0; i < 100; i++)
-	{
-		if(Math.random() > 0.8)
-		{
-			number = 256;
-		}
-		else
-		{
-			if(Math.random() > 0.5)
-			{
-				number= 128;
-			}
-			if(Math.random() > 0.5)
-			{
-				number += 64;
-			}
-			if((Math.random() >0.5) || (number == 0))
-			{
-				number += 32;
-			}
-		}
-		
-	}
+	var column = generator.getAvailableColumn();
+	currentFallingBlocks[column]++;
 	
 	//une fois qu'on a tous les paramètres requis on crée notre bloc
-	newBlock = new Block();
+	newBlock = new Block(this.currentBlockId, file, size, column*OFFSET_FALLING_BLOCKS,0 );
 	
 }

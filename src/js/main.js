@@ -13,8 +13,14 @@
 var gameState = "start";
 var PLAYGROUND_HEIGHT;
 var PLAYGROUND_WIDTH;
+var BLOCK_MAX_SIZE;
+var CLUSTER_SIZE = 16;
+var NB_BLOCKS;
 var LANDSCAPE = false;
 var secondes = 0, millisecondes = 0;
+var LEVEL = 1;
+
+var generator = new Generator();
 
 
 function main()
@@ -38,10 +44,8 @@ function main()
 
         case "menu":
 
-            if ($("input[name=fType]").val() != 20){$("#fTypeDisplay").text($("input[name=fType]").val());}
-            else {$("#fTypeDisplay").text("32");}
-
-            $("#bmSizeDisplay").text($("input[name=bmSize]").val()+" bits");
+            $("#fTypeDisplay").text($("input[name=fType]").val()/1000+" Mo");
+            $("#bmSizeDisplay").text($("input[name=bmSize]").val()+" Ko");
 
             break;
 
@@ -49,7 +53,8 @@ function main()
             millisecondes+=30;
             if (millisecondes >= 1000){
                 secondes++;
-                millisecondes = 0;
+                millisecondes -= 1000;
+                generator.createBlock();
             }
             $("#timer").text(secondes+'.'+millisecondes/10);
 
@@ -116,15 +121,18 @@ function changeScreen(screen)
             }
             $("#menuGame").prepend('<div id="popNewGame" class="customfont menu">'+
                                      '<div class="startOption"><div style="margin-bottom:-5px">partition size</div>'+
-                                        '<input type="range" min="12" max="20" step="4" name="fType" align="left"></input>'+
+                                        '<input type="range" min="15360" max="30720" step="2560" name="fType" align="left"></input>'+
                                         '<div id="fTypeDisplay"></div></div>'+
-                                     '<div class="startOption"><div style="margin-bottom:-5px">block max size</div>'+
-                                        '<input type="range" name="bmSize" min="64" max="2048" step="64" align="left"></input><div id="bmSizeDisplay"></div></div>'+
-                                     '<div id="launchIt" class="animated infinite flash2" style="margin-bottom:0px"><p>launch game</p></div></div>'
+                                     '<div class="startOption"><div style="margin-bottom:-5px">File max size</div>'+
+                                        '<input type="range" name="bmSize" min="1024" max="2048" step="1024" align="left"></input><div id="bmSizeDisplay"></div></div>'+
+                                     '<div id="launchIt" class="animated infinite flash2" style="margin-bottom:0px"><p>Launch game</p></div></div>'
                                     );
 
             $("#launchIt").click(function (){
                 console.log("click exit menu");
+                BLOCK_MAX_SIZE=$("input[name=bmSize]").val();
+                NB_BLOCKS = $("input[name=fType]").val()/512;
+                console.log("NB_BLOCKS :"+NB_BLOCKS+"\nBLOCK_MAX_SIZE :"+BLOCK_MAX_SIZE);
                 $("#menuGame").remove();
                 
                 /*
@@ -197,6 +205,7 @@ function changeScreen(screen)
             break;
 
         case "pause" :
+            $.playground().addGroup("block",{width:PLAYGROUND_WIDTH, height:PLAYGROUND_HEIGHT})
             if(LANDSCAPE){  
                 $.playground().addGroup("menuPause",{width: PLAYGROUND_WIDTH*0.55, height: PLAYGROUND_HEIGHT*0.4 });
                 $("#menuPause").y((PLAYGROUND_HEIGHT/2)-($("#menuPause").height()/1.1));
@@ -211,6 +220,7 @@ function changeScreen(screen)
             $("#resumeIt").css("margin-top","100px");
             $("#resumeIt").click(function (){
                 console.log("click exit menu");
+                $("#block").remove();
                 $("#menuPause").remove();
                 changeScreen("game");
             });   
@@ -225,18 +235,6 @@ function changeScreen(screen)
 	
 	}
     
-}
-
-//servira à faire les actions de l'IA : à savoir ajouter/supprimer etc.
-function step()
-{
-	var actionRandom = Math.random();
-	
-	//on détermine au pif si on ajoute ou on supprime un bloc (pour l'instant 10% de chances de supprimer)
-	if(actionRandom > 0.1 && this.generator.currentBlockId > 0)
-	{
-		
-	}
 }
 
 //bon elle sert un peu à rien mais y'à unpause donc autant avoir pause

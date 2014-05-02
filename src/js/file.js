@@ -9,36 +9,26 @@ var fileColors = ["#15B",	// 1- bleu
                   "#AF0",		// 9- vert anis
                   "#738BFF"];	//10- bleu clair
 
-var MAXBLOCKSINFILE = 10;
-
 var MAXFILES = 10;
 
 function File(fileNumber)
 {
 	this.fileID = fileNumber;
-	this.color = fileColors[fileID];
+	this.color = fileColors[this.fileID];
 
-	this.blockList = new Array();
+	this.blockList = new Array(10);
 
 }
 
 
 File.prototype.addBlock = function(block)
 {
-	blockList.push(block);
-}
-
-File.prototype.addBlockAfter = function(blockToAdd, blockIndex)
-{
-	blockList.splice($.inArray(blockIndex, blockList),0,blockToAdd);
+	this.blockList.push(block);
 }
 
 File.prototype.removeBlock = function(block)
 {	
-	blockList.splice($.inArray(bloc, blockList),1);
+	this.blockList.splice($.inArray(block, this.blockList),1);
 }
 
-File.prototype.splitBlock = function(block)
-{	
-	block.blockSize;
-}
+
