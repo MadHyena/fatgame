@@ -59,7 +59,12 @@ function main()
             } else if(secondes !=0) { 
                 secondes--;
                 millisecondes=1000-millisecondes;
-                if (secondes % 2 == 0) generator.createBlock();
+                generator.createBlock();
+                $(".pep").pep({
+                    useCSSTranslation: false,
+                    constrainTo: 'parent'
+                });
+                
             } else {
                 changeScreen("gameover");
             }
