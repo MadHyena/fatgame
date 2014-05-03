@@ -41,7 +41,7 @@ Generator.prototype.getAvailableColumn = function()
 
 Generator.prototype.createBlock = function()
 {
-	console.log("meh");
+	console.log("generation du block "+this.currentBlockId);
 	//on détermine la taille du bloc au pif
 	var size = CLUSTER_SIZE	* (Math.floor(Math.random*8)+1);
 	

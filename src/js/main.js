@@ -23,7 +23,7 @@ var LEVEL = 1;
 
 var NB_BLOCKS;
 var LANDSCAPE = false;
-var secondes = 0, millisecondes = 0;
+var secondes = 20, millisecondes = 0;
 
 var generator = new Generator();
 
@@ -54,12 +54,16 @@ function main()
             break;
 
         case "game":
-            millisecondes+=30;
-            if (millisecondes >= 1000){
-                secondes++;
-                millisecondes -= 1000;
-                generator.createBlock();
+            if (millisecondes>29){
+                millisecondes-=30;
+            } else if(secondes !=0) { 
+                secondes--;
+                millisecondes=1000-millisecondes;
+                if (secondes % 2 == 0) generator.createBlock();
+            } else {
+                changeScreen("gameover");
             }
+
             $("#timer").text(secondes+'.'+millisecondes/10);
 
             DragBar("#memoryBar");
