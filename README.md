@@ -6,3 +6,7 @@ Et c'est absolument pas adapté à la résolution aussi, enfin ça c'est un peu 
 
 J'essaierais de faire en sorte que le positionnement des blocs marche à peu près correctement genre demain. 
 
+Ca vous dit pas qu'on vire les doubles bordures ? Car elle s'ajoutent en PLUS de la taille initiale du div et il faut donc les prendre en compte
+pour le moindre placement (je parle principalement de la barre memoire).
+
+Une petite conférence dans la semaine sera pas de trop =3

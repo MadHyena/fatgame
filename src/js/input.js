@@ -36,8 +36,6 @@ function DragNDrop(id){
 
 function DragBar(id){
 
-	console.log("lawl");
-
 	var delta = 0;
 	var clickedMemoryBar = false;
 
