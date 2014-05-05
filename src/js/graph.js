@@ -8,7 +8,7 @@
 
 function addRectangle (id,options) {
 	
-    var spriteFragment  = $("<div class='"+$.gameQuery.spriteCssClass+"'  style='position: absolute; display: block; overflow: hidden; display : table; text-align : center' />");
+    var spriteFragment  = $("<div class='pep "+$.gameQuery.spriteCssClass+"'  style='position: absolute; display: block; overflow: hidden; display : table; text-align : center' />");
 
 
 	options = $.extend({
@@ -43,7 +43,10 @@ function addRectangle (id,options) {
 	});
 	
 	newSpriteElem.append("<span class='customfont' style='vertical-align : middle; display : table-cell'>"+ options.text +"</span>");
-
-	$.gameQuery.scenegraph.append(newSpriteElem);
+    /*
+     * Changement de '$.gameQuery.scenegraph.[...]' par '$.gameQuery.playground.[...]'
+     * par rapport au drag, le mouvement est limité au parent & scenegraph fait 0 px de haut.
+     */
+	$.gameQuery.playground.append(newSpriteElem);
 	
 }

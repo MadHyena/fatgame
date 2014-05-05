@@ -41,13 +41,13 @@ Generator.prototype.getAvailableColumn = function()
 
 Generator.prototype.createBlock = function()
 {
-	console.log("meh");
+	console.log("generation du block "+this.currentBlockId);
 	//on détermine la taille du bloc au pif
 	var size = CLUSTER_SIZE	* (Math.floor(Math.random*8)+1);
 	
 	this.currentBlockId++;	
 	
-	var file = this.files[Math.floor(Math.random()*this.files.length-1)];	//on prend un élément au pif de la liste de fichiers
+	var file = this.files[Math.floor(Math.random()*this.files.length)];	//on prend un élément au pif de la liste de fichiers
 	
 	var column = generator.getAvailableColumn();
 	currentFallingBlocks[column]++;
