@@ -165,12 +165,11 @@ function changeScreen(screen)
 
                 //A voir quelle class ajouter pour la rendre draggable
                 //Width = Taille d'une case * nbCase(taille memoire)
-                $.playground().addGroup('memory', { width : PLAYGROUND_WIDTH, height : BLOCK_HEIGHT, posy : (PLAYGROUND_HEIGHT - BLOCK_HEIGHT - PLAYGROUND_HEIGHT / 5) });
+                $.playground().addGroup('memory', { width : PLAYGROUND_WIDTH, height : BLOCK_HEIGHT, posy : 200/*(PLAYGROUND_HEIGHT - BLOCK_HEIGHT - PLAYGROUND_HEIGHT / 5)*/ });
 
-                var memory = new Memory(10,
-                {
-                    posy : 0//PLAYGROUND_HEIGHT - BLOCK_HEIGHT - PLAYGROUND_HEIGHT / 150
-                });
+                var memory = new Memory(10, { posy : 0 });
+                $("#memory").pep({ axis: 'x', useCSSTranslation: false });
+
                 
                 changeScreen("game");
             });       
