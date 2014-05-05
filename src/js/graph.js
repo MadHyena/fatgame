@@ -47,6 +47,6 @@ function addRectangle (id,options) {
      * Changement de '$.gameQuery.scenegraph.[...]' par '$.gameQuery.playground.[...]'
      * par rapport au drag, le mouvement est limité au parent & scenegraph fait 0 px de haut.
      */
-	$.gameQuery.playground.append(newSpriteElem);
+	$.gameQuery.scenegraph.append(newSpriteElem);
 	
 }

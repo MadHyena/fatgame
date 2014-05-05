@@ -62,7 +62,7 @@ function main()
                 generator.createBlock();
                 $(".pep").pep({
                     useCSSTranslation: false,
-                    constrainTo: 'parent'
+                    constrainTo: 'window'
                 });
                 
             } else {
