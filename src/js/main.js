@@ -160,39 +160,17 @@ function changeScreen(screen)
                 $("#timer").css("font-size","2em");
 
                 //================================================================
-                //Integration temporaire en dur d'une minimap
-                $.playground().addGroup('miniMap', { width : PLAYGROUND_WIDTH, height : 300 });
-                var memoryBar = new $.gameQuery.Animation({
-                    imageURL : "temp/Profile_Header.png"
-                });
-                var miniMemoryBar = new $.gameQuery.Animation({
-                    imageURL : "temp/Profile_Header_Mini.png"
-                });
-                var cursor = new $.gameQuery.Animation({
-                    imageURL : "temp/cursor.png"
-                });
-                $('#miniMap').addSprite('memoryBar', { // on ajoute un sprite
-                    animation : memoryBar, // premier objet instancié
-                    height : 50,
-                    width : 2400,
-                    posy : 150
-                });
-                $('#miniMap').addSprite('miniMemoryBar', { // on ajoute un sprite
-                    animation : miniMemoryBar, // premier objet instancié
-                    height : 16,
-                    width : 732,
-                    posy : 250
-                });
-                $('#miniMap').addSprite('cursor', { // on ajoute un sprite
-                    animation : cursor, // premier objet instancié
-                    height : 21,
-                    width : 222,
-                    posy : 247,
-                    posx : 0
-                });
-                //==============================
-                $("#miniMap").y(PLAYGROUND_HEIGHT-300);
 
+                //Barre memoire
+
+                //A voir quelle class ajouter pour la rendre draggable
+                //Width = Taille d'une case * nbCase(taille memoire)
+                $.playground().addGroup('memory', { width : PLAYGROUND_WIDTH, height : BLOCK_HEIGHT, posy : (PLAYGROUND_HEIGHT - BLOCK_HEIGHT - PLAYGROUND_HEIGHT / 5) });
+
+                var memory = new Memory(10,
+                {
+                    posy : 0//PLAYGROUND_HEIGHT - BLOCK_HEIGHT - PLAYGROUND_HEIGHT / 150
+                });
                 
                 changeScreen("game");
             });       
