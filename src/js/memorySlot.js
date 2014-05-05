@@ -25,7 +25,7 @@ function MemorySlot(slotNumber, options)
 		factorv:        1
 	}, options);
 
-	var newSlot = spriteFragment.clone().attr("id",slotNumber).css({
+	var newSlot = spriteFragment.clone().attr("id","mem"+slotNumber).css({
 		height: options.height,
 		width: options.width,
 		'background-color': options.color,

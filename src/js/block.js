@@ -13,6 +13,8 @@ function Block(id, file, blockSize, x, y)
 	this.x = x;
 	this.y = y;
 	
+	this.supposedY = y;
+	
 	//son numéro, chaque bloc aura un id différent, recommence à 0 à chaque niveau
 	this.id = id;
 	
@@ -66,3 +68,4 @@ Block.prototype.splitBlock = function()
 	newBlock2 = new Block(generator.currentBlockId+1, this.file, block2size, column*OFFSET_FALLING_BLOCKS, this.y);
 	
 }
+

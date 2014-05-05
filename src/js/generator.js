@@ -43,7 +43,7 @@ Generator.prototype.createBlock = function()
 {
 	console.log("generation du block "+this.currentBlockId);
 	//on détermine la taille du bloc au pif
-	var size = CLUSTER_SIZE	* (Math.floor(Math.random*8)+1);
+	var size = CLUSTER_SIZE	* (Math.floor(Math.random()*8)+1);
 	
 	this.currentBlockId++;	
 	
@@ -55,4 +55,21 @@ Generator.prototype.createBlock = function()
 	//une fois qu'on a tous les paramètres requis on crée notre bloc
 	newBlock = new Block(this.currentBlockId, file, size, column*OFFSET_FALLING_BLOCKS,0 );
 	
+}
+
+function updateBlocks()
+{
+	//on regarde chaque bloc
+	for(i = 0; i< generator.currentBlockId; i++)
+		{
+			//si il n'est pas dans la mémoire alors il est en train de tomber
+			if($("#"+i).blockState != "stored")
+				{
+					$("#"+i).supposedY = $("#"+i).supposedY +1;
+				}
+			if($("#"+i).blockState == "falling")
+				{
+				
+				}
+		}
 }
