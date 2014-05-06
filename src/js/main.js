@@ -143,12 +143,9 @@ function changeScreen(screen)
 
             $("#launchIt").click(function (){
                 console.log("click exit menu");
-                BLOCK_MAX_SIZE=$("input[name=bmSize]").val();
-                NB_BLOCKS = $("input[name=fType]").val()/512;
-                console.log("NB_BLOCKS :"+NB_BLOCKS+"\nBLOCK_MAX_SIZE :"+BLOCK_MAX_SIZE);
                 BLOCK_MAX_SIZE=$("input[name=bmSize]").val()/16;
                 NB_BLOCKS = $("input[name=fType]").val()/512;
-    console.log("NB_BLOCKS :"+NB_BLOCKS+"\nBLOCK_MAX_SIZE :"+BLOCK_MAX_SIZE);
+                console.log("NB_BLOCKS :"+NB_BLOCKS+"\nBLOCK_MAX_SIZE :"+BLOCK_MAX_SIZE);
                 $("#menuGame").remove();
                 
                 /*
@@ -165,10 +162,10 @@ function changeScreen(screen)
 
                 //A voir quelle class ajouter pour la rendre draggable
                 //Width = Taille d'une case * nbCase(taille memoire)
-                $.playground().addGroup('memory', { width : PLAYGROUND_WIDTH, height : BLOCK_HEIGHT, posy : 200/*(PLAYGROUND_HEIGHT - BLOCK_HEIGHT - PLAYGROUND_HEIGHT / 5)*/ });
+                $.playground().addGroup('memory', { width : PLAYGROUND_WIDTH, height : BLOCK_HEIGHT, posy : 280});
 
-                var memory = new Memory(10, { posy : 0 });
-                $("#memory").pep({ axis: 'x', useCSSTranslation: false });
+                var memory = new Memory(10, { posy : 0});
+                $("#memory").pep({ axis: 'x'});
 
                 
                 changeScreen("game");
