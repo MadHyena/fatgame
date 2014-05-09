@@ -1,7 +1,19 @@
-function MemorySlot(slotNumber, options)
-{
+function MemorySlot(slotNumber, options){
 
-	var spriteFragment  = $("<div style='position: absolute; display: block; overflow: hidden; display : table; text-align : center' />");
+	this.slotNumber = slotNumber;
+	this.linkedBlock;
+
+	MemorySlotGraph(this.slotNumber, options);	
+}
+
+//Permet de lier un block à une case memoire
+MemorySlot.prototype.linkBlock = function(block){
+	this.linkedBlock = block;
+}
+
+function MemorySlotGraph(slotNumber, options){
+
+	var spriteFragment  = $("<div class='memorySlot' style='position: absolute; display: block; overflow: hidden; display : table; text-align : center' />");
 
 	options = $.extend({
 		width:          32,

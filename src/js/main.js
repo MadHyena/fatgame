@@ -64,15 +64,13 @@ function main()
                     useCSSTranslation: false,
                     constrainTo: 'window'
                 });
-                
+
             } else {
                 changeScreen("gameover");
             }
 
             $("#timer").text(secondes+'.'+millisecondes/10);
-
-            DragBar("#memoryBar");
-            DragMinimap("#cursor", "#memoryBar");
+            detectAllCollision(".pep", ".memorySlot");
 
             break;
 
@@ -162,11 +160,10 @@ function changeScreen(screen)
 
                 //A voir quelle class ajouter pour la rendre draggable
                 //Width = Taille d'une case * nbCase(taille memoire)
-                $.playground().addGroup('memory', { width : PLAYGROUND_WIDTH, height : BLOCK_HEIGHT, posy : 280});
+                $.playground().addGroup('memory', { width : PLAYGROUND_WIDTH, height : BLOCK_HEIGHT, posy : 200});
 
                 var memory = new Memory(10, { posy : 0});
                 $("#memory").pep({ axis: 'x'});
-
                 
                 changeScreen("game");
             });       
