@@ -61,8 +61,10 @@ function main()
                 millisecondes=1000-millisecondes;
                 generator.createBlock();
                 $(".pep").pep({
+                    droppable: '.drop-target',
                     useCSSTranslation: false,
-                    constrainTo: 'window'
+                    constrainTo: 'window',
+                    stop: function(){ detectAllCollision(this.$el, ".memorySlot"); }
                 });
 
             } else {
@@ -70,7 +72,6 @@ function main()
             }
 
             $("#timer").text(secondes+'.'+millisecondes/10);
-            detectAllCollision(".pep", ".memorySlot");
 
             break;
 

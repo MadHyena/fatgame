@@ -49,15 +49,17 @@ il faut detecter les collision au cas par cas avec des each imbriqués
 */
 function detectAllCollision(blockClass, memorySlotClass){
 
-	$(blockClass).each(function(index){
+	//$(blockClass).each(function(index){
 
 		notPlaced = true;
-		BC = $(this);
+		BC = blockClass;
 
 		$(memorySlotClass).each(function(index){
 
 			//Si les div existent et qu'on "depose" le block
-			if(BC.length && $(this).length && !BC.hasClass("pep-active")){
+			if(BC.length && $(this).length){
+
+				console.log("test collision");
 
 				if(collision(BC, $(this)) && !BC.hasClass("placed")){
 					
@@ -68,7 +70,7 @@ function detectAllCollision(blockClass, memorySlotClass){
 				}
 			}
 		});
-	});
+	//});
 }
 
 function collision($div1, $div2) {
