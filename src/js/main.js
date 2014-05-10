@@ -215,7 +215,19 @@ function changeScreen(screen)
             break;
 
         case "gameover" :
-
+            $.playground().clearAll();
+            if(LANDSCAPE){  
+                $.playground().addGroup("menuGameOver",{width: PLAYGROUND_WIDTH*0.55, height: PLAYGROUND_HEIGHT*0.4 });
+                $("#menuGameOver").y((PLAYGROUND_HEIGHT/2)-($("#menuGameOver").height()/1.1));
+            }
+            else {
+                $.playground().addGroup("menuGameOver",{width: PLAYGROUND_WIDTH*0.4, height: PLAYGROUND_HEIGHT*0.7 });
+                $("#menuGameOver").y((PLAYGROUND_HEIGHT/2)-($("#menuGameOver").height()/2));
+            }
+            $("#menuGameOver").x((PLAYGROUND_WIDTH/2)-($("#menuGameOver").width()/2));
+            $("#menuGameOver").addClass("customfont menu");
+            $("#menuGameOver").append('<p><div class="animated infinite pulse"><h1>Game Over</h1></div></p> Score : Null');
+            
             break;
 
         default : break;
