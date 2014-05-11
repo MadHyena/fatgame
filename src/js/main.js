@@ -11,6 +11,7 @@
 * si vous avez d'autres idées go rajouter
 */
 var gameState = "start";
+var GAME_DURATION = 40; // durée d'une partie
 var PLAYGROUND_HEIGHT;
 var PLAYGROUND_WIDTH;
 var BLOCK_MAX_SIZE;
@@ -23,7 +24,7 @@ var LEVEL = 1;
 
 var NB_BLOCKS;
 var LANDSCAPE = false;
-var secondes = 20, millisecondes = 0;
+var secondes = GAME_DURATION, millisecondes = 0;
 
 var generator = new Generator();
 
@@ -206,6 +207,7 @@ function changeScreen(screen)
             $("#menuPause").addClass("customfont menu");
             $("#menuPause").append('<p>Pause</p><div id="resumeIt" class="animated infinite flash2"><font size="6em">resume</font></div>');
             $("#resumeIt").css("margin-top","100px");
+            
             $("#resumeIt").click(function (){
                 console.log("click exit menu");
                 $("#block").remove();
@@ -227,8 +229,14 @@ function changeScreen(screen)
             }
             $("#menuGameOver").x((PLAYGROUND_WIDTH/2)-($("#menuGameOver").width()/2));
             $("#menuGameOver").addClass("customfont menu");
-            $("#menuGameOver").append('<p><div class="animated infinite pulse"><h1>Game Over</h1></div></p> Score : Null');
+            $("#menuGameOver").append('<p><div class="animated infinite pulse"><h1>Game Over</h1></div></p> <p>Score : Null</p><div id="launchNewGame"><p><h2>New game</h2></p></div>');
             
+            // handler pour nouvelle partie
+            $("#launchNewGame").click(function (){
+                $.playground().clearAll();
+                secondes = GAME_DURATION;
+                changeScreen("menu");
+            });
             break;
 
         default : break;
