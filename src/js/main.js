@@ -164,7 +164,7 @@ function changeScreen(screen)
                 //Width = Taille d'une case * nbCase(taille memoire)
                 $.playground().addGroup('memory', { width : PLAYGROUND_WIDTH, height : BLOCK_HEIGHT, posy : 200});
 
-                var memory = new Memory(10, { posy : 0});
+                var memory = new Memory(NB_BLOCKS, { posy : 0});
                 $("#memory").pep({ axis: 'x'});
                 
                 changeScreen("game");
