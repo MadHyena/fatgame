@@ -37,7 +37,7 @@ function addRectangle (id,options) {
 		height: options.height,
 		width: options.width,
 		'background-color': options.color,
-		'border' :  (options.width + options.height)/20 + "px double #FFF",
+		'border' :  BORDER_SIZE+"px double #FFF",
 		left : options.posx,
 		top : options.posy
 	});

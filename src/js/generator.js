@@ -1,7 +1,8 @@
 var currentFallingBlocks = [0,0,0,0];
 
 //bon il faudrait le régler sur autre chose que ça mais je sais pas pourquoi il prend pas PLAYGROUND_WIDTH/4
-var OFFSET_FALLING_BLOCKS = 200;
+var OFFSET_FALLING_BLOCKS;
+var globalBlockList = new Array();
 
 
 function Generator()
@@ -53,23 +54,15 @@ Generator.prototype.createBlock = function()
 	currentFallingBlocks[column]++;
 	
 	//une fois qu'on a tous les paramètres requis on crée notre bloc
-	newBlock = new Block(this.currentBlockId, file, size, column*OFFSET_FALLING_BLOCKS,0 );
-	
+	newBlock = new Block(this.currentBlockId, file, size, column*OFFSET_FALLING_BLOCKS + PLAYGROUND_WIDTH/16,0 );
+	globalBlockList[this.currentBlockId] = newBlock;
 }
 
 function updateBlocks()
 {
-	//on regarde chaque bloc
-	for(i = 0; i< generator.currentBlockId; i++)
-		{
-			//si il n'est pas dans la mémoire alors il est en train de tomber
-			if($("#"+i).blockState != "stored")
-				{
-					$("#"+i).supposedY = $("#"+i).supposedY +1;
-				}
-			if($("#"+i).blockState == "falling")
-				{
-				
-				}
-		}
+	$(".falling").each(function() {
+		globalBlockList[this.id].supposedY ++;
+	});
+	
+	
 }

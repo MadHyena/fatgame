@@ -1,6 +1,9 @@
 var BLOCK_HEIGHT = 100;
 var BLOCK_WIDTH = 100;
 
+var BORDER_SIZE = 8;
+
+
 function Block(id, file, blockSize, x, y)
 {
 	//la couleur du bloc
@@ -9,24 +12,14 @@ function Block(id, file, blockSize, x, y)
 	//sa taille, pourra éventuellement être modifée par un split
 	this.blockSize = blockSize;
 	
-	//sa position en x et y
-	this.x = x;
-	this.y = y;
-	
 	this.supposedY = y;
+	this.supposedX = x;
 	
 	//son numéro, chaque bloc aura un id différent, recommence à 0 à chaque niveau
 	this.id = id;
 	
 	//chaque bloc est une partie d'un fichier
 	this.ownerFile = file;
-	
-	/*	falling : 	le bloc tombe vers la ligne mémoire
-	 * 	dragged	:	le bloc est en train d'être déplacé par le joueur
-	 * 	stored	:	le bloc est actuellement stocké dans une case mémoire
-	 * 	...
-	 */
-	this.blockState = "falling";
 	
 	//on rajoute notre bloc au fichier auquel il doit appartenir
 	this.ownerFile.addBlock(this);
@@ -38,17 +31,21 @@ function Block(id, file, blockSize, x, y)
 				posx	:	x,
 				posy	:	y,
 				color	:	this.blockColor,
-				width	:	BLOCK_WIDTH,
+				width	:	BLOCK_WIDTH*this.blockSize/CLUSTER_SIZE,
 				height	:	BLOCK_HEIGHT
 			});
+	$("#"+id).addClass("falling");
 	
 }
 
 Block.prototype.splitBlock = function()
 {	
+	//on calcule la taille de chaque bloc à partir de la taille du premier
 	var block1Size = this.blockSize;
 	var block2Size = 0;
 	
+	//Si on a un reste de 0 sur le modulo c'est qu'on peut diviser le bloc en 2 parts égales
+	//sinon on le divise en 2 parts inégales
 	if(block1Size % CLUSTER_SIZE != 0)
 	{
 		block2Size = (block1Size -CLUSTER_SIZE)/2;
@@ -59,13 +56,17 @@ Block.prototype.splitBlock = function()
 		block2Size = block1Size/2;
 		block1Size /= 2;
 	}
-	
+	//on retire ce bloc de la liste des blocs du fichier
 	this.ownerFile.removeBlock(this);
+	//on en crée un nouveau qu'on ajoute à toutes les listes de blocs auxquelles il doit appartenir
 	newBlock = new Block(this.id, this.file, block1Size, this.x, this.y);
 	this.ownerFile.addBlock(newBlock);
+	globalBlockList[this.id] = newBlock;
 	
-	var column = generator.getAvailableColumn();
-	newBlock2 = new Block(generator.currentBlockId+1, this.file, block2size, column*OFFSET_FALLING_BLOCKS, this.y);
-	
+	//on en crée un nouveau avec les mêmes caractéristiques que le premier
+	//on incrémente le blockID du générateur pour pas tout foirer
+	generator.currentBlockId++;
+	newBlock2 = new Block(generator.currentBlockId, this.file, block2size, this.x + $("#"+this.id).width, this.y);
+	globalBlockList[generator.currentBlockId] = newBlock2;
 }
 

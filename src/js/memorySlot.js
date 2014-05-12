@@ -11,6 +11,7 @@ MemorySlot.prototype.linkBlock = function(block){
 	this.linkedBlock = block;
 }
 
+
 function MemorySlotGraph(slotNumber, options){
 
 	var spriteFragment  = $("<div class='memorySlot' style='position: absolute; display: block; overflow: hidden; display : table; text-align : center' />");
@@ -41,7 +42,7 @@ function MemorySlotGraph(slotNumber, options){
 		height: options.height,
 		width: options.width,
 		'background-color': options.color,
-		'border' :  (options.width + options.height)/30 + "px solid #FFF",
+		'border' :  BORDER_SIZE + "px solid #FFF",
 		left : options.posx,
 		top : options.posy
 	});

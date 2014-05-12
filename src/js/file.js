@@ -21,14 +21,14 @@ function File(fileNumber)
 }
 
 
-File.prototype.addBlock = function(block)
+File.prototype.addBlock = function(id)
 {
-	this.blockList.push(block);
+	this.blockList.push(id);
 }
 
-File.prototype.removeBlock = function(block)
+File.prototype.removeBlock = function(id)
 {	
-	this.blockList.splice($.inArray(block, this.blockList),1);
+	this.blockList.splice($.inArray(id, this.blockList),1);
 }
 
 

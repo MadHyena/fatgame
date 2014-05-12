@@ -10,15 +10,15 @@ function Memory(size, options)
 	options = $.extend({
 		width: BLOCK_WIDTH + (BLOCK_WIDTH + BLOCK_HEIGHT)/20 + 20,
 		height: BLOCK_WIDTH + (BLOCK_WIDTH + BLOCK_HEIGHT)/20 + 20,
-		posy : 300,			
+		posy : 500,			
 	}, options);
 
 	var i;
 
 	for(i=0; i<this.size; i++){
 
-		//On commence les id à 100 pour ne pas interférer avec les blocks
-		newSlot = new MemorySlot(i+100, 
+		//Les id des memoryslot n'interfèrent pas avec les blocs vu qu'ils ont un préfixe "mem"
+		newSlot = new MemorySlot(i, 
 		{	
 			width : options.width,
 			height : options.height,
@@ -64,7 +64,7 @@ function detectAllCollision(blockClass, memorySlotClass){
 				if(collision(BC, $(this)) && !BC.hasClass("placed")){
 					
 					//On fait adopté le block par le memorySlot physiquement et dans la classe
-					$(this).append(BC);
+					$(BC).x($(this).x + MEMORY_SLOT_BORDER_SIZE);
 					BC.addClass("placed");
 					BC.css({left : 0, top : 0});
 				}
