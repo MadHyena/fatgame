@@ -51,6 +51,8 @@ function detectAllCollision(blockClass, memorySlotClass){
 
 	//$(blockClass).each(function(index){
 
+		console.log("Detect collision with memory");
+
 		notPlaced = true;
 		BC = blockClass;
 
@@ -64,7 +66,13 @@ function detectAllCollision(blockClass, memorySlotClass){
 				if(collision(BC, $(this)) && !BC.hasClass("placed")){
 					
 					//On fait adopté le block par le memorySlot physiquement et dans la classe
-					$(BC).x($(this).x + MEMORY_SLOT_BORDER_SIZE);
+
+					/*pas $(BC) => BC et MEMORY_SLOT_BORDER_SIZE n'existe pas et c'est .x() avec les parenthese pour accéder
+					et de toutes façon ben ca marche pas.
+					Des truc à la con rapides à corriger mais merci de commit des choses qui AU MOINS ne genèrent pas d'exceptions*/
+
+					//$(BC).x($(this).x + MEMORY_SLOT_BORDER_SIZE);
+					$(this).append(BC);
 					BC.addClass("placed");
 					BC.css({left : 0, top : 0});
 				}
