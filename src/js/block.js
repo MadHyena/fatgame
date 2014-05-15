@@ -48,8 +48,17 @@ Block.prototype.splitBlock = function()
 	//sinon on le divise en 2 parts inégales
 	if(block1Size % CLUSTER_SIZE != 0)
 	{
-		block2Size = (block1Size -CLUSTER_SIZE)/2;
-		block1Size = block2Size + CLUSTER_SIZE;
+		block2Size = block1Size % CLUSTER_SIZE;
+		block1Size -= block2Size;
+        /*
+         *  permet de limiter le nombre de blocks avec blockSize < 16 
+         *  en repartissant le poids.
+         *  arrive quand le blockSize est un multiple impair de 16.  
+         */
+        if ((block1Size/CLUSTER_SIZE)%2 != 0 && block1Size != 16){
+            block1Size -= 16;
+            block2Size += 16;
+        }
 	}
 	else
 	{
@@ -59,14 +68,15 @@ Block.prototype.splitBlock = function()
 	//on retire ce bloc de la liste des blocs du fichier
 	this.ownerFile.removeBlock(this);
 	//on en crée un nouveau qu'on ajoute à toutes les listes de blocs auxquelles il doit appartenir
-	newBlock = new Block(this.id, this.file, block1Size, this.x, this.y);
+    generator.currentBlockId++;
+	newBlock = new Block(generator.currentBlockId, this.ownerFile, block1Size, this.x, this.y);
 	this.ownerFile.addBlock(newBlock);
-	globalBlockList[this.id] = newBlock;
+	globalBlockList[generator.currentBlockId] = newBlock;
 	
 	//on en crée un nouveau avec les mêmes caractéristiques que le premier
 	//on incrémente le blockID du générateur pour pas tout foirer
 	generator.currentBlockId++;
-	newBlock2 = new Block(generator.currentBlockId, this.file, block2size, this.x + $("#"+this.id).width, this.y);
+	newBlock2 = new Block(generator.currentBlockId, this.ownerFile, block2Size, this.x + $("#"+this.id).width, this.y);
 	globalBlockList[generator.currentBlockId] = newBlock2;
 }
 

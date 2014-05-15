@@ -49,4 +49,24 @@ function addRectangle (id,options) {
      */
 	$.gameQuery.scenegraph.append(newSpriteElem);
 	
+    /*
+     * Definition des handlers pour ce bloch
+     */
+    var tichaut = "#"+id;
+    var mitzva = document.getElementById(""+id+"");
+   
+    $(tichaut).pep({
+        droppable: '.drop-target',
+        useCSSTranslation: false,
+        constrainTo: 'window',
+        stop: function(){ detectAllCollision(this.$el, ".memorySlot"); }
+    });
+    
+    Hammer(mitzva).on("doubletap",function (){
+        // split le bloc dans le seul cas où sa taille est superieure à 16
+        if (globalBlockList[id].blockSize>16){
+            globalBlockList[id].splitBlock();
+            $(tichaut).remove();
+        }
+    });
 }
