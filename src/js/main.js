@@ -10,7 +10,15 @@
 * 
 * si vous avez d'autres idées go rajouter
 */
+// devices informations
+var env = $$.environment();
+console.log(env.screen);
+console.log(env.os);
+console.log(env.browser);
+
+var lastBlock;
 var gameState = "start";
+var partyState = "spawn";
 var GAME_DURATION = 40; // durée d'une partie
 var PLAYGROUND_HEIGHT;
 var PLAYGROUND_WIDTH;
@@ -60,16 +68,25 @@ function main()
             } else if(secondes !=0) { 
                 secondes--;
                 millisecondes=1000-millisecondes;
-                generator.createBlock();
-                $(".pep").pep({
-                    droppable: '.drop-target',
-                    useCSSTranslation: false,
-                    constrainTo: 'window',
-                    stop: function(){ detectAllCollision(this.$el, ".memorySlot"); }
-                });
-
+                    if (partyState == "spawn"){  
+                    generator.createBlock();
+                    $(".pep").pep({
+                        droppable: '.drop-target',
+                        useCSSTranslation: false,
+                        constrainTo: 'window',
+                        stop: function(){ detectAllCollision(this.$el, ".memorySlot"); }
+                    });
+                    
+                    $$(".pep").swipeDown(function (){
+                        lastBlock = $(".pep-active").attr("id");
+                        console.log("swipeDown detected");
+                        globalBlockList[lastBlock].prototype.splitBlock();
+                    });
+                    
+                }
             } else {
-                changeScreen("gameover");
+                if (partyState == "spawn"){ partyState="defrag"; secondes = GAME_DURATION;}
+                else {changeScreen("gameover");}
             }
 
             $("#timer").text(secondes+'.'+millisecondes/10);
