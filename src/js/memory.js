@@ -44,37 +44,44 @@ Memory.prototype.GetMemorySlot = function(id){
 }
 
 /*
-Etant donné qu'il n'y a que des classe 
+Etant donné qu'il y a que des classe 
 il faut detecter les collision au cas par cas avec des each imbriqués
 */
-function detectAllCollision(blockClass, memorySlotClass){
+function detectAllCollision(blockId,  memorySlotClass){
 
 	//$(blockClass).each(function(index){
 
 		console.log("Detect collision with memory");
 
-		notPlaced = true;
-		BC = blockClass;
+		var notPlaced = true;
+		var BC = globalBlockList[blockId];
+        var displayedBlock = $("#"+blockId);
 
 		$(memorySlotClass).each(function(index){
+            var idSlot = $(this).attr("id").split("");
+            idSlot = idSlot[3];
+            var thisSlot = memory.GetMemorySlot(idSlot);
+            //console.log(thisSlot.slotNumber);
+            //Si les div existent et qu'on "depose" le block
+            if(BC!=undefined && $(this)!=undefined){
+				//console.log("test collision "+BC.blockColor);
 
-			//Si les div existent et qu'on "depose" le block
-			if(BC.length && $(this).length){
-
-				console.log("test collision");
-
-				if(collision(BC, $(this)) && !BC.hasClass("placed")){
+				if(collision(displayedBlock, $(this)) && !displayedBlock.hasClass("placed") && thisSlot.isFree){
 					
-					//On fait adopté le block par le memorySlot physiquement et dans la classe
-
+					//On fait adopter le block par le memorySlot physiquement et dans la classe
 					/*pas $(BC) => BC et MEMORY_SLOT_BORDER_SIZE n'existe pas et c'est .x() avec les parenthese pour accéder
 					et de toutes façon ben ca marche pas.
 					Des truc à la con rapides à corriger mais merci de commit des choses qui AU MOINS ne genèrent pas d'exceptions*/
-
 					//$(BC).x($(this).x + MEMORY_SLOT_BORDER_SIZE);
-					$(this).append(BC);
-					BC.addClass("placed");
-					BC.css({left : 0, top : 0});
+                    
+                    $(this).css("background",BC.blockColor);
+                    $(this).addClass("customfont");
+                    thisSlot.isFree = false;
+                    thisSlot.linkBlock(BC);
+                    $(this).text(BC.blockSize);
+					displayedBlock.addClass("placed");
+                    
+                    displayedBlock.remove();
 				}
 			}
 		});

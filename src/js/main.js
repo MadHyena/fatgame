@@ -25,6 +25,7 @@ var LANDSCAPE = false;
 var secondes = 0, millisecondes = 0;
 var LEVEL = 1;
 
+var memory;
 var NB_BLOCKS;
 var LANDSCAPE = false;
 var secondes = GAME_DURATION, millisecondes = 0;
@@ -63,7 +64,7 @@ function main()
             } else if(secondes !=0) { 
                 secondes--;
                 millisecondes=1000-millisecondes;
-                    if(partyState=="spawn"&&secondes%3==0){  
+                    if(partyState=="spawn"&&secondes%4==0){  
                         generator.createBlock();
                     }
             } else {
@@ -165,7 +166,7 @@ function changeScreen(screen)
                 //Width = Taille d'une case * nbCase(taille memoire)
                 $.playground().addGroup('memory', { width : PLAYGROUND_WIDTH, height : BLOCK_HEIGHT, posy : 200});
 
-                var memory = new Memory(NB_BLOCKS, { posy : 0});
+                memory = new Memory(NB_BLOCKS, { posy : 0});
                 $("#memory").pep({ axis: 'x'});
                 
                 changeScreen("game");

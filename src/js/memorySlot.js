@@ -2,7 +2,8 @@ function MemorySlot(slotNumber, options){
 
 	this.slotNumber = slotNumber;
 	this.linkedBlock;
-
+    this.linkedData; 
+    this.isFree = true;
 	MemorySlotGraph(this.slotNumber, options);	
 }
 
