@@ -64,7 +64,7 @@ function main()
             } else if(secondes !=0) { 
                 secondes--;
                 millisecondes=1000-millisecondes;
-                    if(partyState=="spawn"&&secondes%4==0){  
+                    if(partyState=="spawn"&&secondes%39==0){  
                         generator.createBlock();
                     }
             } else {
@@ -162,9 +162,9 @@ function changeScreen(screen)
 
                 //Barre memoire
 
-                //A voir quelle class ajouter pour la rendre draggable
                 //Width = Taille d'une case * nbCase(taille memoire)
-                $.playground().addGroup('memory', { width : PLAYGROUND_WIDTH, height : BLOCK_HEIGHT, posy : 200});
+                // posy affecté par posy et top (cf affichage avec debugger), donc à diviser par 2
+                $.playground().addGroup('memory', { width : PLAYGROUND_WIDTH, height : BLOCK_HEIGHT, posy : (PLAYGROUND_HEIGHT- (BLOCK_HEIGHT*2))/2 });
 
                 memory = new Memory(NB_BLOCKS, { posy : 0});
                 $("#memory").pep({ axis: 'x'});

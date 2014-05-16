@@ -50,7 +50,7 @@ function addRectangle (id,options) {
 	$.gameQuery.scenegraph.append(newSpriteElem);
 	
     /*
-     * Definition des handlers pour ce bloch
+     * Definition des handlers pour ce block
      */
     var tichaut = "#"+id;
     var mitzva = document.getElementById(""+id+"");
@@ -59,7 +59,7 @@ function addRectangle (id,options) {
         droppable: '.drop-target',
         useCSSTranslation: false,
         constrainTo: 'window',
-        stop: function(){ detectAllCollision(id, ".memorySlot"); }
+        stop: function(){ detectAllCollision(id, ".memorySlot");}
     });
     
     Hammer(mitzva).on("doubletap",function (){

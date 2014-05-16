@@ -1,10 +1,9 @@
-function MemorySlot(slotNumber, options){
+function MemorySlot(slotNumber){
 
 	this.slotNumber = slotNumber;
-	this.linkedBlock;
-    this.linkedData; 
-    this.isFree = true;
-	MemorySlotGraph(this.slotNumber, options);	
+	this.linkedBlock = undefined;
+    this.linkedData = undefined; 
+    this.isFree = true;	
 }
 
 //Permet de lier un block à une case memoire
@@ -49,4 +48,30 @@ function MemorySlotGraph(slotNumber, options){
 	});
 
 	$("#memory").append(newSlot);
+    
+    var michelle = document.getElementById("mem"+slotNumber);
+    Hammer(michelle).on("swipeup", function (){
+        if( memory.GetMemorySlot(slotNumber).slotNumber != undefined){
+            var currentMS = memory.GetMemorySlot(slotNumber); 
+            var toDisplay = currentMS.linkedData;
+            var casePosition = $("#memory").position();
+            $.gameQuery.scenegraph.append(toDisplay);
+            toDisplay.css({top: (PLAYGROUND_HEIGHT), left: $("#mem"+slotNumber).position().left});
+            
+            $(toDisplay).pep({
+                droppable: '.drop-target',
+                useCSSTranslation: false,
+                constrainTo: 'window',
+                stop: function(){ detectAllCollision(toDisplay.attr("id"), ".memorySlot");}
+            });
+            
+            $("#mem"+slotNumber).css("background","#000");
+            $("#mem"+slotNumber).text("");
+            currentMS.isFree = true;
+            currentMS.linkedBlock = undefined;
+            currentMS.linkedData = undefined;
+        }
+    });
+    
+    
 }
