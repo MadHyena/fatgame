@@ -40,41 +40,101 @@ Memory.prototype.GetMemorySlot = function(id){
 		}
 	}
 	
+    return null;
 }
 
 /*
-Etant donné qu'il y a des classe 
-il faut detecter les collision au cas par cas avec des each
+Detection eventuelle de collision entre une block et les Slot
 */
 function detectAllCollision(blockId,  memorySlotClass){
-    console.log("Detect collision with memory");
+
     var BC = globalBlockList[blockId];
     var displayedBlock = $("#"+blockId);
+
     $(memorySlotClass).each(function(index){
-        //console.log(displayedBlock +"   "+$(this));
-        if(collision(displayedBlock,$(this)) && BC.blockSize <= 16){
-            /*
-             * idSlot recupere le l'id de la caseMemoire courante grace à l'id de la div.
-             * thidSlot est l'objet correspondant a la div courante.
-             */
+
+
+        if(collision(displayedBlock,$(this))/* && BC.blockSize <= 16*/){
+
+            /* idSlot recupere le l'id de la caseMemoire courante grace à l'id de la div.
+            thidSlot est l'objet correspondant a la div courante.*/
+
             var idSlot = $(this).attr("id").split("");
+
             // gere les blocks memoire
             if (idSlot.length==4){
                 idSlot = idSlot[3];
             } else {
                 idSlot = idSlot[3]+idSlot[4];
             }
-            var thisSlot = memory.GetMemorySlot(idSlot);
-            console.info(thisSlot.slotNumber +" "+ thisSlot.isFree+ " "+ thisSlot.linkedBlock );
-            if (thisSlot.isFree){
+
+            idSlot = parseInt(idSlot);
+
+            //Test de la possibilité de placer le bloc ====================
+
+            var canPlace = true;
+
+            //Si toutes les cases memoire necessaires existent et sont libres
+            for(i=0; i<BC.blockSize / 16; i++){
+
+                if(memory.GetMemorySlot(idSlot + i)){ //S'il elle existe
+                    if(!memory.GetMemorySlot(idSlot + i).isFree){ //Si elle est libre
+                        canPlace = false;
+                    }
+                }else{
+                    canPlace = false;
+                }
+            }
+
+            if(canPlace && !BC.placed){
+
+                var currentId;
+
+                //On Deletes visuellement les blocs en trop
+                for(i=1; i<BC.blockSize / 16; i++){
+
+                    currentId = idSlot + i;
+                    $("#mem"+currentId).remove();
+
+                    console.log("remove : #mem"+currentId);
+                }
+
+                var initialWidth = parseInt($("#mem"+idSlot).css("width").split("px")[0]);
+                var newWidth = initialWidth*i + BORDER_SIZE*i;
+                $("#mem"+idSlot).css({width : newWidth});
+
+                var thisSlot = memory.GetMemorySlot(idSlot);
+
                 $(this).css("background",BC.blockColor);
                 $(this).addClass("customfont");
+
                 thisSlot.isFree = false;
                 thisSlot.linkBlock(BC);
                 thisSlot.linkedData = displayedBlock;
+
+                BC.placed = true;
+
                 $(this).text(BC.blockSize);
                 displayedBlock.remove();
             }
+
+            //============================================================
+
+            /*var thisSlot = memory.GetMemorySlot(idSlot);
+            console.info(thisSlot.slotNumber +" "+ thisSlot.isFree+ " "+ thisSlot.linkedBlock );
+
+            if (thisSlot.isFree){
+
+                $(this).css("background",BC.blockColor);
+                $(this).addClass("customfont");
+
+                thisSlot.isFree = false;
+                thisSlot.linkBlock(BC);
+                thisSlot.linkedData = displayedBlock;
+
+                $(this).text(BC.blockSize);
+                displayedBlock.remove();
+            }*/
         }
 
     });

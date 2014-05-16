@@ -6,6 +6,9 @@ var BORDER_SIZE = 8;
 
 function Block(id, file, blockSize, x, y)
 {
+	//Est ce que le block est deans un Slot ?
+	this.placed = false;
+
 	//la couleur du bloc
 	this.blockColor = file.color;
 	
