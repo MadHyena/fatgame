@@ -14,7 +14,7 @@
 var tappedBlock = 1;
 var gameState = "start";
 var partyState = "spawn";
-var GAME_DURATION = 40; // durée d'une partie
+var GAME_DURATION = 40; // durée d'un cycle lors de la partie
 var PLAYGROUND_HEIGHT;
 var PLAYGROUND_WIDTH;
 var BLOCK_MAX_SIZE;
@@ -64,14 +64,21 @@ function main()
             } else if(secondes !=0) { 
                 secondes--;
                 millisecondes=1000-millisecondes;
-                    if(partyState=="spawn"&&secondes%39==0){  
+                    if(partyState=="spawn"&&secondes%3==0){  
                         generator.createBlock();
                     }
             } else {
                 if (partyState == "spawn"){ partyState="defrag"; secondes = GAME_DURATION;}
-                else {changeScreen("gameover");}
+                else {LEVEL++; secondes= GAME_DURATION; partyState = "spawn";}
             }
-            
+            var fallingBlock;
+            for (var i= 0; i<globalBlockList.length;i++){
+                if(globalBlockList[i] != undefined && $("#"+i).hasClass("falling") && !$("#"+i).hasClass("pep-active") ){
+                    fallingBlock = globalBlockList[i];
+                    fallingBlock.supposedY++;
+                    $("#"+i).offset({top : fallingBlock.supposedY});
+                }
+            }
             checkMemoryPos();
             
             $("#timer").text(secondes+'.'+millisecondes/10);
