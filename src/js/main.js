@@ -78,6 +78,7 @@ function main()
                     fallingBlock = globalBlockList[i];
                     fallingBlock.supposedY++;
                     $("#"+i).offset({top : fallingBlock.supposedY});
+                    if (fallingBlock.supposedY > PLAYGROUND_HEIGHT - 30) changeScreen("gameover");
                 }
             }
             checkMemoryPos();
