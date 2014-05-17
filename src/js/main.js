@@ -134,20 +134,29 @@ function changeScreen(screen)
                 $.playground().addGroup("menuGame",{width: PLAYGROUND_WIDTH*0.5, height: PLAYGROUND_HEIGHT*0.7 });
                 $("#menuGame").y((PLAYGROUND_HEIGHT/2)-($("#menuGame").height()/2));
             }
+            $.playground().addGroup("divTuto",{width: PLAYGROUND_WIDTH/4, height: PLAYGROUND_HEIGHT/8});
+            $("#divTuto").append("<div id='openControls' class='customfont'><p>Controls</p></div>");
             $("#menuGame").prepend('<div id="popNewGame" class="customfont menu">'+
-                                     '<div class="startOption"><div style="margin-bottom:-5px">partition size</div>'+
-                                        '<input type="range" min="15360" max="30720" step="2560" name="fType" align="left"></input>'+
-                                        '<div id="fTypeDisplay"></div></div>'+
-                                     '<div class="startOption"><div style="margin-bottom:-5px">File max size</div>'+
-                                        '<input type="range" name="bmSize" min="1024" max="2048" step="1024" align="left"></input><div id="bmSizeDisplay"></div></div>'+
-                                     '<div id="launchIt" class="animated infinite flash2" style="margin-bottom:0px"><p>Launch game</p></div></div>'
-                                    );
-
+                '<div class="startOption"><div style="margin-bottom:-5px">partition size</div>'+
+                '<input type="range" min="15360" max="30720" step="2560" name="fType" align="left"></input>'+
+                '<div id="fTypeDisplay"></div></div>'+
+                '<div class="startOption"><div style="margin-bottom:-5px">File max size</div>'+
+                '<input type="range" name="bmSize" min="1024" max="2048" step="1024" align="left"></input><div id="bmSizeDisplay"></div></div>'+
+                '<div id="launchIt" class="animated infinite flash2" style="margin-bottom:0px"><p>Launch game</p></div></div>'
+            );
+            $("#openControls").click(function (){
+                console.log("click controls");
+                $("#divTuto").remove();
+                $("#menuGame").remove();
+                changeScreen("tutorial");
+            });
+            
             $("#launchIt").click(function (){
                 console.log("click exit menu");
                 BLOCK_MAX_SIZE=$("input[name=bmSize]").val()/16;
                 NB_BLOCKS = $("input[name=fType]").val()/512;
                 console.log("NB_BLOCKS :"+NB_BLOCKS+"\nBLOCK_MAX_SIZE :"+BLOCK_MAX_SIZE);
+                $("#divTuto").remove();
                 $("#menuGame").remove();
                 
                 /*
@@ -179,7 +188,19 @@ function changeScreen(screen)
 
 
             break;
-
+            
+        case "tutorial" :
+            $.playground().append('<div class="menu customfont" style="overflow-y : scroll; height : 700px ; align : center">'+
+                '<div class="menu">'+
+                    '<p>Split a block</p><img src="img/tutoDoubleTap.png" alt="double tap on a block to split it" style="margin-bottom : 30px">'+
+                '</div>'+
+                '<div class="menu">'+
+                    '<p>free a filled memory slot</p><img src="img/tutoSwipeUp.png" alt="swipe up on memory to free it" style="margin-bottom : 30px">'+
+                '</div>'+
+                '</div>'
+            );
+            break;
+            
         case "game" :         
             
             $.playground().addGroup("menuInGame",{width: 40, height: 50 });
