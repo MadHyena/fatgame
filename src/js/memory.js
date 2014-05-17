@@ -61,15 +61,15 @@ function detectAllCollision(blockId,  memorySlotClass){
             /* idSlot recupere le l'id de la caseMemoire courante grace à l'id de la div.
             thidSlot est l'objet correspondant a la div courante.*/
 
-            var idSlot = $(this).attr("id").split("");
-
+            var idSlot = $(this).attr("id").substr(3);
+/*
             // gere les blocks memoire
             if (idSlot.length==4){
                 idSlot = idSlot[3];
             } else {
                 idSlot = idSlot[3]+idSlot[4];
             }
-
+*/
             idSlot = parseInt(idSlot);
 
             //Test de la possibilité de placer le bloc ====================

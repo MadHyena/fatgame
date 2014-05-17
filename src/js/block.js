@@ -68,18 +68,20 @@ Block.prototype.splitBlock = function()
 		block2Size = block1Size/2;
 		block1Size /= 2;
 	}
-	//on retire ce bloc de la liste des blocs du fichier
-	this.ownerFile.removeBlock(this);
+
 	//on en crée un nouveau qu'on ajoute à toutes les listes de blocs auxquelles il doit appartenir
     generator.currentBlockId++;
-	newBlock = new Block(generator.currentBlockId, this.ownerFile, block1Size, this.x, this.y);
+	newBlock = new Block(generator.currentBlockId, this.ownerFile, block1Size, this.supposedX, this.supposedY);
 	this.ownerFile.addBlock(newBlock);
 	globalBlockList[generator.currentBlockId] = newBlock;
 	
 	//on en crée un nouveau avec les mêmes caractéristiques que le premier
 	//on incrémente le blockID du générateur pour pas tout foirer
 	generator.currentBlockId++;
-	newBlock2 = new Block(generator.currentBlockId, this.ownerFile, block2Size, this.x + $("#"+this.id).width, this.y);
+	newBlock2 = new Block(generator.currentBlockId, this.ownerFile, block2Size, this.supposedX + $("#"+this.id).width, 0);
 	globalBlockList[generator.currentBlockId] = newBlock2;
+    
+    //on retire ce bloc de la liste des blocs du fichier
+	this.ownerFile.removeBlock(this);
 }
 

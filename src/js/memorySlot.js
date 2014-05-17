@@ -54,10 +54,12 @@ function MemorySlotGraph(slotNumber, options){
         if( memory.GetMemorySlot(slotNumber).slotNumber != undefined){
             var currentMS = memory.GetMemorySlot(slotNumber); 
             var toDisplay = currentMS.linkedData;
+            var blockNumber = (toDisplay.attr("id").substr(1));
             var casePosition = $("#memory").position();
             $.gameQuery.scenegraph.append(toDisplay);
-            toDisplay.css({top: (PLAYGROUND_HEIGHT), left: $("#mem"+slotNumber).position().left});
-            
+           // toDisplay.css({top: (PLAYGROUND_HEIGHT), left: $("#mem"+slotNumber).position().left});
+            currentMS.linkedBlock.supposedY = 40;
+            currentMS.linkedBlock.supposedX = $("#mem"+slotNumber).position().left;
             $(toDisplay).pep({
                 droppable: '.drop-target',
                 useCSSTranslation: false,

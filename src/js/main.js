@@ -74,6 +74,7 @@ function main()
             var fallingBlock;
             for (var i= 0; i<globalBlockList.length;i++){
                 if(globalBlockList[i] != undefined && $("#"+i).hasClass("falling") && !$("#"+i).hasClass("pep-active") ){
+                    //console.info(globalBlockList);
                     fallingBlock = globalBlockList[i];
                     fallingBlock.supposedY++;
                     $("#"+i).offset({top : fallingBlock.supposedY});
