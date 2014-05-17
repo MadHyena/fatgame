@@ -72,7 +72,7 @@ function main()
                 else {changeScreen("gameover");}
             }
             
-            
+            checkMemoryPos();
             
             $("#timer").text(secondes+'.'+millisecondes/10);
 
@@ -164,10 +164,10 @@ function changeScreen(screen)
 
                 //Width = Taille d'une case * nbCase(taille memoire)
                 // posy affecté par posy et top (cf affichage avec debugger), donc à diviser par 2
-                $.playground().addGroup('memory', { width : PLAYGROUND_WIDTH, height : BLOCK_HEIGHT, posy : (PLAYGROUND_HEIGHT- (BLOCK_HEIGHT*2))/2 });
+                $.playground().addGroup('memory', { width : (SLOT_WIDTH+BORDER_SIZE)*NB_BLOCKS, height : BLOCK_HEIGHT, posy : (PLAYGROUND_HEIGHT- (BLOCK_HEIGHT*2))/2 });
 
                 memory = new Memory(NB_BLOCKS, { posy : 0});
-                $("#memory").pep({ axis: 'x'});
+                $("#memory").pep({ axis: 'x', drag: function(ev, obj){ /*checkMemoryPos(ev, obj);*/ }});
                 
                 changeScreen("game");
             });       

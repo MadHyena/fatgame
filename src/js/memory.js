@@ -1,3 +1,5 @@
+var SLOT_WIDTH = BLOCK_WIDTH + (BLOCK_WIDTH + BLOCK_HEIGHT)/20 + 20;
+
 function Memory(size, options)
 {
 	this.size = size;
@@ -8,8 +10,8 @@ function Memory(size, options)
 		posy : position à l'écran...
 	*/
 	options = $.extend({
-		width: BLOCK_WIDTH + (BLOCK_WIDTH + BLOCK_HEIGHT)/20 + 20,
-		height: BLOCK_WIDTH + (BLOCK_WIDTH + BLOCK_HEIGHT)/20 + 20,
+		width: SLOT_WIDTH,
+		height: SLOT_WIDTH,
 		posy : 200
 	}, options);
 
@@ -23,7 +25,7 @@ function Memory(size, options)
         MemorySlotGraph(i,{	
 			width : options.width,
 			height : options.height,
-			posx : i*options.width + i*((options.width + options.height)/30),
+			posx : i*options.width + i*BORDER_SIZE,
 			posy : options.posy
 		});
 	}
@@ -158,4 +160,23 @@ function collision($div1, $div2) {
     if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) return false;
     console.info("collision detected");
     return true;
+}
+
+function checkMemoryPos(){
+
+    var currentPosX = $("#memory").position().left;
+    var currentWidth = parseInt($("#memory").css("width").split("px")[0]);
+
+    //console.log("current X : " + currentPosX + " - Width : " + currentWidth + " - Limit : " + (-currentWidth + PLAYGROUND_WIDTH));
+
+    if(currentPosX < (-currentWidth + PLAYGROUND_WIDTH - 50)){
+        $("#memory").offset({left : -currentWidth + PLAYGROUND_WIDTH - 50});
+    }
+    else if(currentPosX > 50){
+        $("#memory").offset({left : 50});
+    }
+}
+
+function constrainXPos(){
+    $("#memory").css({ top : (PLAYGROUND_HEIGHT- (BLOCK_HEIGHT*2))/2 });
 }
