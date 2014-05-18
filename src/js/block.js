@@ -18,6 +18,8 @@ function Block(id, file, blockSize, x, y)
 	this.supposedY = y;
 	this.supposedX = x;
 	
+	console.log(this.supposedX + " " + x);
+	
 	//son numéro, chaque bloc aura un id différent, recommence à 0 à chaque niveau
 	this.id = id;
 	
@@ -78,7 +80,16 @@ Block.prototype.splitBlock = function()
 	//on en crée un nouveau avec les mêmes caractéristiques que le premier
 	//on incrémente le blockID du générateur pour pas tout foirer
 	generator.currentBlockId++;
-	newBlock2 = new Block(generator.currentBlockId, this.ownerFile, block2Size, this.supposedX + $("#"+this.id).width, 0);
+	
+	
+	console.log(this.supposedX + "  " + this.supposedY);
+	
+	newBlock2 = new Block(generator.currentBlockId, 
+			this.ownerFile,
+			block2Size, 
+			this.supposedX + $("#"+newBlock.id).width(),
+			this.supposedY);
+	
 	globalBlockList[generator.currentBlockId] = newBlock2;
     
     //on retire ce bloc de la liste des blocs du fichier

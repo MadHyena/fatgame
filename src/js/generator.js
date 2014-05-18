@@ -1,7 +1,4 @@
-var currentFallingBlocks = [0,0,0,0];
-
 //bon il faudrait le régler sur autre chose que ça mais je sais pas pourquoi il prend pas PLAYGROUND_WIDTH/4
-var OFFSET_FALLING_BLOCKS;
 var globalBlockList = new Array();
 
 
@@ -50,11 +47,8 @@ Generator.prototype.createBlock = function()
 	
 	var file = this.files[Math.floor(Math.random()*this.files.length)];	//on prend un élément au pif de la liste de fichiers
 	
-	var column = generator.getAvailableColumn();
-	currentFallingBlocks[column]++;
-	
 	//une fois qu'on a tous les paramètres requis on crée notre bloc
-	newBlock = new Block(this.currentBlockId, file, size, column*OFFSET_FALLING_BLOCKS + PLAYGROUND_WIDTH/16,0 );
+	newBlock = new Block(this.currentBlockId, file, size, PLAYGROUND_WIDTH/16,0 );
 	globalBlockList[this.currentBlockId] = newBlock;
 }
 
