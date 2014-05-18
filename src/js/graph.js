@@ -64,7 +64,8 @@ function addRectangle (id,options) {
     
     Hammer(mitzva).on("doubletap",function (){
         // split le bloc dans le seul cas où sa taille est superieure à 16
-        if (globalBlockList[id].blockSize>16){
+        if (globalBlockList[id].blockSize>16)
+        {
             globalBlockList[id].splitBlock();
             $(tichaut).remove();
         }

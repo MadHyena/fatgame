@@ -49,7 +49,7 @@ Block.prototype.splitBlock = function()
 	
 	//Si on a un reste de 0 sur le modulo c'est qu'on peut diviser le bloc en 2 parts égales
 	//sinon on le divise en 2 parts inégales
-	if(block1Size % CLUSTER_SIZE != 0)
+	if(block1Size / CLUSTER_SIZE % 2 != 0)
 	{
 		block2Size = block1Size % CLUSTER_SIZE;
 		block1Size -= block2Size;
