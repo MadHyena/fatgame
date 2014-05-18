@@ -68,7 +68,7 @@ function detectAllCollision(blockId,  memorySlotClass){
             /* idSlot recupere le l'id de la caseMemoire courante grace à l'id de la div.
             thidSlot est l'objet correspondant a la div courante.*/
 
-            var idSlot = $(this).attr("id").substr(3);
+        	var idSlot = $(this).attr("id").substr(3);
 /*
             // gere les blocks memoire
             if (idSlot.length==4){
@@ -84,10 +84,13 @@ function detectAllCollision(blockId,  memorySlotClass){
             var canPlace = true;
 
             //Si toutes les cases memoire necessaires existent et sont libres
-            for(i=0; i<BC.blockSize / 16; i++){
+            for(i=0; i<BC.blockSize / 16; i++)
+            {
 
-                if(memory.GetMemorySlot(idSlot + i)){ //S'il elle existe
-                    if(!memory.GetMemorySlot(idSlot + i).isFree){ //Si elle est libre
+                if(memory.GetMemorySlot(idSlot + i)) //S'il elle existe
+                { 
+                    if(!memory.GetMemorySlot(idSlot + i).isFree) //Si elle est libre
+                    { 
                         canPlace = false;
                     }
                 }else{
@@ -95,41 +98,47 @@ function detectAllCollision(blockId,  memorySlotClass){
                 }
             }
 
-            if(canPlace && !BC.placed){
-
-                var currentId;
-
-                //On Deletes visuellement les blocs en trop
-                for(i=1; i<BC.blockSize / 16; i++){
-
-                    currentId = idSlot + i;
-                    //$("#mem"+currentId).remove();
-
-                    memory.GetMemorySlot(currentId).isFree = false;
-                    memory.GetMemorySlot(currentId).linkBlock(BC);
-                }
-
-                var initialWidth = parseInt($("#mem"+idSlot).css("width").split("px")[0]);
-                var newWidth = initialWidth*i + BORDER_SIZE*i;
-                $("#mem"+idSlot).css({width : newWidth});
-
-                var thisSlot = memory.GetMemorySlot(idSlot);
-
-                $(this).css("background",BC.blockColor);
-                $(this).addClass("customfont");
-
-                thisSlot.isFree = false;
-                thisSlot.linkBlock(BC);
-                thisSlot.linkedData = displayedBlock;
-
-                BC.placed = true;
-
-                $(this).text(BC.blockSize);
-                displayedBlock.remove();
+            if(canPlace && !BC.placed)
+            {
+            	putInSlot(BC, idSlot, this);
             }
         }
 
     });
+}
+
+function putInSlot(block, slotId, initSlot)
+{
+	var currentId = slotId;
+
+    //On Delete visuellement les blocs en trop
+    for(i=1; i<block.blockSize / 16; i++){
+
+        currentId = slotId+i;
+        //$("#mem"+currentId).remove();
+
+        memory.GetMemorySlot(currentId).isFree = false;
+        memory.GetMemorySlot(currentId).linkBlock(block);
+    }
+
+    var initialWidth = parseInt($("#mem"+slotId).css("width").split("px")[0]);
+    var newWidth = initialWidth*i + BORDER_SIZE*i;
+    $("#mem"+slotId).css({width : newWidth});
+
+    var thisSlot = memory.GetMemorySlot(slotId);
+
+    $(initSlot).css("background",block.blockColor);
+    $(initSlot).addClass("customfont");
+
+    thisSlot.isFree = false;
+    thisSlot.linkBlock(block);
+    thisSlot.linkedData = $("#"+block.id);
+
+    block.placed = true;
+
+    $(initSlot).text(block.blockSize);
+    console.log(block.blockSize);
+    $("#"+block.id).remove();
 }
 
 function collision($div1, $div2) {
