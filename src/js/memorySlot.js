@@ -14,7 +14,7 @@ MemorySlot.prototype.linkBlock = function(block){
 
 function MemorySlotGraph(slotNumber, options){
 
-	var spriteFragment  = $("<div class='memorySlot' style='position: absolute; display: block; overflow: hidden; display : table; text-align : center' />");
+	var spriteFragment  = $("<div class='memorySlot' style='z-index:" + -slotNumber + "; position: absolute; display: block; overflow: hidden; display : table; text-align : center' />");
 
 	options = $.extend({
 		width:          32,
@@ -50,16 +50,23 @@ function MemorySlotGraph(slotNumber, options){
 	$("#memory").append(newSlot);
     
     var michelle = document.getElementById("mem"+slotNumber);
+
     Hammer(michelle).on("swipeup", function (){
+
         if( memory.GetMemorySlot(slotNumber).slotNumber != undefined){
+
             var currentMS = memory.GetMemorySlot(slotNumber); 
             var toDisplay = currentMS.linkedData;
-            var blockNumber = (toDisplay.attr("id").substr(1));
+            var blockNumber = toDisplay.attr("id");
             var casePosition = $("#memory").position();
+
+            console.log("Blocknumber : " + blockNumber);
+
             $.gameQuery.scenegraph.append(toDisplay);
            // toDisplay.css({top: (PLAYGROUND_HEIGHT), left: $("#mem"+slotNumber).position().left});
             currentMS.linkedBlock.supposedY = 40;
             currentMS.linkedBlock.supposedX = $("#mem"+slotNumber).position().left;
+
             $(toDisplay).pep({
                 droppable: '.drop-target',
                 useCSSTranslation: false,
@@ -69,9 +76,25 @@ function MemorySlotGraph(slotNumber, options){
             
             $("#mem"+slotNumber).css("background","#000");
             $("#mem"+slotNumber).text("");
+            $("#mem"+slotNumber).css({width : SLOT_WIDTH+BORDER_SIZE});
+
+            globalBlockList[blockNumber].placed = false;
+
             currentMS.isFree = true;
             currentMS.linkedBlock = undefined;
             currentMS.linkedData = undefined;
+
+            if(globalBlockList[blockNumber].blockSize > 16){
+
+	            var nextSlot;
+
+	            for(i=1;i<globalBlockList[blockNumber].blockSize;i++){
+
+	            	nextSlot = memory.GetMemorySlot(slotNumber+i);
+	            	nextSlot.isFree = true;
+	            	nextSlot.linkedBlock = undefined;
+	            }
+	        }
         }
     });
     

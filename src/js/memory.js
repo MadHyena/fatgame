@@ -45,6 +45,13 @@ Memory.prototype.GetMemorySlot = function(id){
     return null;
 }
 
+Memory.prototype.PrintMemorySlot = function(){
+
+    this.memorySlotList.forEach(function(e){
+        console.log("id : " + e.slotNumber + " - isFree : " + e.isFree + " - LinkedBlock : " + e.linkedBlock);
+    });
+}
+
 /*
 Detection eventuelle de collision entre une block et les Slot
 */
@@ -96,9 +103,10 @@ function detectAllCollision(blockId,  memorySlotClass){
                 for(i=1; i<BC.blockSize / 16; i++){
 
                     currentId = idSlot + i;
-                    $("#mem"+currentId).remove();
+                    //$("#mem"+currentId).remove();
 
-                    console.log("remove : #mem"+currentId);
+                    memory.GetMemorySlot(currentId).isFree = false;
+                    memory.GetMemorySlot(currentId).linkBlock(BC);
                 }
 
                 var initialWidth = parseInt($("#mem"+idSlot).css("width").split("px")[0]);
@@ -119,24 +127,6 @@ function detectAllCollision(blockId,  memorySlotClass){
                 $(this).text(BC.blockSize);
                 displayedBlock.remove();
             }
-
-            //============================================================
-
-            /*var thisSlot = memory.GetMemorySlot(idSlot);
-            console.info(thisSlot.slotNumber +" "+ thisSlot.isFree+ " "+ thisSlot.linkedBlock );
-
-            if (thisSlot.isFree){
-
-                $(this).css("background",BC.blockColor);
-                $(this).addClass("customfont");
-
-                thisSlot.isFree = false;
-                thisSlot.linkBlock(BC);
-                thisSlot.linkedData = displayedBlock;
-
-                $(this).text(BC.blockSize);
-                displayedBlock.remove();
-            }*/
         }
 
     });
@@ -175,8 +165,4 @@ function checkMemoryPos(){
     else if(currentPosX > 50){
         $("#memory").offset({left : 50});
     }
-}
-
-function constrainXPos(){
-    $("#memory").css({ top : (PLAYGROUND_HEIGHT- (BLOCK_HEIGHT*2))/2 });
 }
