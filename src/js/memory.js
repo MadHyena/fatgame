@@ -175,3 +175,12 @@ function checkMemoryPos(){
         $("#memory").offset({left : 50});
     }
 }
+
+function dragMiniMap(){
+
+    var currentCorsorPosition = $("#miniMemoryCursor").position().left;
+    var memoryWidth = parseInt($("#memory").css("width").split("px")[0]);
+    var ratio = (memoryWidth / PLAYGROUND_WIDTH);
+
+    $("#memory").offset({ left : -currentCorsorPosition * ratio });
+}

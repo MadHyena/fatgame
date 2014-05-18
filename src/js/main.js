@@ -182,10 +182,26 @@ function changeScreen(screen)
 
                 //Width = Taille d'une case * nbCase(taille memoire)
                 // posy affecté par posy et top (cf affichage avec debugger), donc à diviser par 2
-                $.playground().addGroup('memory', { width : (SLOT_WIDTH+BORDER_SIZE)*NB_BLOCKS, height : BLOCK_HEIGHT, posy : (PLAYGROUND_HEIGHT- (BLOCK_HEIGHT*2))/2 });
+                $.playground().addGroup('memory', { width : (SLOT_WIDTH+BORDER_SIZE)*NB_BLOCKS, height : BLOCK_HEIGHT, posy : (PLAYGROUND_HEIGHT- (BLOCK_HEIGHT*2.5))/2});
+                $.playground().addGroup('miniMemory', { width : PLAYGROUND_HEIGHT, posy : PLAYGROUND_HEIGHT - 40});
+                //$.playground().addGroup('miniMemoryCursor', { width : PLAYGROUND_HEIGHT, height : 50, posy : PLAYGROUND_HEIGHT - 40});
+
+                $("#miniMemory").append("<div id='miniMemoryCursor' style='z-index:1;'></div>");
+
+                var memoryWidth = parseInt($("#memory").css("width").split("px")[0]);
+                var cursorWidth = PLAYGROUND_WIDTH / (memoryWidth / PLAYGROUND_WIDTH);
+
+                $("#miniMemoryCursor").css({
+                    height: PLAYGROUND_WIDTH / NB_BLOCKS,
+                    width: cursorWidth,
+                    'border' : "3px solid #FF0000",
+                    left : 0,
+                    top : -2
+                })
 
                 memory = new Memory(NB_BLOCKS, { posy : 0});
-                $("#memory").pep({ axis: 'x', drag: function(ev, obj){ /*checkMemoryPos(ev, obj);*/ }});
+                $("#memory").pep({ axis: 'x'});
+                $("#miniMemoryCursor").pep({ axis: 'x', drag: function(){ dragMiniMap(); }});
                 
                 changeScreen("game");
             });       
