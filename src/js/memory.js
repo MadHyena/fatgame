@@ -161,21 +161,34 @@ function collision($div1, $div2) {
     return true;
 }
 
-function checkMemoryPos(){
+function checkPositions(){
 
-    var currentPosX = $("#memory").position().left;
-    var currentWidth = parseInt($("#memory").css("width").split("px")[0]);
+    var currentMemoryPosX = $("#memory").position().left;
+    var currentMemoryWidth = parseInt($("#memory").css("width").split("px")[0]);
+
+    var currentCursorPosX = $("#miniMemoryCursor").position().left;
+    var currentCursorWidth = parseInt($("#miniMemoryCursor").css("width").split("px")[0]);
 
     //console.log("current X : " + currentPosX + " - Width : " + currentWidth + " - Limit : " + (-currentWidth + PLAYGROUND_WIDTH));
 
-    if(currentPosX < (-currentWidth + PLAYGROUND_WIDTH - 50)){
-        $("#memory").offset({left : -currentWidth + PLAYGROUND_WIDTH - 50});
+    //Verif position de la memoire
+    if(currentMemoryPosX < (-currentMemoryWidth + PLAYGROUND_WIDTH - 50)){
+        $("#memory").offset({left : -currentMemoryWidth + PLAYGROUND_WIDTH - 50});
     }
-    else if(currentPosX > 50){
+    else if(currentMemoryPosX > 50){
         $("#memory").offset({left : 50});
+    }
+
+    //Verif position curseur minimap
+    if(currentCursorPosX < 0){
+        $("#miniMemoryCursor").offset({left : 0});
+    }
+    else if(currentCursorPosX > PLAYGROUND_WIDTH - currentCursorWidth){
+        $("#miniMemoryCursor").offset({left : PLAYGROUND_WIDTH - currentCursorWidth});
     }
 }
 
+//Déplacement de la vrai barre memoire lors du déplacement de la minimap
 function dragMiniMap(){
 
     var currentCorsorPosition = $("#miniMemoryCursor").position().left;
@@ -183,4 +196,14 @@ function dragMiniMap(){
     var ratio = (memoryWidth / PLAYGROUND_WIDTH);
 
     $("#memory").offset({ left : -currentCorsorPosition * ratio });
+}
+
+//Inversement de la fonction précédente
+function dragMemory(){
+
+    var currentMemoryPosition = $("#memory").position().left;
+    var memoryWidth = parseInt($("#memory").css("width").split("px")[0]);
+    var ratio = (memoryWidth / PLAYGROUND_WIDTH);
+
+    $("#miniMemoryCursor").offset({ left : -currentMemoryPosition / ratio });
 }

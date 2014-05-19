@@ -81,7 +81,7 @@ function main()
                     if (fallingBlock.supposedY > PLAYGROUND_HEIGHT - 30) changeScreen("gameover");
                 }
             }
-            checkMemoryPos();
+            checkPositions();
             
             $("#timer").text(secondes+'.'+millisecondes/10);
 
@@ -194,13 +194,13 @@ function changeScreen(screen)
                 $("#miniMemoryCursor").css({
                     height: PLAYGROUND_WIDTH / NB_BLOCKS,
                     width: cursorWidth,
-                    'border' : "3px solid #FF0000",
+                    'border' : "5px solid #FF0000",
                     left : 0,
-                    top : -2
+                    top : -4
                 })
 
                 memory = new Memory(NB_BLOCKS, { posy : 0});
-                $("#memory").pep({ axis: 'x'});
+                $("#memory").pep({ axis: 'x', drag: function(){ dragMemory(); }});
                 $("#miniMemoryCursor").pep({ axis: 'x', drag: function(){ dragMiniMap(); }});
                 
                 changeScreen("game");
