@@ -10,11 +10,11 @@
 * 
 * si vous avez d'autres idées go rajouter
 */
-
+var SCORE=0;
 var tappedBlock = 1;
 var gameState = "start";
 var partyState = "spawn";
-var GAME_DURATION = 40; // durée d'un cycle lors de la partie
+var GAME_DURATION = 20; // durée d'un cycle lors de la partie
 var PLAYGROUND_HEIGHT;
 var PLAYGROUND_WIDTH;
 var BLOCK_MAX_SIZE;
@@ -22,7 +22,6 @@ var BLOCK_MAX_SIZE;
 var CLUSTER_SIZE = 16;
 var NB_BLOCKS;
 var LANDSCAPE = false;
-var secondes = 0, millisecondes = 0;
 var LEVEL = 1;
 
 var memory;
@@ -69,7 +68,7 @@ function main()
                     }
             } else {
                 if (partyState == "spawn"){ partyState="defrag"; secondes = GAME_DURATION;}
-                else {LEVEL++; secondes= GAME_DURATION; partyState = "spawn";}
+                else {LEVEL++; secondes= GAME_DURATION; partyState = "spawn"; blockDeletion();}
             }
             var fallingBlock;
             for (var i= 0; i<globalBlockList.length;i++){
@@ -277,11 +276,15 @@ function changeScreen(screen)
             }
             $("#menuGameOver").x((PLAYGROUND_WIDTH/2)-($("#menuGameOver").width()/2));
             $("#menuGameOver").addClass("customfont menu");
-            $("#menuGameOver").append('<p><div class="animated infinite pulse"><h1>Game Over</h1></div></p> <p>Score : Null</p><div id="launchNewGame"><p><h2>New game</h2></p></div>');
-            
+            $("#menuGameOver").append('<p><div class="animated infinite pulse"><h1>Game Over</h1></div></p> <p>Score: <div id="score"></div></p><div id="launchNewGame"><p><h2>New game</h2></p></div>');
+            $("#score").append(SCORE);
             // handler pour nouvelle partie
             $("#launchNewGame").click(function (){
                 $.playground().clearAll();
+                partyState="spawn";
+                memory=null;
+                LEVEL=1;
+                millisecondes=0;
                 secondes = GAME_DURATION;
                 changeScreen("menu");
             });
@@ -290,6 +293,53 @@ function changeScreen(screen)
         default : break;
 	
 	}
+    
+}
+
+// supprime les blocks adjacents en fin de defrag
+function blockDeletion(){
+    var i;
+    var toDestroy = new Array(); // contient les id de bloc memoire à supprimer
+    for(i=0;i<NB_BLOCKS-2;i++){
+        if(memory.GetMemorySlot(i).linkedBlock!=undefined&&memory.GetMemorySlot(i+1).linkedBlock!=undefined){
+            if(memory.GetMemorySlot(i).linkedBlock.id!=memory.GetMemorySlot(i+1).linkedBlock.id && memory.GetMemorySlot(i).linkedBlock.blockColor==memory.GetMemorySlot(i+1).linkedBlock.blockColor){
+                toDestroy.push(i);
+                toDestroy.push(i+1);
+            }
+        } 
+    }
+    console.log(toDestroy);
+    /*
+    for(i=0;i<toDestroy.length;i++){
+        var currentMS = memory.GetMemorySlot(toDestroy(i));
+        console.log(currentMS);
+        if(i<toDestroy.length-2&&currentMS.id==toDestroy(i+1).id){toDestroy.shift();}
+        else{
+            SCORE+=100;
+            $("#mem"+toDestroy(i)).css("background","#000");
+            $("#mem"+toDestroy(i)).text("");
+            $("#mem"+toDestroy(i)).css({width : SLOT_WIDTH+BORDER_SIZE});
+
+            globalBlockList[blockNumber].placed = false;
+
+            currentMS.isFree = true;
+            currentMS.linkedBlock = undefined;
+            currentMS.linkedData = undefined;
+
+            if(globalBlockList[blockNumber].blockSize > 16){
+
+	            var nextSlot;
+
+	            for(i=1;i<globalBlockList[blockNumber].blockSize;i++){
+
+	            	nextSlot = memory.GetMemorySlot(slotNumber+i);
+	            	nextSlot.isFree = true;
+	            	nextSlot.linkedBlock = undefined;
+	            }
+	        }
+        }
+    }
+    */
     
 }
 
