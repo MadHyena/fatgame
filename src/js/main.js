@@ -299,48 +299,60 @@ function changeScreen(screen)
 // supprime les blocks adjacents en fin de defrag
 function blockDeletion(){
     var i;
+    var bonusPoints = 1;
     var toDestroy = new Array(); // contient les id de bloc memoire à supprimer
     for(i=0;i<NB_BLOCKS-2;i++){
         if(memory.GetMemorySlot(i).linkedBlock!=undefined&&memory.GetMemorySlot(i+1).linkedBlock!=undefined){
             if(memory.GetMemorySlot(i).linkedBlock.id!=memory.GetMemorySlot(i+1).linkedBlock.id && memory.GetMemorySlot(i).linkedBlock.blockColor==memory.GetMemorySlot(i+1).linkedBlock.blockColor){
+                /*
+                 * Tous les blocks adjacents de meme couleur sont ajoutés au tableau
+                 */
                 toDestroy.push(i);
                 toDestroy.push(i+1);
             }
         } 
     }
     console.log(toDestroy);
-    /*
     for(i=0;i<toDestroy.length;i++){
-        var currentMS = memory.GetMemorySlot(toDestroy(i));
-        console.log(currentMS);
-        if(i<toDestroy.length-2&&currentMS.id==toDestroy(i+1).id){toDestroy.shift();}
-        else{
-            SCORE+=100;
-            $("#mem"+toDestroy(i)).css("background","#000");
-            $("#mem"+toDestroy(i)).text("");
-            $("#mem"+toDestroy(i)).css({width : SLOT_WIDTH+BORDER_SIZE});
-
-            globalBlockList[blockNumber].placed = false;
-
-            currentMS.isFree = true;
-            currentMS.linkedBlock = undefined;
-            currentMS.linkedData = undefined;
-
-            if(globalBlockList[blockNumber].blockSize > 16){
-
-	            var nextSlot;
-
-	            for(i=1;i<globalBlockList[blockNumber].blockSize;i++){
-
-	            	nextSlot = memory.GetMemorySlot(slotNumber+i);
-	            	nextSlot.isFree = true;
-	            	nextSlot.linkedBlock = undefined;
-	            }
-	        }
+        if(i<toDestroy.length-1 && (toDestroy[i]==toDestroy[i+1] || memory.GetMemorySlot(toDestroy[i]).linkedBlock.blockColor==memory.GetMemorySlot(toDestroy[i+1]).linkedBlock.blockColor)){
+            if(toDestroy[i]==toDestroy[i+1]) toDestroy.splice(i,1);
+            bonusPoints++;
         }
+        else{
+             console.log(toDestroy);
+            if(bonusPoints>4){
+                SCORE+=100+bonusPoints*50;
+                /*
+                 * ne supprime des blocks que que si il y en à au moins 4 alignés
+                 */
+                console.log(i-(bonusPoints));
+                for(var j=1+i-bonusPoints;j<=i;j++){
+                    console.log(globalBlockList[memory.GetMemorySlot(toDestroy[j]).linkedBlock.id].blockColor);
+                    console.log(globalBlockList[memory.GetMemorySlot(toDestroy[j]).linkedBlock.id].blockSize);
+                    console.log(toDestroy[j]+" : j "+j);
+                    $("#mem"+toDestroy[j]).css("background","#000");
+                    $("#mem"+toDestroy[j]).text("");
+                    $("#mem"+toDestroy[j]).css({width : SLOT_WIDTH+BORDER_SIZE});
+
+                    globalBlockList[memory.GetMemorySlot(toDestroy[j]).linkedBlock.id].placed = false;
+
+                    if(globalBlockList[memory.GetMemorySlot(toDestroy[j]).linkedBlock.id].blockSize>16){
+                        var nextSlot;
+                        console.log("la taille est effectivement superieur à 16");
+                        for(var k;k<globalBlockList[memory.GetMemorySlot(toDestroy[j]).linkedBlock.id].blockSize/16;k++){
+                            nextSlot = memory.GetMemorySlot(j+k);
+                            nextSlot.linkedBlock = undefined;
+                            memory.GetMemorySlot(toDestroy[j]).linkedData = undefined;
+                        }
+                    }
+                    memory.GetMemorySlot(toDestroy[j]).isFree = true;
+                    memory.GetMemorySlot(toDestroy[j]).linkedBlock = undefined;
+                    memory.GetMemorySlot(toDestroy[j]).linkedData = undefined;
+                }
+            }
+            bonusPoints=1;
+        }   
     }
-    */
-    
 }
 
 //bon elle sert un peu à rien mais y'à unpause donc autant avoir pause

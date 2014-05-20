@@ -138,7 +138,6 @@ function putInSlot(block, slotId, initSlot)
     block.placed = true;
 
     $(initSlot).text(block.blockSize);
-    console.log(block.blockSize);
     $("#"+block.id).remove();
 }
 
@@ -158,7 +157,6 @@ function collision($div1, $div2) {
     var r2 = x2 + w2;
 
     if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) return false;
-    console.info("collision detected");
     return true;
 }
 
