@@ -101,6 +101,7 @@ function detectAllCollision(blockId,  memorySlotClass){
             if(canPlace && !BC.placed)
             {
             	putInSlot(BC, idSlot, this);
+                MiniMemorySlotColorSet();
             }
         }
 

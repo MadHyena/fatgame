@@ -89,15 +89,34 @@ function MemorySlotGraph(slotNumber, options){
 
 	            var nextSlot;
 
-	            for(i=1;i<globalBlockList[blockNumber].blockSize;i++){
+	            for(i=1;i<globalBlockList[blockNumber].blockSize/16;i++){
 
 	            	nextSlot = memory.GetMemorySlot(slotNumber+i);
 	            	nextSlot.isFree = true;
 	            	nextSlot.linkedBlock = undefined;
 	            }
 	        }
+
+	        MiniMemorySlotColorSet();
         }
     });
-    
-    
+}
+
+/*Bon là je fait le set color de la minimap en OneShot, 
+non optimisé car il check TOUTES les cases, négligable mais bon...*/
+
+function MiniMemorySlotColorSet(){
+
+	memory.memorySlotList.forEach(function(e){
+
+		if(e.linkedBlock != undefined){
+			var color = e.linkedBlock.blockColor; //On regarde la couleur du block lié au slot
+			$("#mini"+e.slotNumber).css({ 'background-color': color }); //On applique la couleur au miniSlot
+			console.log("Coloration du slot : " + e.slotNumber);
+		}
+		else{
+			$("#mini"+e.slotNumber).css({ 'background-color': "black" }); //On remet ca en noir comme avant :3
+			console.log("Blackness : " + e.slotNumber);
+		}
+	});
 }
