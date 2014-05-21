@@ -139,6 +139,14 @@ function changeScreen(screen)
                 console.log("Music fail");
             }
 
+            try{
+                PlayMusic("./intro.mp3");      
+            }
+            catch(err)
+            {
+                console.log("Music fail");
+            }
+
             console.log("writing title section");
             $.playground().addGroup("menuTitle",{width: 400 , height: 300 });
             $("#menuTitle").y((PLAYGROUND_HEIGHT/3)-$("#menuTitle").height()/2);
