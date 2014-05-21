@@ -146,8 +146,6 @@ function highlightCollision(blockId,  memorySlotClass){
 
         if(collision(displayedBlock,$(this)) && !firstCollision){
 
-            firstCollision = true;
-
             //Test de la possibilité de placer le bloc ====================
             var canPlace = true;
             var slotToHighlight = new Array;
@@ -168,6 +166,8 @@ function highlightCollision(blockId,  memorySlotClass){
             }
 
             if(canPlace && !BC.placed){
+
+                firstCollision = true;
 
                 for(i=0; i<idSlot; i++){
 
