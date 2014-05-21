@@ -194,7 +194,7 @@ function changeScreen(screen)
 
                 //Width = Taille d'une case * nbCase(taille memoire)
                 // posy affecté par posy et top (cf affichage avec debugger), donc à diviser par 2
-                $.playground().addGroup('memory', { width : (SLOT_WIDTH+BORDER_SIZE)*NB_BLOCKS, height : BLOCK_HEIGHT, posy : (PLAYGROUND_HEIGHT- (BLOCK_HEIGHT*2.5))/2});
+                $.playground().addGroup('memory', { width : (SLOT_WIDTH+BORDER_SIZE)*NB_BLOCKS, height : BLOCK_HEIGHT * 4, posy : (PLAYGROUND_HEIGHT- (BLOCK_HEIGHT*2.5))/2 - 1.5*BLOCK_HEIGHT});
                 $.playground().addGroup('miniMemory', { width : PLAYGROUND_HEIGHT, posy : PLAYGROUND_HEIGHT - 40});
                 //$.playground().addGroup('miniMemoryCursor', { width : PLAYGROUND_HEIGHT, height : 50, posy : PLAYGROUND_HEIGHT - 40});
 
@@ -211,7 +211,7 @@ function changeScreen(screen)
                     top : -4
                 })
 
-                memory = new Memory(NB_BLOCKS, { posy : 0});
+                memory = new Memory(NB_BLOCKS, { posy : 3*BLOCK_HEIGHT}); //Le div memory doit avoir une assez grande largeur pour être drag de n'importe où donc la position des slot doit être décalé
                 $("#memory").pep({ axis: 'x', drag: function(){ dragMemory(); }});
                 $("#miniMemoryCursor").pep({ axis: 'x', drag: function(){ dragMiniMap(); }});
 
