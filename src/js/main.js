@@ -215,11 +215,17 @@ function changeScreen(screen)
                 $("#memory").pep({ axis: 'x', drag: function(){ dragMemory(); }});
                 $("#miniMemoryCursor").pep({ axis: 'x', drag: function(){ dragMiniMap(); }});
 
-                PlayMusic("./music.mp3");
-                var audie = document.getElementById("myAudio");
-                if (!audie.src || audie.src !== audioFile) audie.src = "./music.mp3"; // check if there's a src already and if the current src is not the same with the new one, change it. Or don't do anything.
-                
-                audie.play();               
+                try{
+                	PlayMusic("./music.mp3");
+	                var audie = document.getElementById("myAudio");
+	                if (!audie.src || audie.src !== audioFile) audie.src = "./music.mp3"; // check if there's a src already and if the current src is not the same with the new one, change it. Or don't do anything.
+	                
+	                audie.play();            
+                }
+                catch(err)
+                {
+                	console.log("Music fail");
+                }
                 
                 changeScreen("game");
             });       
