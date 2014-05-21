@@ -102,6 +102,8 @@ function detectAllCollision(blockId,  memorySlotClass){
             {
             	putInSlot(BC, idSlot, this);
                 MiniMemorySlotColorSet();
+
+                PlaySFX("./placement.wav");
             }
         }
 

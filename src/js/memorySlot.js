@@ -98,6 +98,8 @@ function MemorySlotGraph(slotNumber, options){
 	        }
 
 	        MiniMemorySlotColorSet();
+
+	        PlaySFX("./unlink.wav");
         }
     });
 }
