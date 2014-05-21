@@ -96,11 +96,24 @@ function main()
                     	partyState = "spawn"; 
                     	blockDeletion();
                 	}
+            } else {
+                if (partyState == "spawn"){ partyState="defrag"; secondes = GAME_DURATION;}
+                else {LEVEL++; secondes= GAME_DURATION; partyState = "spawn"; blockDeletion();}
+            }
+            var fallingBlock;
+            for (var i= 0; i<globalBlockList.length;i++){
+                if(globalBlockList[i] != undefined && $("#"+i).hasClass("falling") && !$("#"+i).hasClass("pep-active") ){
+                    //console.info(globalBlockList);
+                    fallingBlock = globalBlockList[i];
+                    fallingBlock.supposedY++;
+                    $("#"+i).offset({top : fallingBlock.supposedY});
+                    if (fallingBlock.supposedY > PLAYGROUND_HEIGHT - 30) changeScreen("gameover");
                 }
             }
+
             
             makeBlocksFall();
-            
+
             checkPositions();
             
             $("#timer").text(secondes+'.'+millisecondes/10);
@@ -352,6 +365,22 @@ function blockDeletion()
         } 
     }
     
+// supprime les blocks adjacents en fin de defrag
+function blockDeletion(){
+    var i;
+    var bonusPoints = 1;
+    var toDestroy = new Array(); // contient les id de bloc memoire à supprimer
+    for(i=0;i<NB_BLOCKS-2;i++){
+        if(memory.GetMemorySlot(i).linkedBlock!=undefined&&memory.GetMemorySlot(i+1).linkedBlock!=undefined){
+            if(memory.GetMemorySlot(i).linkedBlock.id!=memory.GetMemorySlot(i+1).linkedBlock.id && memory.GetMemorySlot(i).linkedBlock.blockColor==memory.GetMemorySlot(i+1).linkedBlock.blockColor){
+                /*
+                 * Tous les blocks adjacents de meme couleur sont ajoutés au tableau
+                 */
+                toDestroy.push(i);
+                toDestroy.push(i+1);
+            }
+        } 
+    }
     console.log(toDestroy);
     for(i=0;i<toDestroy.length;i++){
         if(i<toDestroy.length-1 && (toDestroy[i]==toDestroy[i+1] || memory.GetMemorySlot(toDestroy[i]).linkedBlock.blockColor==memory.GetMemorySlot(toDestroy[i+1]).linkedBlock.blockColor)){
