@@ -8,7 +8,6 @@
 * pause
 * gameover
 * 
-* si vous avez d'autres idées go rajouter
 */
 var SCORE=0;
 var tappedBlock = 1;
@@ -58,14 +57,45 @@ function main()
             break;
 
         case "game":
-            if (millisecondes>29){
+            if (millisecondes>29)
+            {
                 millisecondes-=30;
-            } else if(secondes !=0) { 
+            } 
+            else if(secondes !=0) 
+            { 
                 secondes--;
                 millisecondes=1000-millisecondes;
-                    if(partyState=="spawn"&&secondes%3==0){  
-                        generator.createBlock();
+                
+                    if(secondes%3==0)
+                    {  
+                    	if(partyState == "spawn")
+                    	{
+                    		generator.createBlock();
+                    	}
+                    	else
+                    	{
+                    		blockDeletion();
+                    	}
+                       
                     }
+                    
+            } 
+            else 
+            {
+                if (partyState == "spawn")
+                { 
+                	partyState="defrag"; 
+                	secondes = GAME_DURATION;
+                }
+                else 
+                {
+                	if($(".falling").length == 0)
+                	{
+                		LEVEL++; 
+                    	secondes= GAME_DURATION; 
+                    	partyState = "spawn"; 
+                    	blockDeletion();
+                	}
             } else {
                 if (partyState == "spawn"){ partyState="defrag"; secondes = GAME_DURATION;}
                 else {LEVEL++; secondes= GAME_DURATION; partyState = "spawn"; blockDeletion();}
@@ -80,6 +110,10 @@ function main()
                     if (fallingBlock.supposedY > PLAYGROUND_HEIGHT - 30) changeScreen("gameover");
                 }
             }
+
+            
+            makeBlocksFall();
+
             checkPositions();
             
             $("#timer").text(secondes+'.'+millisecondes/10);
@@ -202,7 +236,14 @@ function changeScreen(screen)
                 $("#memory").pep({ axis: 'x', drag: function(){ dragMemory(); }});
                 $("#miniMemoryCursor").pep({ axis: 'x', drag: function(){ dragMiniMap(); }});
 
+<<<<<<< HEAD
                 PlayMusic("./music.mp3");
+=======
+                var audie = document.getElementById("myAudio");
+                if (!audie.src || audie.src !== audioFile) audie.src = "./music.mp3"; // check if there's a src already and if the current src is not the same with the new one, change it. Or don't do anything.
+                
+                audie.play();               
+>>>>>>> c91e1947f0c0d4ac281e343e7189d42ae56bf404
                 
                 changeScreen("game");
             });       
@@ -298,6 +339,36 @@ function changeScreen(screen)
     
 }
 
+// supprime les fichiers dont tous les blocs sont adjacents en fin de defrag
+function blockDeletion()
+{
+    var i;
+    var bonusPoints = 1;
+    var toDestroy = new Array(); // contient les id de bloc memoire à supprimer
+    
+    var count = 0;
+    
+    for(i=0;i<NB_BLOCKS-1;i++)
+    {
+    	var block1 = memory.GetMemorySlot(i).linkedBlock;
+    	var block2 = memory.GetMemorySlot(i+1).linkedBlock;
+    	
+    	//on vérifie si il y a bien des blocs dans chaque case que l'on va vérfier
+    	if(block1!=undefined)
+    	{
+        	
+    		if(block2 == undefined)
+    		{
+    			
+    		}
+    		else if(block1.id != block2.id && block1.ownerFile == block2.ownerFile)
+    		{ //on vérifie qu'ils appartiennent au même fichier et qu'ils ne soient pas le même bloc
+                //si les blocs appartiennent au même fichier on compte un de plus
+    			count++;
+            }
+        } 
+    }
+    
 // supprime les blocks adjacents en fin de defrag
 function blockDeletion(){
     var i;
