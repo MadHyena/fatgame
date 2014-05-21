@@ -222,6 +222,85 @@ function collision($div1, $div2) {
     return true;
 }
 
+function cleanMemory(){
+
+    var blockIds = new Array();
+    var i = 0;
+
+    console.log("lawl");
+
+    //Listage de tous les ID de block
+    memory.memorySlotList.forEach(function(slot){ 
+        if(slot.linkedBlock != undefined){
+
+            var alreadyListed = false;
+            var j;
+
+            //On regarde si on a pas déjà lister cet ID de block
+            for(j=0;j<blockIds.length;j++){ 
+                if(blockIds[j] == slot.linkedBlock.id)
+                    alreadyListed = true;
+            }
+
+            if(!alreadyListed){
+                blockIds[i] = slot.linkedBlock.id;
+                i++;
+            }
+
+        }
+    }); 
+
+    console.log("lawl2");
+
+    //Pour chaque "fichier" (id block commun) on va voir si les blocs sont chainés
+    blockIds.forEach(function(e){
+
+        var nbLinked = 0;
+
+        //On compte combien de slot ont ce bloc lié
+        memory.memorySlotList.forEach(function(slot){
+            
+            if(slot.linkedBlock != undefined && slot.linkedBlock.id == e){
+                nbLinked++;
+            }
+        });
+
+        i=0;
+
+        console.log("lawl3");
+
+        //On parcours jusqu'au premier bloc avec cet ID
+        while(memory.GetMemorySlot(i).linkedBlock == undefined || memory.GetMemorySlot(i).linkedBlock.id != e)
+            i++;
+
+        var chained = true;
+
+        //Enfin on parcours tous les blocs qui sont censé être les uns à la suite des autres à partir du premier
+        for(j=i; j < i + nbLinked; j++){
+            if(memory.GetMemorySlot(j).linkedBlock == undefined || memory.GetMemorySlot(j).linkedBlock.id != e) //Si la "chaine est rompu" avant le nombre total de block présent, c'est qu'il ne se suivent pas
+                chained = false;
+        }
+
+        if(chained){
+
+            //Même parcours pour les delete cette fois ci
+            for(j=i; j < i + nbLinked; j++){
+                
+                $("#mem"+j).css("background","#000");
+                $("#mem"+j).text("");
+                $("#mem"+j).css({width : SLOT_WIDTH+BORDER_SIZE});
+
+                memory.GetMemorySlot(j).isFree = true;
+                memory.GetMemorySlot(j).linkedBlock = undefined;
+                memory.GetMemorySlot(j).linkedData = undefined;
+            }
+        }
+
+    });
+
+    MiniMemorySlotColorSet();
+}
+
 function checkPositions(){
 
     var currentMemoryPosX = $("#memory").position().left;
