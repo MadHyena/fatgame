@@ -48,7 +48,7 @@ Memory.prototype.GetMemorySlot = function(id){
 Memory.prototype.PrintMemorySlot = function(){
 
     this.memorySlotList.forEach(function(e){
-        console.log("id : " + e.slotNumber + " - isFree : " + e.isFree + " - LinkedBlock : " + e.linkedBlock);
+        //console.log("id : " + e.slotNumber + " - isFree : " + e.isFree + " - LinkedBlock : " + e.linkedBlock);
     });
 }
 
@@ -63,34 +63,23 @@ function detectAllCollision(blockId,  memorySlotClass){
     $(memorySlotClass).each(function(index){
 
 
-        if(collision(displayedBlock,$(this))/* && BC.blockSize <= 16*/){
+        if(collision(displayedBlock,$(this))){
 
             /* idSlot recupere le l'id de la caseMemoire courante grace à l'id de la div.
             thidSlot est l'objet correspondant a la div courante.*/
 
         	var idSlot = $(this).attr("id").substr(3);
-/*
-            // gere les blocks memoire
-            if (idSlot.length==4){
-                idSlot = idSlot[3];
-            } else {
-                idSlot = idSlot[3]+idSlot[4];
-            }
-*/
             idSlot = parseInt(idSlot);
 
             //Test de la possibilité de placer le bloc ====================
-
             var canPlace = true;
 
             //Si toutes les cases memoire necessaires existent et sont libres
-            for(i=0; i<BC.blockSize / 16; i++)
-            {
+            for(i=0; i<BC.blockSize / 16; i++){
 
-                if(memory.GetMemorySlot(idSlot + i)) //S'il elle existe
-                { 
-                    if(!memory.GetMemorySlot(idSlot + i).isFree) //Si elle est libre
-                    { 
+                if(memory.GetMemorySlot(idSlot + i)){//S'il elle existe 
+
+                    if(!memory.GetMemorySlot(idSlot + i).isFree){//Si elle est libre 
                         canPlace = false;
                     }
                 }else{
@@ -142,6 +131,77 @@ function putInSlot(block, slotId, initSlot)
     $(initSlot).text(block.blockSize);
     $("#"+block.id).remove();
 }
+
+function highlightCollision(blockId,  memorySlotClass){
+
+    var BC = globalBlockList[blockId];
+    var displayedBlock = $("#"+blockId);
+
+    var firstCollision = false;
+
+    $(memorySlotClass).each(function(index){
+
+        var idSlot = $(this).attr("id").substr(3);
+        idSlot = parseInt(idSlot);
+
+        if(collision(displayedBlock,$(this)) && !firstCollision){
+
+            firstCollision = true;
+
+            //Test de la possibilité de placer le bloc ====================
+            var canPlace = true;
+            var slotToHighlight = new Array;
+
+            //Si toutes les cases memoire necessaires existent et sont libres
+            for(i=0; i<BC.blockSize / 16; i++){
+
+                if(memory.GetMemorySlot(idSlot + i)){//S'il elle existe 
+
+                    slotToHighlight[i] = idSlot + i;
+
+                    if(!memory.GetMemorySlot(idSlot + i).isFree){//Si elle est libre 
+                        canPlace = false;
+                    }
+                }else{
+                    canPlace = false;
+                }
+            }
+
+            if(canPlace && !BC.placed){
+
+                for(i=0; i<idSlot; i++){
+
+                    if(memory.GetMemorySlot(i).linkedBlock == undefined)
+                        $("#mem"+i).css({ "background-color" : "black" });
+                }
+                
+                for(i=0; i<BC.blockSize / 16; i++){
+                    $("#mem"+(idSlot+i)).css({ "background-color" : "#808080" });
+                }
+
+                for(i=idSlot + (BC.blockSize / 16); i < NB_BLOCKS - 1; i++){
+
+                    if(memory.GetMemorySlot(i).linkedBlock == undefined)
+                        $("#mem"+i).css({ "background-color" : "black" });
+                }
+            }
+        }
+        else{
+            //$("#mem"+slotToHighlight[i]).css({ "background-color" : "#808080" });
+        }
+
+    });
+
+    if(!firstCollision){
+
+        for(i=0; i < NB_BLOCKS - 1; i++){
+
+            if(memory.GetMemorySlot(i).linkedBlock == undefined)
+                $("#mem"+i).css({ "background-color" : "black" });
+        }
+    }
+}
+
 
 function collision($div1, $div2) {
 

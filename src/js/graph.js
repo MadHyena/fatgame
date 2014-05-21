@@ -59,7 +59,8 @@ function addRectangle (id,options) {
         droppable: '.drop-target',
         useCSSTranslation: false,
         constrainTo: 'window',
-        stop: function(){ detectAllCollision(id, ".memorySlot");}
+        stop: function(){ detectAllCollision(id, ".memorySlot");},
+        drag: function(){ highlightCollision(id, ".memorySlot");}
     });
     
     Hammer(mitzva).on("doubletap",function (){

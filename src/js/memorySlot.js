@@ -114,11 +114,9 @@ function MiniMemorySlotColorSet(){
 		if(e.linkedBlock != undefined){
 			var color = e.linkedBlock.blockColor; //On regarde la couleur du block lié au slot
 			$("#mini"+e.slotNumber).css({ 'background-color': color }); //On applique la couleur au miniSlot
-			console.log("Coloration du slot : " + e.slotNumber);
 		}
 		else{
 			$("#mini"+e.slotNumber).css({ 'background-color': "black" }); //On remet ca en noir comme avant :3
-			console.log("Blackness : " + e.slotNumber);
 		}
 	});
 }
