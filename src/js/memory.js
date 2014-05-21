@@ -227,8 +227,6 @@ function cleanMemory(){
     var blockIds = new Array();
     var i = 0;
 
-    console.log("lawl");
-
     //Listage de tous les ID de block
     memory.memorySlotList.forEach(function(slot){ 
         if(slot.linkedBlock != undefined){
@@ -250,8 +248,6 @@ function cleanMemory(){
         }
     }); 
 
-    console.log("lawl2");
-
     //Pour chaque "fichier" (id block commun) on va voir si les blocs sont chainés
     blockIds.forEach(function(e){
 
@@ -266,8 +262,6 @@ function cleanMemory(){
         });
 
         i=0;
-
-        console.log("lawl3");
 
         //On parcours jusqu'au premier bloc avec cet ID
         while(memory.GetMemorySlot(i).linkedBlock == undefined || memory.GetMemorySlot(i).linkedBlock.id != e)

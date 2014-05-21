@@ -79,7 +79,7 @@ function main()
                     	}
                     	else
                     	{
-                    		blockDeletion();
+                    		cleanMemory();
                     	}
                        
                     }
@@ -92,7 +92,7 @@ function main()
             		LEVEL++; 
                 	secondes= GAME_DURATION; 
                 	partyState = "defrag"; 
-                	blockDeletion();
+                	cleanMemory();
                 	console.log("CHANGEMENT:" + partyState);
             	}
             	if(partyState == "defrag" && secondes == 0)
