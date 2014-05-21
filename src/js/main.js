@@ -325,7 +325,7 @@ function changeScreen(screen)
             }
             $("#menuGameOver").x((PLAYGROUND_WIDTH/2)-($("#menuGameOver").width()/2));
             $("#menuGameOver").addClass("customfont menu");
-            $("#menuGameOver").append('<p><div class="animated infinite pulse"><h1>Game Over</h1></div></p> <p>Score: <div id="score"></div></p><div id="launchNewGame"><p><h2>New game</h2></p></div>');
+            $("#menuGameOver").append('<p><div class="animated infinite pulse"><h1>Game Over</h1></div></p> <p style="margin-top:60px">Score: <div id="score"></div></p><div id="launchNewGame" style="margin-top:60px"><p><h2>New game</h2></p></div>');
             $("#score").append(SCORE);
             // handler pour nouvelle partie
             $("#launchNewGame").click(function (){
