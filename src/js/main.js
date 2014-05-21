@@ -82,12 +82,17 @@ function main()
             } 
             else 
             {
-            	if($(".falling").length == 0)
+            	if($(".falling").length == 0 && partyState == "spawn")
             	{
             		LEVEL++; 
                 	secondes= GAME_DURATION; 
-                	partyState = "spawn"; 
+                	partyState = "defrag"; 
                 	blockDeletion();
+            	}
+            	if(partyState == "defrag")
+            	{
+            		secondes = GAME_DURATION;
+            		partyState = "spawn";
             	}
             }
             
@@ -125,6 +130,14 @@ function changeScreen(screen)
     	switch(gameState)
 	{
         case "title" :
+
+            try{
+                PlayMusic("./intro.mp3");      
+            }
+            catch(err)
+            {
+                console.log("Music fail");
+            }
 
             console.log("writing title section");
             $.playground().addGroup("menuTitle",{width: 400 , height: 300 });
@@ -194,7 +207,7 @@ function changeScreen(screen)
 
                 //Width = Taille d'une case * nbCase(taille memoire)
                 // posy affecté par posy et top (cf affichage avec debugger), donc à diviser par 2
-                $.playground().addGroup('memory', { width : (SLOT_WIDTH+BORDER_SIZE)*NB_BLOCKS, height : BLOCK_HEIGHT, posy : (PLAYGROUND_HEIGHT- (BLOCK_HEIGHT*2.5))/2});
+                $.playground().addGroup('memory', { width : (SLOT_WIDTH+BORDER_SIZE)*NB_BLOCKS, height : BLOCK_HEIGHT * 4, posy : (PLAYGROUND_HEIGHT- (BLOCK_HEIGHT*2.5))/2 - 1.5*BLOCK_HEIGHT});
                 $.playground().addGroup('miniMemory', { width : PLAYGROUND_HEIGHT, posy : PLAYGROUND_HEIGHT - 40});
                 //$.playground().addGroup('miniMemoryCursor', { width : PLAYGROUND_HEIGHT, height : 50, posy : PLAYGROUND_HEIGHT - 40});
 
@@ -211,16 +224,12 @@ function changeScreen(screen)
                     top : -4
                 })
 
-                memory = new Memory(NB_BLOCKS, { posy : 0});
+                memory = new Memory(NB_BLOCKS, { posy : 3*BLOCK_HEIGHT}); //Le div memory doit avoir une assez grande largeur pour être drag de n'importe où donc la position des slot doit être décalé
                 $("#memory").pep({ axis: 'x', drag: function(){ dragMemory(); }});
                 $("#miniMemoryCursor").pep({ axis: 'x', drag: function(){ dragMiniMap(); }});
 
                 try{
-                	PlayMusic("./music.mp3");
-	                var audie = document.getElementById("myAudio");
-	                if (!audie.src || audie.src !== audioFile) audie.src = "./music.mp3"; // check if there's a src already and if the current src is not the same with the new one, change it. Or don't do anything.
-	                
-	                audie.play();            
+                	PlayMusic("./music.mp3");      
                 }
                 catch(err)
                 {
@@ -332,65 +341,77 @@ function blockDeletion()
     
     for(i=0;i<NB_BLOCKS-1;i++)
     {
-    	var block1 = memory.GetMemorySlot(i).linkedBlock;
-    	var block2 = memory.GetMemorySlot(i+1).linkedBlock;
-    	
+    	try
+    	{
+	    	var block1 = memory.GetMemorySlot(i).linkedBlock;
+	    	var block2 = memory.GetMemorySlot(i+1).linkedBlock;
+    	}
+    	catch(err)
+    	{
+    		console.log("Empty slot")
+    	}
     	//on vérifie si il y a bien des blocs dans chaque case que l'on va vérfier
     	if(block1!=undefined)
     	{
         	
-    		if(block2 == undefined)
+    		//si on a un bloc différent/pas de bloc c'est qu'on a atteint la fin de cette série de blocs du même fichier
+    		if(block2 == undefined || block1.ownerFile != block2.ownerFile)
     		{
+    			//on compte le dernier bloc
+    			count++;
     			
+    			console.log("Nombre de blocs alignés : " +count);
+    			console.log("Taille du fichier : " + block1.ownerFile.blockList.length);
+    			
+    			// si on a effectivement autant de blocs qu'il y a de blocs dans le fichier
+    			if(block1.ownerFile.blockList.length == count)
+    			{
+    				//on ajoute chaque case à détruire dans le tableau
+    				for(var j = block1.ownerFile.blockList.length; j > 0; j--)
+    				{
+    					toDestroy.push(i-j+1);
+    				}
+    			}
+    			
+    			count = 0;
     		}
     		else if(block1.id != block2.id && block1.ownerFile == block2.ownerFile)
     		{ //on vérifie qu'ils appartiennent au même fichier et qu'ils ne soient pas le même bloc
                 //si les blocs appartiennent au même fichier on compte un de plus
     			count++;
+    			console.log("bloc : " + block1.id + " fichier : "+ block1.ownerFile.fileID);
             }
         } 
     }
     console.log(toDestroy);
-    for(i=0;i<toDestroy.length;i++){
-        if(i<toDestroy.length-1 && (toDestroy[i]==toDestroy[i+1] || memory.GetMemorySlot(toDestroy[i]).linkedBlock.blockColor==memory.GetMemorySlot(toDestroy[i+1]).linkedBlock.blockColor)){
-            if(toDestroy[i]==toDestroy[i+1]) toDestroy.splice(i,1);
-            bonusPoints++;
-        }
-        else{
-             console.log(toDestroy);
-            if(bonusPoints>4){
-                SCORE+=100+bonusPoints*50;
-                /*
-                 * ne supprime des blocks que que si il y en à au moins 4 alignés
-                 */
-                console.log(i-(bonusPoints));
-                for(var j=1+i-bonusPoints;j<=i;j++){
-                    console.log(globalBlockList[memory.GetMemorySlot(toDestroy[j]).linkedBlock.id].blockColor);
-                    console.log(globalBlockList[memory.GetMemorySlot(toDestroy[j]).linkedBlock.id].blockSize);
-                    console.log(toDestroy[j]+" : j "+j);
-                    $("#mem"+toDestroy[j]).css("background","#000");
-                    $("#mem"+toDestroy[j]).text("");
-                    $("#mem"+toDestroy[j]).css({width : SLOT_WIDTH+BORDER_SIZE});
+    for(j=0;j<toDestroy.length;j++){
+    	
+    	var block = globalBlockList[memory.GetMemorySlot(toDestroy[j]).linkedBlock.id];
 
-                    globalBlockList[memory.GetMemorySlot(toDestroy[j]).linkedBlock.id].placed = false;
+            //console.log(toDestroy);
+    	
+            $("#mem"+toDestroy[j]).css("background","#000");
+            $("#mem"+toDestroy[j]).text("");
+            $("#mem"+toDestroy[j]).css({width : SLOT_WIDTH+BORDER_SIZE});
 
-                    if(globalBlockList[memory.GetMemorySlot(toDestroy[j]).linkedBlock.id].blockSize>16){
-                        var nextSlot;
-                        console.log("la taille est effectivement superieur à 16");
-                        for(var k;k<globalBlockList[memory.GetMemorySlot(toDestroy[j]).linkedBlock.id].blockSize/16;k++){
-                            nextSlot = memory.GetMemorySlot(j+k);
-                            nextSlot.linkedBlock = undefined;
-                            memory.GetMemorySlot(toDestroy[j]).linkedData = undefined;
-                        }
-                    }
-                    memory.GetMemorySlot(toDestroy[j]).isFree = true;
-                    memory.GetMemorySlot(toDestroy[j]).linkedBlock = undefined;
-                    memory.GetMemorySlot(toDestroy[j]).linkedData = undefined;
-                }
+            block.placed = false;
+
+            if(block.blockSize>16){
+            	
+            	console.log("la taille est effectivement superieur à 16");
+            	for(var k; k < block.blockSize/CLUSTER_SIZE; k++){
+            		var nextSlot = memory.GetMemorySlot(j+k);
+            		nextSlot.linkedBlock = undefined;
+            		memory.GetMemorySlot(toDestroy[j]).linkedData = undefined;
+            	}
             }
-            bonusPoints=1;
-        }   
+            memory.GetMemorySlot(toDestroy[j]).isFree = true;
+            memory.GetMemorySlot(toDestroy[j]).linkedBlock = undefined;
+            memory.GetMemorySlot(toDestroy[j]).linkedData = undefined;
+            
+
     }
+    MiniMemorySlotColorSet();
 }
 
 //bon elle sert un peu à rien mais y'à unpause donc autant avoir pause

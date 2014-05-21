@@ -16,7 +16,7 @@ function File(fileNumber)
 	this.fileID = fileNumber;
 	this.color = fileColors[this.fileID];
 
-	this.blockList = new Array(10);
+	this.blockList = new Array();
 
 }
 

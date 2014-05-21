@@ -83,12 +83,19 @@ Block.prototype.splitBlock = function()
 	
 	
 	console.log(this.supposedX + "  " + this.supposedY);
-	
-	newBlock2 = new Block(generator.currentBlockId, 
+	if(this.supposedX + $("#"+newBlock.id).width()<=PLAYGROUND_WIDTH-BLOCK_WIDTH){
+	   newBlock2 = new Block(generator.currentBlockId, 
 			this.ownerFile,
 			block2Size, 
 			this.supposedX + $("#"+newBlock.id).width(),
 			this.supposedY);
+    } else{
+        newBlock2 = new Block(generator.currentBlockId, 
+			this.ownerFile,
+			block2Size, 
+			this.supposedX + $("#"+newBlock.id).width()-(this.supposedX + $("#"+newBlock.id).width()-PLAYGROUND_WIDTH + BLOCK_WIDTH),
+			this.supposedY);
+    }
 	
 	this.ownerFile.addBlock(newBlock2);
 	
