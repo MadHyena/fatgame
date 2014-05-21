@@ -13,7 +13,7 @@ var SCORE=0;
 var tappedBlock = 1;
 var gameState = "start";
 var partyState = "spawn";
-var GAME_DURATION = 20; // durée d'un cycle lors de la partie
+var GAME_DURATION = 5; // durée d'un cycle lors de la partie
 var PLAYGROUND_HEIGHT;
 var PLAYGROUND_WIDTH;
 var BLOCK_MAX_SIZE;
@@ -59,17 +59,22 @@ function main()
         case "game":
             if (millisecondes>29)
             {
+            	
                 millisecondes-=30;
             } 
-            else if(secondes !=0) 
+            else if(secondes != 0) 
             { 
+            	console.log(partyState);
                 secondes--;
                 millisecondes=1000-millisecondes;
                 
                     if(secondes%3==0)
                     {  
+                    	console.log("spawning; secondes =  " + secondes);
+                    	console.log("state : " + partyState);
                     	if(partyState == "spawn")
                     	{
+                    		
                     		generator.createBlock();
                     	}
                     	else
@@ -88,11 +93,13 @@ function main()
                 	secondes= GAME_DURATION; 
                 	partyState = "defrag"; 
                 	blockDeletion();
+                	console.log("CHANGEMENT:" + partyState);
             	}
-            	if(partyState == "defrag")
+            	if(partyState == "defrag" && secondes == 0)
             	{
             		secondes = GAME_DURATION;
             		partyState = "spawn";
+            		console.log("CHANGEMENT:" + partyState);
             	}
             }
             
@@ -346,7 +353,7 @@ function blockDeletion()
     var toDestroy = new Array(); // contient les id de bloc memoire à supprimer
     
     var count = 0;
-    
+    var tempDestroy = new Array();
     for(i=0;i<NB_BLOCKS-1;i++)
     {
     	try
@@ -367,59 +374,69 @@ function blockDeletion()
     		{
     			//on compte le dernier bloc
     			count++;
+    			tempDestroy.push(i - block1.blockSize/16 +1);
     			
     			console.log("Nombre de blocs alignés : " +count);
     			console.log("Taille du fichier : " + block1.ownerFile.blockList.length);
     			
-    			// si on a effectivement autant de blocs qu'il y a de blocs dans le fichier
+    			// si on a effectivement autant de blocs qu'il y a de blocs dans le fichier, on ajoute nos blocs à supprimmer à toDestroy
     			if(block1.ownerFile.blockList.length == count)
     			{
-    				//on ajoute chaque case à détruire dans le tableau
-    				for(var j = block1.ownerFile.blockList.length; j > 0; j--)
-    				{
-    					toDestroy.push(i-j+1);
-    				}
+    				toDestroy = $.merge(toDestroy, tempDestroy);
     			}
     			
+    			//on réinitialise nos compteurs
     			count = 0;
+    			tempDestroy = new Array();
     		}
     		else if(block1.id != block2.id && block1.ownerFile == block2.ownerFile)
     		{ //on vérifie qu'ils appartiennent au même fichier et qu'ils ne soient pas le même bloc
                 //si les blocs appartiennent au même fichier on compte un de plus
     			count++;
+    			console.log(i+ " " + block1.blockSize/16);
+    			tempDestroy.push(i - block1.blockSize/16 +1);
     			console.log("bloc : " + block1.id + " fichier : "+ block1.ownerFile.fileID);
             }
         } 
     }
     console.log(toDestroy);
-    for(j=0;j<toDestroy.length;j++){
-    	
+    
+    //pour chaque bloc à supprimer
+    for(var i=0;i<toDestroy.length;i++){
+
     	var block = globalBlockList[memory.GetMemorySlot(toDestroy[j]).linkedBlock.id];
 
-            //console.log(toDestroy);
-    	
-            $("#mem"+toDestroy[j]).css("background","#000");
-            $("#mem"+toDestroy[j]).text("");
-            $("#mem"+toDestroy[j]).css({width : SLOT_WIDTH+BORDER_SIZE});
+    	//console.log(toDestroy);
 
-            block.placed = false;
+    	console.log("changing #mem" + toDestroy[j]);
+    	$("#mem"+toDestroy[j]).css("background","#000");
+    	$("#mem"+toDestroy[j]).text("");
+    	$("#mem"+toDestroy[j]).css({width : SLOT_WIDTH+BORDER_SIZE});
 
-            if(block.blockSize>16){
-            	
-            	console.log("la taille est effectivement superieur à 16");
-            	for(var k; k < block.blockSize/CLUSTER_SIZE; k++){
-            		var nextSlot = memory.GetMemorySlot(j+k);
-            		nextSlot.linkedBlock = undefined;
-            		memory.GetMemorySlot(toDestroy[j]).linkedData = undefined;
-            	}
-            }
-            memory.GetMemorySlot(toDestroy[j]).isFree = true;
-            memory.GetMemorySlot(toDestroy[j]).linkedBlock = undefined;
-            memory.GetMemorySlot(toDestroy[j]).linkedData = undefined;
-            
+    	block.placed = false;
+
+    	if(block.blockSize>16)
+    	{
+
+    		//console.log("la taille est effectivement superieur à 16");
+
+    		for(var k = 0; k < block.blockSize/CLUSTER_SIZE; k++)
+    		{
+
+    			var nextSlot = memory.GetMemorySlot(j+k);
+    			nextSlot.linkedBlock = undefined;
+    			memory.GetMemorySlot(toDestroy[j]).linkedData = undefined;
+
+    		}
+    	}
+    	block.ownerFile = new File(block.ownerFile.fileID);
+    	memory.GetMemorySlot(toDestroy[j]).isFree = true;
+    	memory.GetMemorySlot(toDestroy[j]).linkedBlock = undefined;
+    	memory.GetMemorySlot(toDestroy[j]).linkedData = undefined;
 
     }
     MiniMemorySlotColorSet();
+
 }
 
 //bon elle sert un peu à rien mais y'à unpause donc autant avoir pause
