@@ -215,14 +215,11 @@ function changeScreen(screen)
                 $("#memory").pep({ axis: 'x', drag: function(){ dragMemory(); }});
                 $("#miniMemoryCursor").pep({ axis: 'x', drag: function(){ dragMiniMap(); }});
 
-<<<<<<< HEAD
                 PlayMusic("./music.mp3");
-=======
                 var audie = document.getElementById("myAudio");
                 if (!audie.src || audie.src !== audioFile) audie.src = "./music.mp3"; // check if there's a src already and if the current src is not the same with the new one, change it. Or don't do anything.
                 
                 audie.play();               
->>>>>>> c91e1947f0c0d4ac281e343e7189d42ae56bf404
                 
                 changeScreen("game");
             });       
