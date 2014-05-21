@@ -90,9 +90,13 @@ Block.prototype.splitBlock = function()
 			this.supposedX + $("#"+newBlock.id).width(),
 			this.supposedY);
 	
+	this.ownerFile.addBlock(newBlock2);
+	
 	globalBlockList[generator.currentBlockId] = newBlock2;
     
     //on retire ce bloc de la liste des blocs du fichier
 	this.ownerFile.removeBlock(this);
 }
+
+
 

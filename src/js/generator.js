@@ -52,11 +52,19 @@ Generator.prototype.createBlock = function()
 	globalBlockList[this.currentBlockId] = newBlock;
 }
 
-function updateBlocks()
+function makeBlocksFall()
 {
-	$(".falling").each(function() {
-		globalBlockList[this.id].supposedY ++;
-	});
-	
+	for (var i= 0; i<globalBlockList.length;i++){
+        if(globalBlockList[i] != undefined && $("#"+i).hasClass("falling") && !$("#"+i).hasClass("pep-active") ){
+            //console.info(globalBlockList);
+            var fallingBlock = globalBlockList[i];
+            fallingBlock.supposedY++;
+            $("#"+i).offset({top : fallingBlock.supposedY});
+            if (fallingBlock.supposedY > PLAYGROUND_HEIGHT - 30) 
+            	{
+            	changeScreen("gameover");
+            	}
+        }
+    }	
 	
 }

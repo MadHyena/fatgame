@@ -8,13 +8,12 @@
 * pause
 * gameover
 * 
-* si vous avez d'autres idées go rajouter
 */
-
+var SCORE=0;
 var tappedBlock = 1;
 var gameState = "start";
 var partyState = "spawn";
-var GAME_DURATION = 40; // durée d'un cycle lors de la partie
+var GAME_DURATION = 20; // durée d'un cycle lors de la partie
 var PLAYGROUND_HEIGHT;
 var PLAYGROUND_WIDTH;
 var BLOCK_MAX_SIZE;
@@ -22,7 +21,6 @@ var BLOCK_MAX_SIZE;
 var CLUSTER_SIZE = 16;
 var NB_BLOCKS;
 var LANDSCAPE = false;
-var secondes = 0, millisecondes = 0;
 var LEVEL = 1;
 
 var memory;
@@ -59,29 +57,51 @@ function main()
             break;
 
         case "game":
-            if (millisecondes>29){
+            if (millisecondes>29)
+            {
                 millisecondes-=30;
-            } else if(secondes !=0) { 
+            } 
+            else if(secondes !=0) 
+            { 
                 secondes--;
                 millisecondes=1000-millisecondes;
-                    if(partyState=="spawn"&&secondes%3==0){  
-                        generator.createBlock();
+                
+                    if(secondes%3==0)
+                    {  
+                    	if(partyState == "spawn")
+                    	{
+                    		generator.createBlock();
+                    	}
+                    	else
+                    	{
+                    		blockDeletion();
+                    	}
+                       
                     }
-            } else {
-                if (partyState == "spawn"){ partyState="defrag"; secondes = GAME_DURATION;}
-                else {LEVEL++; secondes= GAME_DURATION; partyState = "spawn";}
-            }
-            var fallingBlock;
-            for (var i= 0; i<globalBlockList.length;i++){
-                if(globalBlockList[i] != undefined && $("#"+i).hasClass("falling") && !$("#"+i).hasClass("pep-active") ){
-                    //console.info(globalBlockList);
-                    fallingBlock = globalBlockList[i];
-                    fallingBlock.supposedY++;
-                    $("#"+i).offset({top : fallingBlock.supposedY});
-                    if (fallingBlock.supposedY > PLAYGROUND_HEIGHT - 30) changeScreen("gameover");
+                    
+            } 
+            else 
+            {
+                if (partyState == "spawn")
+                { 
+                	partyState="defrag"; 
+                	secondes = GAME_DURATION;
+                }
+                else 
+                {
+                	if($(".falling").length == 0)
+                	{
+                		LEVEL++; 
+                    	secondes= GAME_DURATION; 
+                    	partyState = "spawn"; 
+                    	blockDeletion();
+                	}
                 }
             }
-            checkMemoryPos();
+            
+            makeBlocksFall();
+            
+            checkPositions();
             
             $("#timer").text(secondes+'.'+millisecondes/10);
 
@@ -182,10 +202,31 @@ function changeScreen(screen)
 
                 //Width = Taille d'une case * nbCase(taille memoire)
                 // posy affecté par posy et top (cf affichage avec debugger), donc à diviser par 2
-                $.playground().addGroup('memory', { width : (SLOT_WIDTH+BORDER_SIZE)*NB_BLOCKS, height : BLOCK_HEIGHT, posy : (PLAYGROUND_HEIGHT- (BLOCK_HEIGHT*2))/2 });
+                $.playground().addGroup('memory', { width : (SLOT_WIDTH+BORDER_SIZE)*NB_BLOCKS, height : BLOCK_HEIGHT, posy : (PLAYGROUND_HEIGHT- (BLOCK_HEIGHT*2.5))/2});
+                $.playground().addGroup('miniMemory', { width : PLAYGROUND_HEIGHT, posy : PLAYGROUND_HEIGHT - 40});
+                //$.playground().addGroup('miniMemoryCursor', { width : PLAYGROUND_HEIGHT, height : 50, posy : PLAYGROUND_HEIGHT - 40});
+
+                $("#miniMemory").append("<div id='miniMemoryCursor' style='z-index:1;'></div>");
+
+                var memoryWidth = parseInt($("#memory").css("width").split("px")[0]);
+                var cursorWidth = PLAYGROUND_WIDTH / (memoryWidth / PLAYGROUND_WIDTH);
+
+                $("#miniMemoryCursor").css({
+                    height: PLAYGROUND_WIDTH / NB_BLOCKS,
+                    width: cursorWidth,
+                    'border' : "5px solid #FF0000",
+                    left : 0,
+                    top : -4
+                })
 
                 memory = new Memory(NB_BLOCKS, { posy : 0});
-                $("#memory").pep({ axis: 'x', drag: function(ev, obj){ /*checkMemoryPos(ev, obj);*/ }});
+                $("#memory").pep({ axis: 'x', drag: function(){ dragMemory(); }});
+                $("#miniMemoryCursor").pep({ axis: 'x', drag: function(){ dragMiniMap(); }});
+
+                var audie = document.getElementById("myAudio");
+                if (!audie.src || audie.src !== audioFile) audie.src = "./music.mp3"; // check if there's a src already and if the current src is not the same with the new one, change it. Or don't do anything.
+                
+                audie.play();               
                 
                 changeScreen("game");
             });       
@@ -261,11 +302,15 @@ function changeScreen(screen)
             }
             $("#menuGameOver").x((PLAYGROUND_WIDTH/2)-($("#menuGameOver").width()/2));
             $("#menuGameOver").addClass("customfont menu");
-            $("#menuGameOver").append('<p><div class="animated infinite pulse"><h1>Game Over</h1></div></p> <p>Score : Null</p><div id="launchNewGame"><p><h2>New game</h2></p></div>');
-            
+            $("#menuGameOver").append('<p><div class="animated infinite pulse"><h1>Game Over</h1></div></p> <p>Score: <div id="score"></div></p><div id="launchNewGame"><p><h2>New game</h2></p></div>');
+            $("#score").append(SCORE);
             // handler pour nouvelle partie
             $("#launchNewGame").click(function (){
                 $.playground().clearAll();
+                partyState="spawn";
+                memory=null;
+                LEVEL=1;
+                millisecondes=0;
                 secondes = GAME_DURATION;
                 changeScreen("menu");
             });
@@ -275,6 +320,79 @@ function changeScreen(screen)
 	
 	}
     
+}
+
+// supprime les fichiers dont tous les blocs sont adjacents en fin de defrag
+function blockDeletion()
+{
+    var i;
+    var bonusPoints = 1;
+    var toDestroy = new Array(); // contient les id de bloc memoire à supprimer
+    
+    var count = 0;
+    
+    for(i=0;i<NB_BLOCKS-1;i++)
+    {
+    	var block1 = memory.GetMemorySlot(i).linkedBlock;
+    	var block2 = memory.GetMemorySlot(i+1).linkedBlock;
+    	
+    	//on vérifie si il y a bien des blocs dans chaque case que l'on va vérfier
+    	if(block1!=undefined)
+    	{
+        	
+    		if(block2 == undefined)
+    		{
+    			
+    		}
+    		else if(block1.id != block2.id && block1.ownerFile == block2.ownerFile)
+    		{ //on vérifie qu'ils appartiennent au même fichier et qu'ils ne soient pas le même bloc
+                //si les blocs appartiennent au même fichier on compte un de plus
+    			count++;
+            }
+        } 
+    }
+    
+    console.log(toDestroy);
+    for(i=0;i<toDestroy.length;i++){
+        if(i<toDestroy.length-1 && (toDestroy[i]==toDestroy[i+1] || memory.GetMemorySlot(toDestroy[i]).linkedBlock.blockColor==memory.GetMemorySlot(toDestroy[i+1]).linkedBlock.blockColor)){
+            if(toDestroy[i]==toDestroy[i+1]) toDestroy.splice(i,1);
+            bonusPoints++;
+        }
+        else{
+             console.log(toDestroy);
+            if(bonusPoints>4){
+                SCORE+=100+bonusPoints*50;
+                /*
+                 * ne supprime des blocks que que si il y en à au moins 4 alignés
+                 */
+                console.log(i-(bonusPoints));
+                for(var j=1+i-bonusPoints;j<=i;j++){
+                    console.log(globalBlockList[memory.GetMemorySlot(toDestroy[j]).linkedBlock.id].blockColor);
+                    console.log(globalBlockList[memory.GetMemorySlot(toDestroy[j]).linkedBlock.id].blockSize);
+                    console.log(toDestroy[j]+" : j "+j);
+                    $("#mem"+toDestroy[j]).css("background","#000");
+                    $("#mem"+toDestroy[j]).text("");
+                    $("#mem"+toDestroy[j]).css({width : SLOT_WIDTH+BORDER_SIZE});
+
+                    globalBlockList[memory.GetMemorySlot(toDestroy[j]).linkedBlock.id].placed = false;
+
+                    if(globalBlockList[memory.GetMemorySlot(toDestroy[j]).linkedBlock.id].blockSize>16){
+                        var nextSlot;
+                        console.log("la taille est effectivement superieur à 16");
+                        for(var k;k<globalBlockList[memory.GetMemorySlot(toDestroy[j]).linkedBlock.id].blockSize/16;k++){
+                            nextSlot = memory.GetMemorySlot(j+k);
+                            nextSlot.linkedBlock = undefined;
+                            memory.GetMemorySlot(toDestroy[j]).linkedData = undefined;
+                        }
+                    }
+                    memory.GetMemorySlot(toDestroy[j]).isFree = true;
+                    memory.GetMemorySlot(toDestroy[j]).linkedBlock = undefined;
+                    memory.GetMemorySlot(toDestroy[j]).linkedData = undefined;
+                }
+            }
+            bonusPoints=1;
+        }   
+    }
 }
 
 //bon elle sert un peu à rien mais y'à unpause donc autant avoir pause
