@@ -65,8 +65,12 @@ function MemorySlotGraph(slotNumber, options){
             $.gameQuery.scenegraph.append(toDisplay);
            // toDisplay.css({top: (PLAYGROUND_HEIGHT), left: $("#mem"+slotNumber).position().left});
             currentMS.linkedBlock.supposedY = 40;
-            if (toDisplay.position().left > PLAYGROUND_WIDTH -50 ) toDisplay.position({left: toDisplay.position().left - 100});
             currentMS.linkedBlock.supposedX = $("#mem"+slotNumber).position().left;
+            if (toDisplay.position().left > PLAYGROUND_WIDTH -50 ){
+                toDisplay.position({left: toDisplay.position().left - 100 - currentMS.linkedBlock.blockSize});
+                currentMS.linkedBlock.supposedX = toDisplay.position().left - 100 - currentMS.linkedBlock.blockSize;
+            } 
+            
 
             $(toDisplay).pep({
                 droppable: '.drop-target',
