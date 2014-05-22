@@ -89,7 +89,7 @@ function main()
             {
             	if($(".falling").length == 0 && partyState == "spawn")
             	{
-            		LEVEL++; 
+            		
                 	secondes= GAME_DURATION; 
                 	partyState = "defrag"; 
                 	//cleanMemory();
@@ -101,9 +101,15 @@ function main()
             		
             		generator.addFile();
             		
+            		LEVEL++;
+                    $("#level").text("Niveau : " + LEVEL);
+
+            		
             		partyState = "spawn";
             		console.log("CHANGEMENT:" + partyState);
                     cleanMemory();
+                    
+                    $("#score").text("Score : " + SCORE);
             	}
             }
             
@@ -219,6 +225,15 @@ function changeScreen(screen)
                 $.playground().addGroup("timer",{width:PLAYGROUND_WIDTH/3,height: PLAYGROUND_HEIGHT/10,posx: PLAYGROUND_WIDTH/2-PLAYGROUND_WIDTH/10, posy:50});
                 $("#timer").addClass("customfont");
                 $("#timer").css("font-size","2em");
+                
+                $.playground().addGroup("level",{width:PLAYGROUND_WIDTH/3,height: PLAYGROUND_HEIGHT/20,posx: PLAYGROUND_WIDTH/2+PLAYGROUND_WIDTH/6, posy:50});
+                $("#level").addClass("customfont");
+                $("#level").css("font-size","1em");
+                
+                $.playground().addGroup("score",{width:PLAYGROUND_WIDTH/3,height: PLAYGROUND_HEIGHT/20,posx: PLAYGROUND_WIDTH/2+PLAYGROUND_WIDTH/6, posy:50+PLAYGROUND_HEIGHT/20});
+                $("#score").addClass("customfont");
+                $("#score").css("font-size","1em");
+                
 
                 //================================================================
 
@@ -290,6 +305,9 @@ function changeScreen(screen)
                 $("#menuInGame").remove();
                 changeScreen("pause");
             }); 
+            
+            $("#level").text("Niveau : " + LEVEL);
+            $("#score").text("Score : " + SCORE);
             
             break;
 
