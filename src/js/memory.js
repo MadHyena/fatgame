@@ -114,7 +114,7 @@ function putInSlot(block, slotId, initSlot)
     }
 
     var initialWidth = parseInt($("#mem"+slotId).css("width").split("px")[0]);
-    var newWidth = initialWidth*i + BORDER_SIZE*i;
+    var newWidth = initialWidth*i + BORDER_SIZE*i - BORDER_SIZE;
     $("#mem"+slotId).css({width : newWidth});
 
     var thisSlot = memory.GetMemorySlot(slotId);
