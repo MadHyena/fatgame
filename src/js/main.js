@@ -68,21 +68,14 @@ function main()
                 secondes--;
                 millisecondes=1000-millisecondes;
                 
-                    if(secondes%3==0)
-                    {  
-                    	console.log("spawning; secondes =  " + secondes);
-                    	console.log("state : " + partyState);
-                    	if(partyState == "spawn")
-                    	{
-                    		
+                    if(secondes%3==0 && partyState == "spawn")
+                    {
                     		generator.createBlock();
-                    	}
-                    	else
-                    	{
-                    		//cleanMemory();
-                    	}
-                       
                     }
+                    /*if(secondes%5==0 && partyState == "spawn" && LEVEL >1)
+                    {
+                    	generator.createBlock();
+                    }*/
                     
             } 
             else 
@@ -357,6 +350,7 @@ function changeScreen(screen)
                 LEVEL=1;
                 millisecondes=0;
                 secondes = GAME_DURATION;
+                generator = new Generator();
                 changeScreen("menu");
             });
             break;

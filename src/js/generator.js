@@ -64,6 +64,10 @@ function makeBlocksFall()
             //console.info(globalBlockList);
             var fallingBlock = globalBlockList[i];
             fallingBlock.supposedY++;
+            if(LEVEL > 2)
+            	{
+            		fallingBlock.supposedY++;
+            	}
             $("#"+i).offset({top : fallingBlock.supposedY});
             if (fallingBlock.supposedY > PLAYGROUND_HEIGHT - 30) 
             	{
