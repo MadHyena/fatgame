@@ -23,6 +23,11 @@ Generator.prototype.generateFilesList = function()
 		}
 }
 
+Generator.prototype.addFile = function()
+{
+	this.files[this.files.length] = new File(this.files.length);
+}
+
 Generator.prototype.getAvailableColumn = function()
 {
 	var min = 0;

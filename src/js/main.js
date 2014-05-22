@@ -98,6 +98,9 @@ function main()
             	if(partyState == "defrag" && secondes == 0)
             	{
             		secondes = GAME_DURATION;
+            		
+            		generator.addFile();
+            		
             		partyState = "spawn";
             		console.log("CHANGEMENT:" + partyState);
                     cleanMemory();
