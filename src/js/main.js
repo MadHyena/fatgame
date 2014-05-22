@@ -72,15 +72,15 @@ function main()
                     {
                     		generator.createBlock();
                     }
-                    /*if(secondes%5==0 && partyState == "spawn" && LEVEL >1)
+                    if(secondes%5==0 && partyState == "spawn" && LEVEL >1 && BLOCK_MAX_SIZE == 64)
                     {
                     	generator.createBlock();
-                    }*/
+                    }
                     
             } 
             else 
             {
-            	if($(".falling").length == 0 && partyState == "spawn")
+            	if(partyState == "spawn")
             	{
             		
                 	secondes= GAME_DURATION; 
