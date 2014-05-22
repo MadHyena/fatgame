@@ -18,8 +18,8 @@ function MemorySlotGraph(slotNumber, options){
 	var spriteFragment2  = $("<div class='memorySlot' style='z-index: -1; position: absolute; display: block; overflow: hidden; display : table; text-align : center' />");
 
 	options = $.extend({
-		width:          32,
-		height:         32,
+		width:          SLOT_WIDTH,
+		height:         SLOT_WIDTH,
 		color:			"#000000",
 		text:			"",
 		posx:           0,
@@ -76,7 +76,7 @@ function MemorySlotGraph(slotNumber, options){
             
             $("#mem"+slotNumber).css("background","#000");
             $("#mem"+slotNumber).text("");
-            $("#mem"+slotNumber).css({width : SLOT_WIDTH+BORDER_SIZE});
+            $("#mem"+slotNumber).css({width : SLOT_WIDTH});
 
             globalBlockList[blockNumber].placed = false;
 
