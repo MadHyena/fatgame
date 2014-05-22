@@ -224,7 +224,7 @@ function collision($div1, $div2) {
 
 function cleanMemory(){
 
-    var blockIds = new Array();
+    var fileIds = new Array();
     var i = 0;
 
     //Listage de tous les ID de block
@@ -235,13 +235,13 @@ function cleanMemory(){
             var j;
 
             //On regarde si on a pas déjà lister cet ID de block
-            for(j=0;j<blockIds.length;j++){ 
-                if(blockIds[j] == slot.linkedBlock.id)
+            for(j=0;j<fileIds.length;j++){ 
+                if(fileIds[j] == slot.linkedBlock.ownerFile.fileID)
                     alreadyListed = true;
             }
 
             if(!alreadyListed){
-                blockIds[i] = slot.linkedBlock.id;
+                fileIds[i] = slot.linkedBlock.ownerFile.fileID;
                 i++;
             }
 
@@ -249,14 +249,14 @@ function cleanMemory(){
     }); 
 
     //Pour chaque "fichier" (id block commun) on va voir si les blocs sont chainés
-    blockIds.forEach(function(e){
+    fileIds.forEach(function(e){
 
         var nbLinked = 0;
 
         //On compte combien de slot ont ce bloc lié
         memory.memorySlotList.forEach(function(slot){
             
-            if(slot.linkedBlock != undefined && slot.linkedBlock.id == e){
+            if(slot.linkedBlock != undefined && slot.linkedBlock.ownerFile.fileID == e){
                 nbLinked++;
             }
         });
@@ -264,14 +264,14 @@ function cleanMemory(){
         i=0;
 
         //On parcours jusqu'au premier bloc avec cet ID
-        while(memory.GetMemorySlot(i).linkedBlock == undefined || memory.GetMemorySlot(i).linkedBlock.id != e)
+        while(memory.GetMemorySlot(i).linkedBlock == undefined || memory.GetMemorySlot(i).linkedBlock.ownerFile.fileID != e)
             i++;
 
         var chained = true;
 
         //Enfin on parcours tous les blocs qui sont censé être les uns à la suite des autres à partir du premier
         for(j=i; j < i + nbLinked; j++){
-            if(memory.GetMemorySlot(j).linkedBlock == undefined || memory.GetMemorySlot(j).linkedBlock.id != e) //Si la "chaine est rompu" avant le nombre total de block présent, c'est qu'il ne se suivent pas
+            if(memory.GetMemorySlot(j).linkedBlock == undefined || memory.GetMemorySlot(j).linkedBlock.ownerFile.fileID != e) //Si la "chaine est rompu" avant le nombre total de block présent, c'est qu'il ne se suivent pas
                 chained = false;
         }
 
