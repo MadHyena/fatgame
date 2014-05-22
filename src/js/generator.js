@@ -41,7 +41,7 @@ Generator.prototype.createBlock = function()
 {
 	console.log("generation du block "+this.currentBlockId);
 	//on détermine la taille du bloc au pif
-	var size = CLUSTER_SIZE	* (Math.floor(Math.random()*8)+1);
+	var size = CLUSTER_SIZE	* (Math.floor(Math.random()*BLOCK_MAX_SIZE/CLUSTER_SIZE)+1);
 	
 	this.currentBlockId++;	
 	

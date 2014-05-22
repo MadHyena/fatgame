@@ -13,7 +13,7 @@ var SCORE=0;
 var tappedBlock = 1;
 var gameState = "start";
 var partyState = "spawn";
-var GAME_DURATION = 5; // durée d'un cycle lors de la partie
+var GAME_DURATION = 20; // durée d'un cycle lors de la partie
 var PLAYGROUND_HEIGHT;
 var PLAYGROUND_WIDTH;
 var BLOCK_MAX_SIZE;
