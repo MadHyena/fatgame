@@ -193,7 +193,7 @@ function changeScreen(screen)
                 '<input type="range" min="15360" max="30720" step="2560" name="fType" align="left"></input>'+
                 '<div id="fTypeDisplay"></div></div>'+
                 '<div class="startOption"><div style="margin-bottom:-5px">File max size</div>'+
-                '<input type="range" name="bmSize" min="64" max="128" step="64" align="left"></input><div id="bmSizeDisplay"></div></div>'+
+                '<input type="range" name="bmSize" min="64" max="128" step="64" value="64" align="left"></input><div id="bmSizeDisplay"></div></div>'+
                 '<div id="launchIt" class="animated infinite flash2" style="margin-bottom:0px"><p>Launch game</p></div></div>'
             );
             $("#openControls").click(function (){
