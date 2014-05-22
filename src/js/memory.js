@@ -304,6 +304,8 @@ function cleanMemory(){
     if(perfect) SCORE += 1000;
 
     MiniMemorySlotColorSet();
+
+    PlaySFX("./defrag_end.wav");
 }
 
 function checkPositions(){
