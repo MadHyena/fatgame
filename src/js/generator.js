@@ -48,7 +48,7 @@ Generator.prototype.createBlock = function()
 	var file = this.files[Math.floor(Math.random()*this.files.length)];	//on prend un élément au pif de la liste de fichiers
 	
 	//une fois qu'on a tous les paramètres requis on crée notre bloc
-	newBlock = new Block(this.currentBlockId, file, size, PLAYGROUND_WIDTH/16,0 );
+	newBlock = new Block(this.currentBlockId, file, size, PLAYGROUND_WIDTH/4,0 );
 	globalBlockList[this.currentBlockId] = newBlock;
 }
 

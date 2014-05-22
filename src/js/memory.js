@@ -279,6 +279,8 @@ function cleanMemory(){
 
             //Même parcours pour les delete cette fois ci
             for(j=i; j < i + nbLinked; j++){
+            	
+            	SCORE += memory.GetMemorySlot(j).linkedBlock.blockSize;
                 
                 $("#mem"+j).css("background","#000");
                 $("#mem"+j).text("");
@@ -291,6 +293,15 @@ function cleanMemory(){
         }
 
     });
+    
+    var perfect = true;
+    memory.memorySlotList.forEach(function(slot){
+        if(slot.linkedBlock != undefined){
+            perfect = false;
+        }
+    });
+    
+    if(perfect) SCORE += 1000;
 
     MiniMemorySlotColorSet();
 }
