@@ -79,7 +79,7 @@ function main()
                     	}
                     	else
                     	{
-                    		cleanMemory();
+                    		//cleanMemory();
                     	}
                        
                     }
@@ -92,7 +92,7 @@ function main()
             		LEVEL++; 
                 	secondes= GAME_DURATION; 
                 	partyState = "defrag"; 
-                	cleanMemory();
+                	//cleanMemory();
                 	console.log("CHANGEMENT:" + partyState);
             	}
             	if(partyState == "defrag" && secondes == 0)
@@ -100,6 +100,7 @@ function main()
             		secondes = GAME_DURATION;
             		partyState = "spawn";
             		console.log("CHANGEMENT:" + partyState);
+                    cleanMemory();
             	}
             }
             
